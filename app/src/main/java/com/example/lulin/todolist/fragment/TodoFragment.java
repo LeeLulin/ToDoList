@@ -75,8 +75,8 @@ public class TodoFragment extends Fragment {
 //
 //                            }
 //                        }).show();
-                String title = todosList.get(position).getTitle();
-                String dsc = todosList.get(position).getDesc();
+                String title = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTitle();
+                String dsc = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDesc();
                 Intent intent = new Intent(getActivity(), EditTodoActivity.class);
                 intent.putExtra("title", title);
                 intent.putExtra("dsc", dsc);
