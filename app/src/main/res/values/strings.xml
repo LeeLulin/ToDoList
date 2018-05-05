@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">ToDoList</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="tab_title_main_1">待办事项</string>
+    <string name="tab_title_main_2">番茄时钟</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="news_one_title">标题1</string>
+    <string name="news_one_desc">正文1</string>
+    <string name="news_two_title">标题2</string>
+    <string name="news_two_desc">正文2</string>
+    <string name="news_three_title">标题3</string>
+    <string name="news_three_desc">正文3</string>
+    <string name="news_four_title">标题4</string>
+    <string name="news_four_desc">正文4</string>
+</resources>

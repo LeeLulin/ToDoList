@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_todo"
+            android:icon="@drawable/ic_assignment_black_48dp"
+            android:title="待办事项" />
+        <item
+            android:id="@+id/nav_clock"
+            android:icon="@drawable/ic_clock_black_48dp"
+            android:title="番茄时钟" />
+        <item
+            android:id="@+id/nav_frends"
+            android:icon="@drawable/ic_account_box_black_48dp"
+            android:title="朋友" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="设置" />
+    </group>
+
+</menu>

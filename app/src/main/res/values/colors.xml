@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00b8d4</color>
+
+    <color name="colorPrimaryDark">#00b8d4</color>
+
+    <color name="textColorPrimary">#FFFFFF</color>
+
+    <color name="windowBackground">#FFFFFF</color>
+
+    <color name="navigationBarColor">#000000</color>
+
+    <color name="colorAccent">#00bcd4</color>
+
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="background">#e5e5e5</color>
+    <color name="half_black">#808080</color>
+    <color name="white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="pink">#e91e63</color>
+    <color name="pink_pressed">#ec407a</color>
+    <color name="blue_semi_transparent">#805677fc</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
+
+    <color name="yellow">#f6d126</color>
+    <color name="grey">#14d0d0d0</color>
+    <color name="black">#dc000000</color>
+    <color name="green">#68e504</color>
+
+    <color name="deadline_red">#ef0606</color>
+    <color name="deadline_blue">#024265</color>
+    <color name="deadline_orange">#ea9d16</color>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen">#026499</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen">#448bb2</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen</item>
+        <item>@color/dot_light_screen</item>
+        <item>@color/dot_light_screen</item>
+        <item>@color/dot_light_screen</item>
+        <item>@color/dot_light_screen</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen</item>
+        <item>@color/dot_dark_screen</item>
+        <item>@color/dot_dark_screen</item>
+        <item>@color/dot_dark_screen</item>
+        <item>@color/dot_dark_screen</item>
+    </array>
+
+
+</resources>
