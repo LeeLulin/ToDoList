@@ -71,8 +71,9 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
 
 
     public void removeItem(int position){
-        todos.remove(position);
+        todos.remove(todos.size()-1-position);
         notifyItemRemoved(position);
+        notifyItemRangeChanged(position,todos.size()-position);
     }
 
 

@@ -78,4 +78,13 @@ public class EditTodoActivity extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * 返回按钮监听
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

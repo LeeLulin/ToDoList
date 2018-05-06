@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.example.lulin.todolist.utils.Todos;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 
 
 public class TodoFragment extends Fragment {
@@ -85,12 +87,12 @@ public class TodoFragment extends Fragment {
 
             @Override
             public void onItemLongClick(View view, final int position) {
-                Snackbar.make(view, "是否删除？", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "是否删除？（滑动取消）", Snackbar.LENGTH_LONG)
                         .setAction("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-                                db.delete("Todo","todotitle = ?",new String[]{todosList.get(position).getTitle()});
+                                db.delete("Todo","todotitle = ?",new String[]{todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTitle()});
                                 todoRecyclerViewAdapter.removeItem(position);
 
                             }
