@@ -163,17 +163,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+//        int id = item.getItemId();
+//
+//        if (id == R.id.nav_todo) {
+//            // Handle the camera action
+//        } else if (id == R.id.nav_clock) {
+//
+//        } else if (id == R.id.nav_frends) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        }
+        switch (item.getItemId()){
+            
+            case R.id.nav_todo:
+                mViewPager.setCurrentItem(0);
+                break;
 
-        if (id == R.id.nav_todo) {
-            // Handle the camera action
-        } else if (id == R.id.nav_clock) {
+            case R.id.nav_clock:
+                mViewPager.setCurrentItem(1);
+                break;
 
-        } else if (id == R.id.nav_frends) {
+            case R.id.nav_frends:
 
-        } else if (id == R.id.nav_manage) {
+                break;
 
+            case R.id.nav_setting:
+
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

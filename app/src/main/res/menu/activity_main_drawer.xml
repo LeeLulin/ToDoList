@@ -17,7 +17,7 @@
             android:icon="@drawable/ic_account_box_black_48dp"
             android:title="朋友" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
             android:title="设置" />
     </group>
