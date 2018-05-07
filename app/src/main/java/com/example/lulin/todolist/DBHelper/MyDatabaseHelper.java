@@ -14,7 +14,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String TODO = "create table Todo ("
             + "id integer primary key autoincrement, "
             + "todotitle String, "
-            + "tododsc String )";
+            + "tododsc String,"
+            + "tododate String,"
+            + "todotime String )";
 
 
     private Context mContext;

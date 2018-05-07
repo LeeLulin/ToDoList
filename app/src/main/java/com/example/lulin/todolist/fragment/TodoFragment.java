@@ -25,7 +25,6 @@ import com.example.lulin.todolist.utils.Todos;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 
 
 public class TodoFragment extends Fragment {
@@ -34,7 +33,7 @@ public class TodoFragment extends Fragment {
     private List<Todos> todosList;
     private TodoRecyclerViewAdapter todoRecyclerViewAdapter;
     private MyDatabaseHelper dbHelper;
-    private String todoTitle,todoDsc;
+    private String todoTitle,todoDsc,todoDate,todoTime;
 
 
     @Override
@@ -101,8 +100,6 @@ public class TodoFragment extends Fragment {
             }
         }));
 
-
-        // Inflate the layout for this fragment
         return rootView;
     }
 
@@ -128,7 +125,9 @@ public class TodoFragment extends Fragment {
             while(cursor.moveToNext()) {
                 todoTitle = cursor.getString(cursor.getColumnIndex("todotitle"));
                 todoDsc = cursor.getString(cursor.getColumnIndex("tododsc"));
-                Todos data = new Todos(todoTitle,todoDsc);
+                todoDate = cursor.getString(cursor.getColumnIndex("tododate"));
+                todoTime = cursor.getString(cursor.getColumnIndex("todotime"));
+                Todos data = new Todos(todoTitle,todoDsc,todoDate,todoTime);
                 todosList.add(data);
             }
 

@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        }
         switch (item.getItemId()){
-            
+
             case R.id.nav_todo:
                 mViewPager.setCurrentItem(0);
                 break;

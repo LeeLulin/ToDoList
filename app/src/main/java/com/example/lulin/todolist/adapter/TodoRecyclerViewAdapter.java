@@ -38,11 +38,15 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
 
         TextView todo_title;
         TextView todo_desc;
+        TextView todo_date;
+        TextView todo_time;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            todo_title= (TextView) itemView.findViewById(R.id.todo_title);
-            todo_desc= (TextView) itemView.findViewById(R.id.todo_desc);
+            todo_title = (TextView) itemView.findViewById(R.id.todo_title);
+            todo_desc = (TextView) itemView.findViewById(R.id.todo_desc);
+            todo_date = (TextView) itemView.findViewById(R.id.todo_date);
+            todo_time = (TextView) itemView.findViewById(R.id.todo_time);
 
         }
 
@@ -60,6 +64,8 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
 
         ViewHolder.todo_title.setText(todos.get(todos.size()-1-i).getTitle());
         ViewHolder.todo_desc.setText(todos.get(todos.size()-1-i).getDesc());
+        ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate());
+        ViewHolder.todo_time.setText(todos.get(todos.size()-1-i).getTime());
 
     }
 
