@@ -68,20 +68,18 @@ public class TodoFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Snackbar.make(view, "短按", Snackbar.LENGTH_LONG)
-//                        .setAction("确定", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//
-//                            }
-//                        }).show();
+
                 String title = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTitle();
                 String dsc = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDesc();
+                String date = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDate();
+                String time = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTime();
                 Intent intent = new Intent(getActivity(), EditTodoActivity.class);
                 intent.putExtra("title", title);
                 intent.putExtra("dsc", dsc);
+                intent.putExtra("date", date);
+                intent.putExtra("time", time);
                 startActivity(intent);
+
             }
 
             @Override

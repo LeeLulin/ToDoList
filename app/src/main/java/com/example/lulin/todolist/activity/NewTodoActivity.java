@@ -81,10 +81,6 @@ public class NewTodoActivity extends AppCompatActivity {
 
     private void initView() {
 
-        mYear = ca.get(Calendar.YEAR);
-        mMonth = ca.get(Calendar.MONTH);
-        mDay = ca.get(Calendar.DAY_OF_MONTH);
-
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
