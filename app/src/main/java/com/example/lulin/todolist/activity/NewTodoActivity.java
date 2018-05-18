@@ -6,9 +6,11 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,11 +21,14 @@ import android.widget.Toast;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.Todos;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -39,7 +44,10 @@ public class NewTodoActivity extends AppCompatActivity {
     private TextView nv_todo_title,nv_todo_dsc,nv_todo_date,nv_todo_time;
     private int mYear,mMonth,mDay;//当前日期
     private int mHour,mMin;//当前时间
+    private long remindTime, remindDate;
     private Calendar ca;
+    private Date data;
+    private static final String TAG = "time";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +83,7 @@ public class NewTodoActivity extends AppCompatActivity {
      * 获取时间
      */
     private void getTime(){
-        mHour = ca.get(Calendar.HOUR);
+        mHour = ca.get(Calendar.HOUR_OF_DAY);
         mMin = ca.get(Calendar.MINUTE);
     }
 
@@ -107,14 +115,39 @@ public class NewTodoActivity extends AppCompatActivity {
                     dbHelper = new MyDatabaseHelper(NewTodoActivity.this, "Data.db", null, 2);
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
+
+//                    Calendar calendarDate = Calendar.getInstance();
+//                    calendarDate.setTimeInMillis(System.currentTimeMillis());
+//                    calendarDate.set(Calendar.YEAR, mYear);
+//                    calendarDate.set(Calendar.MONTH, mMonth);
+//                    calendarDate.set(Calendar.DAY_OF_MONTH, mDay);
+//                    calendarDate.set(Calendar.HOUR_OF_DAY, 0);
+//                    calendarDate.set(Calendar.MINUTE, 0);
+//                    calendarDate.set(Calendar.SECOND, 0);
+//                    remindDate = calendarDate.getTimeInMillis();
+
+                    Calendar calendarTime = Calendar.getInstance();
+                    calendarTime.setTimeInMillis(System.currentTimeMillis());
+                    calendarTime.set(Calendar.YEAR, mYear);
+                    calendarTime.set(Calendar.MONTH, mMonth);
+                    calendarTime.set(Calendar.DAY_OF_MONTH, mDay);
+                    calendarTime.set(Calendar.HOUR_OF_DAY, mHour);
+                    calendarTime.set(Calendar.MINUTE, mMin);
+                    calendarTime.set(Calendar.SECOND, 0);
+                    remindTime = calendarTime.getTimeInMillis();
+                    Log.i(TAG, "时间是"+String.valueOf(remindTime));
                     //插入数据
                     values.put("todotitle", todoTitle);
                     values.put("tododsc", todoDsc);
                     values.put("tododate", todoDate);
                     values.put("todotime", todoTime);
+                    values.put("remindTime", remindTime);
+                    values.put("isAlerted", 0);
+//                    values.put("remindDate", remindDate);
                     db.insert("Todo", null, values);
                     Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
                     startActivity(intent);
+//                    startService(new Intent(NewTodoActivity.this, AlarmService.class));
                     finish();
                 }
 
@@ -160,6 +193,9 @@ public class NewTodoActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                mYear = year;
+                mMonth = monthOfYear;
+                mDay = dayOfMonth;
                 todoDate = year+ "年"+(monthOfYear + 1) + "月" + dayOfMonth + "日";
                 nv_todo_date.setText(todoDate);
             }
@@ -171,6 +207,8 @@ public class NewTodoActivity extends AppCompatActivity {
     public TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+            mHour = hour;
+            mMin = minute;
             if (minute < 10){
                 todoTime = hour + ":" + "0" + minute;
             } else {

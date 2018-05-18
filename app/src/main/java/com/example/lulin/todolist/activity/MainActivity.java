@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.adapter.FragmentAdapter;
 import com.example.lulin.todolist.fragment.ClockFragment;
 import com.example.lulin.todolist.fragment.TodoFragment;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dbHelper = new MyDatabaseHelper(this, "Data.db", null, 2);
         dbHelper.getWritableDatabase();
 
+        startService(new Intent(this, AlarmService.class));
         initView();
         initViewPager();
     }

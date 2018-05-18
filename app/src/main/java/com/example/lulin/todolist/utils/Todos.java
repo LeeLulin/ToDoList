@@ -8,17 +8,26 @@ public class Todos implements Serializable {
     private String desc;
     private String date;
     private String time;
+    private long remindTime;
+    private int id,isAlerted;
 
 
     /**
      * Constructs a new instance of {@code Object}.
      */
-    public Todos(String title, String dsc, String date, String time) {
+    public Todos(int id,String title, String desc, String date, String time,long remindTime,int isAlerted) {
 
+        this.id = id;
         this.title = title;
-        this.desc = dsc;
+        this.desc = desc;
         this.date = date;
         this.time = time;
+        this.isAlerted = isAlerted;
+        this.remindTime = remindTime;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public void setDesc(String desc) {
@@ -39,6 +48,19 @@ public class Todos implements Serializable {
         this.time = time;
     }
 
+    public void setisAlerted(int hasAlerted){
+        this.isAlerted = hasAlerted;
+    }
+
+    public void setRemindTime(long remindTime){
+        this.remindTime = remindTime;
+    }
+
+
+
+    public int getId(){
+        return id;
+    }
 
     public String getDesc() {
         return desc;
@@ -55,5 +77,13 @@ public class Todos implements Serializable {
 
     public String getTime(){
         return time;
+    }
+
+    public int getisAlerted(){
+        return isAlerted;
+    }
+
+    public long getRemindTime(){
+        return remindTime;
     }
 }

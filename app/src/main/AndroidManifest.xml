@@ -20,7 +20,24 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.NewTodoActivity" />
-        <activity android:name=".activity.EditTodoActivity"></activity>
+        <activity android:name=".activity.EditTodoActivity" />
+
+        <service
+            android:name=".Service.AlarmService"
+            android:enabled="true"
+            android:exported="true"
+            android:persistent="true"
+            android:priority="1000">
+
+        </service>
+
+        <receiver
+            android:name=".Receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+        </receiver>
+
     </application>
 
 </manifest>

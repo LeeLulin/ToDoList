@@ -34,6 +34,8 @@ public class TodoFragment extends Fragment {
     private TodoRecyclerViewAdapter todoRecyclerViewAdapter;
     private MyDatabaseHelper dbHelper;
     private String todoTitle,todoDsc,todoDate,todoTime;
+    private int id,isAlerted;
+    private long remindTime;
 
 
     @Override
@@ -121,11 +123,15 @@ public class TodoFragment extends Fragment {
         try{
             Cursor cursor=db.rawQuery("SELECT * FROM Todo", null);
             while(cursor.moveToNext()) {
+
+                id = cursor.getInt(cursor.getColumnIndex("id"));
                 todoTitle = cursor.getString(cursor.getColumnIndex("todotitle"));
                 todoDsc = cursor.getString(cursor.getColumnIndex("tododsc"));
                 todoDate = cursor.getString(cursor.getColumnIndex("tododate"));
                 todoTime = cursor.getString(cursor.getColumnIndex("todotime"));
-                Todos data = new Todos(todoTitle,todoDsc,todoDate,todoTime);
+                remindTime = cursor.getLong(cursor.getColumnIndex("remindTime"));
+                isAlerted = cursor.getInt(cursor.getColumnIndex("isAlerted"));
+                Todos data = new Todos(id,todoTitle,todoDsc,todoDate,todoTime,remindTime,isAlerted);
                 todosList.add(data);
             }
 

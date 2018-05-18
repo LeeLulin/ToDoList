@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * RecyclerView的Item时间监听器
+ * RecyclerView的Item事件监听器
  */
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
     public interface OnItemClickListener {
