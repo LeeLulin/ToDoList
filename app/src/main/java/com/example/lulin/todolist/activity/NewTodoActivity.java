@@ -115,17 +115,6 @@ public class NewTodoActivity extends AppCompatActivity {
                     dbHelper = new MyDatabaseHelper(NewTodoActivity.this, "Data.db", null, 2);
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
-
-//                    Calendar calendarDate = Calendar.getInstance();
-//                    calendarDate.setTimeInMillis(System.currentTimeMillis());
-//                    calendarDate.set(Calendar.YEAR, mYear);
-//                    calendarDate.set(Calendar.MONTH, mMonth);
-//                    calendarDate.set(Calendar.DAY_OF_MONTH, mDay);
-//                    calendarDate.set(Calendar.HOUR_OF_DAY, 0);
-//                    calendarDate.set(Calendar.MINUTE, 0);
-//                    calendarDate.set(Calendar.SECOND, 0);
-//                    remindDate = calendarDate.getTimeInMillis();
-
                     Calendar calendarTime = Calendar.getInstance();
                     calendarTime.setTimeInMillis(System.currentTimeMillis());
                     calendarTime.set(Calendar.YEAR, mYear);
@@ -146,7 +135,7 @@ public class NewTodoActivity extends AppCompatActivity {
 //                    values.put("remindDate", remindDate);
                     db.insert("Todo", null, values);
                     Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    setResult(2, intent);
 //                    startService(new Intent(NewTodoActivity.this, AlarmService.class));
                     finish();
                 }

@@ -40,6 +40,7 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         TextView todo_desc;
         TextView todo_date;
         TextView todo_time;
+        TextView isAlerted;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -47,6 +48,7 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
             todo_desc = (TextView) itemView.findViewById(R.id.todo_desc);
             todo_date = (TextView) itemView.findViewById(R.id.todo_date);
             todo_time = (TextView) itemView.findViewById(R.id.todo_time);
+//            isAlerted = (TextView) itemView.findViewById(R.id.isAlerted);
 
         }
 
@@ -64,8 +66,11 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
 
         ViewHolder.todo_title.setText(todos.get(todos.size()-1-i).getTitle());
         ViewHolder.todo_desc.setText(todos.get(todos.size()-1-i).getDesc());
-        ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate());
+        ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate().substring(5));
         ViewHolder.todo_time.setText(todos.get(todos.size()-1-i).getTime());
+//        if (todos.get(todos.size()-1-i).getisAlerted() == 1){
+//            ViewHolder.isAlerted.setText("已提醒");
+//        }
 
     }
 

@@ -18,6 +18,7 @@ import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.SpacesItemDecoration;
 import com.example.lulin.todolist.activity.EditTodoActivity;
+import com.example.lulin.todolist.activity.MainActivity;
 import com.example.lulin.todolist.adapter.TodoRecyclerViewAdapter;
 import com.example.lulin.todolist.utils.RecyclerItemClickListener;
 import com.example.lulin.todolist.utils.Todos;
@@ -65,7 +66,7 @@ public class TodoFragment extends Fragment {
         initPersonData();
         todoRecyclerViewAdapter = new TodoRecyclerViewAdapter(todosList,getActivity());
         recyclerView.setLayoutManager(layout);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(15));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(0));
         recyclerView.setAdapter(todoRecyclerViewAdapter);
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -80,8 +81,7 @@ public class TodoFragment extends Fragment {
                 intent.putExtra("dsc", dsc);
                 intent.putExtra("date", date);
                 intent.putExtra("time", time);
-                startActivity(intent);
-
+                startActivityForResult(intent,1);
             }
 
             @Override

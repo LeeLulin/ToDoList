@@ -22,4 +22,49 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MyTextAppearance.BodyNormal" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/contentTextSize</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="MyTextAppearance.BodySmall" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/contentSmallTextSize</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="MyTextAppearance.BodyLarge" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/contentLargeTextSize</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+    </style>
+
+    <style name="MyTextAppearance.BodyNormal.Shadow" parent="MyTextAppearance.BodyNormal">
+        <item name="android:shadowColor">@color/shadowColor</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <style name="MyTextAppearance.BodySmall.Shadow" parent="MyTextAppearance.BodySmall">
+        <item name="android:shadowColor">@color/shadowColor</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <style name="MyTextAppearance.BodyLarge.Shadow" parent="MyTextAppearance.BodyLarge">
+        <item name="android:textSize">@dimen/contentLargeTextSize</item>
+        <item name="android:textColor">@color/titleTextColor</item>
+        <item name="android:shadowColor">@color/shadowColor</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <style name="MyTextAppearance.Bottom" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/contentSmallTextSize</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+
 </resources>

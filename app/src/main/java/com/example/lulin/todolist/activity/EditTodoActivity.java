@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.Todos;
 
 import java.util.Calendar;
@@ -31,6 +32,7 @@ public class EditTodoActivity extends AppCompatActivity {
     private String todoTitle, todoDsc,todoDate,todoTime;
     private String n_todoTitle, n_todoDsc;
     private String n_todoDate, n_todoTime;
+    private long n_remindTime;
     private Button ok, cancel;
     private TextView et_todo_title, et_todo_dsc, et_todo_date, et_todo_time;
     private int mYear,mMonth,mDay;//当前日期
@@ -62,7 +64,7 @@ public class EditTodoActivity extends AppCompatActivity {
      * 获取时间
      */
     private void getTime(){
-        mHour = ca.get(Calendar.HOUR);
+        mHour = ca.get(Calendar.HOUR_OF_DAY);
         mMin = ca.get(Calendar.MINUTE);
     }
 
@@ -97,15 +99,26 @@ public class EditTodoActivity extends AppCompatActivity {
                 n_todoTime = et_todo_time.getText().toString();
                 dbHelper = new MyDatabaseHelper(EditTodoActivity.this, "Data.db", null, 2);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
+                Calendar calendarTime = Calendar.getInstance();
+                calendarTime.setTimeInMillis(System.currentTimeMillis());
+                calendarTime.set(Calendar.YEAR, mYear);
+                calendarTime.set(Calendar.MONTH, mMonth);
+                calendarTime.set(Calendar.DAY_OF_MONTH, mDay);
+                calendarTime.set(Calendar.HOUR_OF_DAY, mHour);
+                calendarTime.set(Calendar.MINUTE, mMin);
+                calendarTime.set(Calendar.SECOND, 0);
+                n_remindTime = calendarTime.getTimeInMillis();
                 ContentValues values = new ContentValues();
                 //更新数据库
                 values.put("todotitle", n_todoTitle);
                 values.put("tododsc", n_todoDsc);
                 values.put("tododate", n_todoDate);
                 values.put("todotime", n_todoTime);
+                values.put("remindTime", n_remindTime);
+                values.put("isAlerted", 0);
                 db.update("Todo",values,"todotitle = ?", new String[]{todoTitle});
                 Intent intent = new Intent(EditTodoActivity.this, MainActivity.class);
-                startActivity(intent);
+                setResult(2, intent);
                 finish();
 
             }
@@ -147,6 +160,9 @@ public class EditTodoActivity extends AppCompatActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            mYear = year;
+            mMonth = monthOfYear;
+            mDay = dayOfMonth;
             n_todoDate = year+ "年"+(monthOfYear + 1) + "月" + dayOfMonth + "日";
             et_todo_date.setText(n_todoDate);
         }

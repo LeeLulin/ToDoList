@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 
 public class AlarmService extends Service {
     private AlarmManager alarmManager;
@@ -31,7 +30,6 @@ public class AlarmService extends Service {
     private String dsc;
     private MyDatabaseHelper dbHelper;
     private SQLiteDatabase db;
-    private Cursor result;
     private Intent startNotification;
     private static final String TAG = "service";
 
@@ -46,20 +44,22 @@ public class AlarmService extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "服务启动！");
         dbHelper= new MyDatabaseHelper(this,"Data.db", null, 2);
         db = dbHelper.getWritableDatabase();
-//        result = db.rawQuery("SELECT * FROM Todo", null);
         new getnowTime().start();
         getAlarmTime();
         return START_REDELIVER_INTENT;
     } //这里为了提高优先级，选择START_REDELIVER_INTENT 没那么容易被内存清理时杀死
+
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
 
-
-
+    /**
+     * 获取即将要提醒的事项，发送系统广播
+     */
     public void getAlarmTime() {
         long alarm = 1000 * 60 * 10;
         List<Todos> todosList = getTodayTodos();
@@ -80,6 +80,7 @@ public class AlarmService extends Service {
                     Log.i(TAG, "日期是" + System.currentTimeMillis()/1000/60/60/24);
                     alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);    //提交事件，发送给 广播接收器
                     setisAlerted(id);
+                    onDestroy();
                 }
             }
         }catch (Exception e){
@@ -87,6 +88,30 @@ public class AlarmService extends Service {
         }
 
 
+    }
+
+
+
+    /**
+     * 获取并返回今天未被提醒切大于当前时间的事项
+     * @return
+     */
+    public List<Todos> getTodayTodos(){
+        List<Todos> todayTodos = new ArrayList<Todos>();
+        try {
+            List<Todos> findAll = getNotAlertTodos();
+            if (findAll != null && findAll.size()>0){
+                for (Todos todos : findAll){
+                    if (todos.getRemindTime() >= nowTime && isToday(todos.getRemindTime())){
+                        todayTodos.add(todos);
+                    }
+                }
+            }
+
+        }catch (Exception e){
+
+        }
+        return todayTodos;
     }
 
     /**
@@ -115,30 +140,13 @@ public class AlarmService extends Service {
     }
 
     /**
-     * 获取并返回今天未被提醒切大于当前时间的事项
+     * 获取单个待办事项
+     * @param id
      * @return
      */
-    public List<Todos> getTodayTodos(){
-        List<Todos> todayTodos = new ArrayList<Todos>();
-        try {
-            List<Todos> findAll = getNotAlertTodos();
-            if (findAll != null && findAll.size()>0){
-                for (Todos todos : findAll){
-                    if (todos.getRemindTime() >= nowTime && isToday(todos.getRemindTime())){
-                        todayTodos.add(todos);
-                    }
-                }
-            }
-
-        }catch (Exception e){
-
-        }
-        return todayTodos;
-    }
-
-    public Todos getTask(long time) {
+    public Todos getTask(int id) {
         Todos todos = null;
-        String sql = "SELECT * FROM Todo WHERE remindTime =  " + time;
+        String sql = "SELECT * FROM Todo WHERE id =" + id;
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToNext()) {
             todos = new Todos(
@@ -154,32 +162,32 @@ public class AlarmService extends Service {
         db.close();
         return todos;
     }
+
+    /**
+     * 设置待办事项为已提醒
+     * @param id
+     */
     public void setisAlerted(int id){
-        Todos todos = getTask(alarmTime);
-        todos.setisAlerted(1);
+        Todos todos = getTask(id);
         ContentValues values = new ContentValues();
-        values.put("isAlerted", todos.getisAlerted());
-        if (todos != null){
-            db.update("Todo",values,"id = ?",new String[]{id +""});
-            db.close();
+        values.put("isAlerted", 1);
+        if (todos != null) {
+            db.update("Todo", values, "id = ?", new String[]{todos.getId() + ""});
         }
+        Log.i(TAG, "数据已更新");
+        db.close();
 
     }
 
+    /**
+     * 获取当前时间的线程
+     */
     private class getnowTime extends Thread{
         @Override
         public void run() {
 
             while (true) {
                 nowTime = System.currentTimeMillis();
-//                Log.i(TAG1, "系统时间是" + nowTime/1000);
-//                if (time/1000 == nowTime/1000) {
-//                    alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);    //提交事件，发送给 广播接收器
-//                }
-//                else {
-//                    //当提醒时间为空的时候，关闭服务，下次添加提醒时再开启
-//                    stopService(new Intent(AlarmService.this, AlarmService.class));
-//                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -190,6 +198,11 @@ public class AlarmService extends Service {
         }
     }
 
+    /**
+     * 判断要提醒的事项是否为今天
+     * @param date
+     * @return
+     */
     private boolean isToday(long date){
 
         if (date/1000/60/60/24 == nowTime/1000/60/60/24){

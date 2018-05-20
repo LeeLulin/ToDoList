@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,14 +21,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.NewTodoActivity" />
+
         <activity android:name=".activity.EditTodoActivity" />
 
         <service
-            android:name=".Service.AlarmService"
-            android:enabled="true"
-            android:exported="true"
-            android:persistent="true"
-            android:priority="1000">
+            android:name=".Service.AlarmService">
+            <intent-filter>
+                <action android:name="com.example.lulin.todolist.Service.AlarmService"/>
+            </intent-filter>
 
         </service>
 

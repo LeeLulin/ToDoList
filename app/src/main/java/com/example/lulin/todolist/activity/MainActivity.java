@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        }).show();
                 //跳转到新建界面
                 Intent intent = new Intent(MainActivity.this, NewTodoActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
                 break;
         }
     }
@@ -202,6 +202,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 2){
+                finish();
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+        }
 
     }
 }
