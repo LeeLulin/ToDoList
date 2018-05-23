@@ -44,7 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher_round)     //设置通知图标。
+                .setSmallIcon(R.mipmap.clock)     //设置通知图标。
                 .setTicker(dsc)        //通知时在状态栏显示的通知内容
                 .setContentInfo("事项提醒")        //内容信息
                 .setContentTitle(title)        //设置通知标题。

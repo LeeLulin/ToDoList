@@ -11,13 +11,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.Receiver.AlarmReceiver;
 import com.example.lulin.todolist.utils.Todos;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -65,31 +62,31 @@ public class AlarmService extends Service {
         List<Todos> todosList = getTodayTodos();
         try {
             for (Todos todos : todosList) {
-                if (todos.getRemindTime() - System.currentTimeMillis() < alarm) {
-                    id = todos.getId();
-                    alarmTime = todos.getRemindTime();
-                    title = todos.getTitle();
-                    dsc = todos.getDesc();
+                if (todos.getRemindTime() - nowTime < alarm) {
+//                    id = todos.getId();
+//                    alarmTime = todos.getRemindTime();
+//                    title = todos.getTitle();
+//                    dsc = todos.getDesc();
                     startNotification = new Intent(AlarmService.this, AlarmReceiver.class);   //启动广播
-                    startNotification.putExtra("title", title);
-                    startNotification.putExtra("dsc", dsc);
+                    startNotification.putExtra("title", todos.getTitle());
+                    startNotification.putExtra("dsc", todos.getDesc());
                     alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);   //这里是系统闹钟的对象
                     pendingIntent = PendingIntent.getBroadcast(this, 0, startNotification, PendingIntent.FLAG_UPDATE_CURRENT);     //设置事件
-                    Log.i(TAG, "标题是" + title);
-                    Log.i(TAG, "时间是" + alarmTime);
-                    Log.i(TAG, "日期是" + System.currentTimeMillis()/1000/60/60/24);
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);    //提交事件，发送给 广播接收器
-                    setisAlerted(id);
-                    onDestroy();
+                    Log.i(TAG, "标题是:" + todos.getTitle());
+                    Log.i(TAG, "时间是:" + todos.getRemindTime());
+                    Log.i(TAG, "日期是:" + System.currentTimeMillis()/1000/60/60/24);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, todos.getRemindTime(), pendingIntent);    //提交事件，发送给 广播接收器
+//                    setisAlerted(id);
+
                 }
+
             }
+
         }catch (Exception e){
 
         }
 
-
     }
-
 
 
     /**
@@ -146,8 +143,7 @@ public class AlarmService extends Service {
      */
     public Todos getTask(int id) {
         Todos todos = null;
-        String sql = "SELECT * FROM Todo WHERE id =" + id;
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM Todo WHERE id =" + id, null);
         if (cursor.moveToNext()) {
             todos = new Todos(
                     cursor.getInt(cursor.getColumnIndex("id")),
@@ -159,7 +155,7 @@ public class AlarmService extends Service {
                     cursor.getInt(cursor.getColumnIndex("isAlerted")));
         }
         cursor.close();
-        db.close();
+//        db.close();
         return todos;
     }
 
@@ -168,13 +164,11 @@ public class AlarmService extends Service {
      * @param id
      */
     public void setisAlerted(int id){
-        Todos todos = getTask(id);
+        Log.i(TAG, "数据已更新");
         ContentValues values = new ContentValues();
         values.put("isAlerted", 1);
-        if (todos != null) {
-            db.update("Todo", values, "id = ?", new String[]{todos.getId() + ""});
-        }
-        Log.i(TAG, "数据已更新");
+        Log.i(TAG, String.valueOf(id));
+        db.update("Todo", values, "id = ?", new String[]{id + ""});
         db.close();
 
     }
