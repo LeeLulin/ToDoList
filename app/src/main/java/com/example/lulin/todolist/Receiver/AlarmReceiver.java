@@ -12,6 +12,9 @@ import android.util.Log;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.activity.MainActivity;
+import com.example.lulin.todolist.utils.Todos;
+
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -45,7 +48,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.clock)     //设置通知图标。
-                .setTicker(dsc)        //通知时在状态栏显示的通知内容
+                .setTicker(title)        //通知时在状态栏显示的通知内容
                 .setContentInfo("事项提醒")        //内容信息
                 .setContentTitle(title)        //设置通知标题。
                 .setContentText(dsc)        //设置通知内容。

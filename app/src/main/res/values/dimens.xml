@@ -8,4 +8,5 @@
     <dimen name="contentTextSize">14sp</dimen>
     <dimen name="contentSmallTextSize">12sp</dimen>
     <dimen name="contentLargeTextSize">16sp</dimen>
+    <dimen name="photo_size_small">50dp</dimen>
 </resources>

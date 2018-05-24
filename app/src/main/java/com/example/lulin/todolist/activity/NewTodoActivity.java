@@ -136,7 +136,7 @@ public class NewTodoActivity extends AppCompatActivity {
                     db.insert("Todo", null, values);
                     Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
                     setResult(2, intent);
-//                    startService(new Intent(NewTodoActivity.this, AlarmService.class));
+                    startService(new Intent(NewTodoActivity.this, AlarmService.class));
                     finish();
                 }
 

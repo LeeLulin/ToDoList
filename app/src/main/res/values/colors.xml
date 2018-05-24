@@ -57,5 +57,8 @@
         <item>@color/dot_dark_screen</item>
     </array>
 
+    <color name="text1">#4D4D4D</color>
+    <color name="text2">#999999</color>
+
 
 </resources>
