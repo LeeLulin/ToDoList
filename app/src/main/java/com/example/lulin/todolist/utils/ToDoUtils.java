@@ -14,8 +14,11 @@ import java.util.List;
 
 import static android.support.constraint.Constraints.TAG;
 
-public class ToDoUtils {
 
+/**
+ * 待办事项提醒工具类
+ */
+public class ToDoUtils {
 
     /**
      * 获取并返回今天未被提醒切大于当前时间的事项
