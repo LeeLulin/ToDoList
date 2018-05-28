@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.lulin.todolist">
+    package="com.example.lulin.todolist"
+    android:versionName="1.0.1">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -12,25 +13,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activity.SplashActivity"
+        <activity
+            android:name=".activity.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.TransNav">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask">
+        </activity>
 
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activity.NewTodoActivity">
 
         </activity>
-        <activity android:name=".activity.NewTodoActivity" />
-        <activity android:name=".activity.EditTodoActivity" />
+
+        <activity android:name=".activity.EditTodoActivity">
+
+        </activity>
 
         <service android:name=".Service.AlarmService">
             <intent-filter>
@@ -48,7 +54,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
 
     </application>
 

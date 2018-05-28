@@ -1,6 +1,7 @@
 package com.example.lulin.todolist.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
@@ -27,9 +30,11 @@ import com.example.lulin.todolist.adapter.FragmentAdapter;
 import com.example.lulin.todolist.fragment.ClockFragment;
 import com.example.lulin.todolist.fragment.TodoFragment;
 
-
 import java.util.ArrayList;
 import java.util.List;
+
+import top.wefor.circularanim.CircularAnim;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -41,7 +46,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        CircularAnim.init(400, 400, R.color.colorPrimary);
         super.onCreate(savedInstanceState);
+        //设置状态栏
+        setStatusBar();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -134,9 +143,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //                            }
 //                        }).show();
-                //跳转到新建界面
-                Intent intent = new Intent(MainActivity.this, NewTodoActivity.class);
-                startActivityForResult(intent,1);
+
+                //跳转动画
+                CircularAnim.fullActivity(MainActivity.this, view)
+                        .go(new CircularAnim.OnAnimationEndListener() {
+                            @Override
+                            public void onAnimationEnd() {
+                                Intent intent = new Intent(MainActivity.this, NewTodoActivity.class);
+                                startActivityForResult(intent,1);
+                            }
+                        });
                 break;
         }
     }
@@ -201,6 +217,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
 
+            case R.id.nav_about:
+
+                break;
+
             case R.id.nav_setting:
 
                 break;
@@ -226,6 +246,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
     }
 
+
+    //回调刷新
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -243,6 +265,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
+    }
+
+    private void setStatusBar(){
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        }
     }
 
 

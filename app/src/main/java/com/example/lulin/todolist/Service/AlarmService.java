@@ -3,24 +3,16 @@ package com.example.lulin.todolist.Service;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
-import com.example.lulin.todolist.Dao.ToDoDao;
+
 import com.example.lulin.todolist.Receiver.AlarmReceiver;
-import com.example.lulin.todolist.utils.Card;
-import com.example.lulin.todolist.utils.NotifyUtils;
 import com.example.lulin.todolist.utils.ToDoUtils;
 import com.example.lulin.todolist.utils.Todos;
-import java.util.ArrayList;
+
 import java.util.List;
 
 
