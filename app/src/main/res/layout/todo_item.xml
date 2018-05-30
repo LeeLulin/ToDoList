@@ -1,106 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/time_line"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:orientation="horizontal">
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
 
-    <FrameLayout
-        android:layout_width="62dp"
+    <com.github.vipulasri.timelineview.TimelineView
+        android:id="@+id/time_marker"
+        android:layout_width="30dp"
         android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:paddingBottom="30dp">
+        app:line="@color/black"
+        app:linePadding="5dp"
+        app:lineSize="2dp"
+        app:marker="@drawable/round"
+        app:markerSize="15dp" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        app:cardElevation="1dp"
+        app:contentPadding="15dp">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="83dp"
-            android:orientation="vertical"
-            android:paddingTop="5dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
 
-            <!--<TextView-->
-            <!--android:id="@+id/isAlerted"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right"-->
-            <!--android:layout_marginBottom="5dp"-->
-            <!--android:gravity="right"-->
-            <!--android:paddingBottom="2dp"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingTop="2dp"-->
-            <!--android:text="未提醒"-->
-            <!--android:textSize="12sp" />-->
+            android:orientation="vertical">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/todo_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="right"
-                android:paddingBottom="2dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="2dp"
-                android:text="Date"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="2018年1月1日" />
 
-            <TextView
-                android:id="@+id/todo_time"
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/todo_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:paddingBottom="2dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="2dp"
-                android:text="Time"
-                android:textSize="12sp" />
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                tools:text="Order Successfully Completed" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/todo_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                tools:text="Description" />
 
         </LinearLayout>
 
-    </FrameLayout>
+        <!--<LinearLayout-->
+            <!--android:id="@+id/delete_card"-->
+            <!--android:layout_width="72dp"-->
+            <!--android:layout_height="63dp"-->
+            <!--android:layout_gravity="end"-->
+            <!--android:gravity="right">-->
 
-    <ImageView
-        android:id="@+id/timelineIV"
-        android:layout_width="16dp"
-        android:layout_height="101dp"
-        android:layout_marginBottom="-2dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/timeline"
-        android:tint="@color/half_black" />
+            <!--<Button-->
+                <!--android:layout_width="18dp"-->
+                <!--android:layout_height="18dp"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:background="@drawable/delete1" />-->
 
-    <LinearLayout
-        android:layout_width="260dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        <!--</LinearLayout>-->
 
-        <TextView
-            android:id="@+id/todo_title"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/todo_desc"
-            android:layout_width="match_parent"
-            android:layout_height="27dp"
-            android:layout_marginBottom="3dp"
-            android:textSize="15sp" />
 
-    </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
+
+<!--<LinearLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:fancy="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/time_line"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:clipChildren="false"-->
+    <!--android:clipToPadding="false"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<FrameLayout-->
+        <!--android:layout_width="62dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:clipChildren="false"-->
+        <!--android:clipToPadding="false"-->
+        <!--android:paddingBottom="30dp">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="83dp"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingTop="5dp">-->
+
+            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/isAlerted"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_gravity="right"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginBottom="5dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:gravity="right"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:paddingBottom="2dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:paddingLeft="10dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:paddingTop="2dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="未提醒"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="12sp" />&ndash;&gt;-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/todo_date"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:gravity="right"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:text="Date"-->
+                <!--android:textSize="12sp" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/todo_time"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="right"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:text="Time"-->
+                <!--android:textSize="12sp" />-->
+
+        <!--</LinearLayout>-->
+
+    <!--</FrameLayout>-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/timelineIV"-->
+        <!--android:layout_width="16dp"-->
+        <!--android:layout_height="101dp"-->
+        <!--android:layout_marginBottom="-2dp"-->
+        <!--android:scaleType="fitXY"-->
+        <!--android:src="@drawable/timeline"-->
+        <!--android:tint="@color/half_black" />-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="260dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:orientation="vertical"-->
+        <!--android:paddingBottom="10dp"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:paddingRight="15dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/todo_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="46dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:textSize="20sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/todo_desc"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="27dp"-->
+            <!--android:layout_marginBottom="3dp"-->
+            <!--android:textSize="15sp" />-->
+
+    <!--</LinearLayout>-->
+
+<!--</LinearLayout>-->
+
 <!--<android.support.v7.widget.CardView-->
     <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
@@ -161,7 +246,7 @@
                 <!--&lt;!&ndash;android:layout_height="22dp"&ndash;&gt;-->
                 <!--&lt;!&ndash;android:layout_alignParentStart="true"&ndash;&gt;-->
                 <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:background="@drawable/delete"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="@drawable/delete1"&ndash;&gt;-->
                 <!--&lt;!&ndash;android:clickable="true" />&ndash;&gt;-->
         <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
 

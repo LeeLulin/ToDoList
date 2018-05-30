@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -45,13 +46,14 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         TextView todo_time;
         TextView isAlerted;
         ImageView timeline_alerted;
+     
 
         public ViewHolder(View itemView) {
             super(itemView);
             todo_title = (TextView) itemView.findViewById(R.id.todo_title);
             todo_desc = (TextView) itemView.findViewById(R.id.todo_desc);
             todo_date = (TextView) itemView.findViewById(R.id.todo_date);
-            todo_time = (TextView) itemView.findViewById(R.id.todo_time);
+//            todo_time = (TextView) itemView.findViewById(R.id.todo_time);
 //            isAlerted = (TextView) itemView.findViewById(R.id.isAlerted);
 //            timeline_alerted = (ImageView) itemView.findViewById(R.id.timelineIV);
 
@@ -71,12 +73,13 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
 
         ViewHolder.todo_title.setText(todos.get(todos.size()-1-i).getTitle());
         ViewHolder.todo_desc.setText(todos.get(todos.size()-1-i).getDesc());
-        ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate().substring(5));
-        ViewHolder.todo_time.setText(todos.get(todos.size()-1-i).getTime());
+        ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate().substring(5) + " "+ todos.get(todos.size()-1-i).getTime());
+//        ViewHolder.todo_time.setText(todos.get(todos.size()-1-i).getTime());
 //        if (todos.get(todos.size()-1-i).getisAlerted() == 1){
 //            ViewHolder.isAlerted.setText("已提醒");
 //            ViewHolder.timeline_alerted.setImageResource(R.drawable.timeline_alerted);
 //        }
+
 
     }
 

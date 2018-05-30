@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
@@ -52,12 +53,17 @@ public class NewTodoActivity extends AppCompatActivity {
     private Calendar ca;
     private Date data;
     private static final String TAG = "time";
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setStatusBar();
         setContentView(R.layout.activity_new_todo);
+        toolbar = (Toolbar) findViewById(R.id.new_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ca = Calendar.getInstance();
         getDate();
         getTime();
@@ -175,6 +181,13 @@ public class NewTodoActivity extends AppCompatActivity {
                 timePickerDialog.setCancelable(true);
                 timePickerDialog.setCanceledOnTouchOutside(true);
                 timePickerDialog.show();
+            }
+        });
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

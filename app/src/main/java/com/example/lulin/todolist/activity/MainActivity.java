@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
@@ -71,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        LinearLayout nav_header = headerView.findViewById(R.id.nav_header);
+        nav_header.setOnClickListener(this);
         dbHelper = new MyDatabaseHelper(this, "Data.db", null, 2);
         dbHelper.getWritableDatabase();
 
@@ -153,6 +157,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 startActivityForResult(intent,1);
                             }
                         });
+                
+                break;
+
+            case R.id.nav_header:
+                CircularAnim.fullActivity(MainActivity.this, view)
+                        .go(new CircularAnim.OnAnimationEndListener() {
+                            @Override
+                            public void onAnimationEnd() {
+                                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                                drawer.closeDrawer(GravityCompat.START);
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+
+
                 break;
         }
     }

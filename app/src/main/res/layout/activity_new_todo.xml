@@ -5,18 +5,31 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true">
 
-
-    <TextView
-        android:id="@+id/dialog_title"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/new_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:maxLength="@integer/max_todo_titel_length"
-        android:text="新建"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:padding="20sp"
-        android:textStyle="bold"/>
+        android:theme="@style/toolbar_theme">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/new_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="新建"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
 
     <EditText
         android:id="@+id/new_todo_title"

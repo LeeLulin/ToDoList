@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -42,12 +43,17 @@ public class EditTodoActivity extends AppCompatActivity {
     private int mYear,mMonth,mDay;//当前日期
     private int mHour,mMin;//当前时间
     private Calendar ca;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setStatusBar();
         setContentView(R.layout.activity_edit_todo);
+        toolbar = (Toolbar) findViewById(R.id.edit_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ca = Calendar.getInstance();
         getDate();
         getTime();

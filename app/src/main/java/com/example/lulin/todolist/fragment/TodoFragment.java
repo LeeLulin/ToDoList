@@ -7,18 +7,23 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.SpacesItemDecoration;
 import com.example.lulin.todolist.activity.EditTodoActivity;
+import com.example.lulin.todolist.activity.LoginActivity;
 import com.example.lulin.todolist.activity.MainActivity;
+import com.example.lulin.todolist.activity.NewTodoActivity;
 import com.example.lulin.todolist.adapter.TodoRecyclerViewAdapter;
 import com.example.lulin.todolist.utils.RecyclerItemClickListener;
 import com.example.lulin.todolist.utils.Todos;
@@ -26,6 +31,7 @@ import com.example.lulin.todolist.utils.Todos;
 import java.util.ArrayList;
 import java.util.List;
 
+import top.wefor.circularanim.CircularAnim;
 
 
 public class TodoFragment extends Fragment {
@@ -72,16 +78,16 @@ public class TodoFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
 
-                String title = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTitle();
-                String dsc = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDesc();
-                String date = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDate();
-                String time = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTime();
-                Intent intent = new Intent(getActivity(), EditTodoActivity.class);
-                intent.putExtra("title", title);
-                intent.putExtra("dsc", dsc);
-                intent.putExtra("date", date);
-                intent.putExtra("time", time);
-                startActivityForResult(intent,1);
+//                String title = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTitle();
+//                String dsc = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDesc();
+//                String date = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDate();
+//                String time = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTime();
+//                Intent intent = new Intent(getActivity(), EditTodoActivity.class);
+//                intent.putExtra("title", title);
+//                intent.putExtra("dsc", dsc);
+//                intent.putExtra("date", date);
+//                intent.putExtra("time", time);
+//                startActivityForResult(intent,1);
             }
 
             @Override
@@ -102,6 +108,7 @@ public class TodoFragment extends Fragment {
 
         return rootView;
     }
+
 
     @Override
     public void onAttach(Activity activity) {
