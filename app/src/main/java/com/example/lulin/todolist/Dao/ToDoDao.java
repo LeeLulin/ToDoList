@@ -12,11 +12,12 @@ import com.example.lulin.todolist.utils.Todos;
 
 import java.util.ArrayList;
 import java.util.List;
+import static android.support.constraint.Constraints.TAG;
 
 /**
  * 数据库操作
  */
-import static android.support.constraint.Constraints.TAG;
+
 
 public class ToDoDao {
     private MyDatabaseHelper dbHelper;
@@ -51,7 +52,9 @@ public class ToDoDao {
                     cursor.getString(cursor.getColumnIndex("tododate")),
                     cursor.getString(cursor.getColumnIndex("todotime")),
                     cursor.getLong(cursor.getColumnIndex("remindTime")),
-                    cursor.getInt(cursor.getColumnIndex("isAlerted")));
+                    cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")),
+                    cursor.getInt(cursor.getColumnIndex("isAlerted")),
+                    cursor.getInt(cursor.getColumnIndex("isRepeat")));
             allTodos.add(data);
         }
 
@@ -77,7 +80,9 @@ public class ToDoDao {
                     cursor.getString(cursor.getColumnIndex("tododate")),
                     cursor.getString(cursor.getColumnIndex("todotime")),
                     cursor.getLong(cursor.getColumnIndex("remindTime")),
-                    cursor.getInt(cursor.getColumnIndex("isAlerted")));
+                    cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")),
+                    cursor.getInt(cursor.getColumnIndex("isAlerted")),
+                    cursor.getInt(cursor.getColumnIndex("isRepeat")));
         }
         cursor.close();
         close();

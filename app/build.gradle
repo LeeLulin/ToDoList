@@ -37,4 +37,6 @@ dependencies {
         transitive = true;
     }
 
+    implementation 'site.gemus:openingstartanimation:1.0.0'
+
 }

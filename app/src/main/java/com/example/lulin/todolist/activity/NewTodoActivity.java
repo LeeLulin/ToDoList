@@ -17,8 +17,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -47,13 +49,15 @@ public class NewTodoActivity extends AppCompatActivity {
     private String todoDate = null, todoTime = null;
     private Button ok,cancel;
     private TextView nv_todo_title,nv_todo_dsc,nv_todo_date,nv_todo_time;
+    private Switch nv_repeat;
     private int mYear,mMonth,mDay;//当前日期
     private int mHour,mMin;//当前时间
-    private long remindTime, remindDate;
+    private long remindTime, remindTimeNoDay;
     private Calendar ca;
     private Date data;
     private static final String TAG = "time";
     private Toolbar toolbar;
+    private int isRepeat = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,7 @@ public class NewTodoActivity extends AppCompatActivity {
         nv_todo_dsc = (TextView) findViewById(R.id.new_todo_dsc);
         nv_todo_date = (TextView) findViewById(R.id.new_todo_date);
         nv_todo_time = (TextView) findViewById(R.id.new_todo_time);
+        nv_repeat = (Switch) findViewById(R.id.repeat);
     }
 
     /**
@@ -143,8 +148,10 @@ public class NewTodoActivity extends AppCompatActivity {
                     values.put("todotime", todoTime);
                     values.put("remindTime", remindTime);
                     values.put("isAlerted", 0);
-//                    values.put("remindDate", remindDate);
+                    values.put("isRepeat", isRepeat);
+
                     db.insert("Todo", null, values);
+
                     Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
                     setResult(2, intent);
                     startService(new Intent(NewTodoActivity.this, AlarmService.class));
@@ -188,6 +195,18 @@ public class NewTodoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        nv_repeat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    isRepeat = 1;
+                } else {
+                    isRepeat = 0;
+                }
+
             }
         });
 

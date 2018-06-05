@@ -3,19 +3,18 @@ package com.example.lulin.todolist.utils;
 import java.io.Serializable;
 
 public class Todos implements Serializable {
-    //标题，内容
     private String title;
     private String desc;
     private String date;
     private String time;
-    private long remindTime;
-    private int id,isAlerted;
+    private long remindTime,remindTimeNoDay;
+    private int id,isAlerted,isRepeat;
 
 
     /**
      * Constructs a new instance of {@code Object}.
      */
-    public Todos(int id,String title, String desc, String date, String time,long remindTime,int isAlerted) {
+    public Todos(int id,String title, String desc, String date, String time,long remindTime,long remindTimeNoDay,int isAlerted,int isRepeat) {
 
         this.id = id;
         this.title = title;
@@ -24,6 +23,8 @@ public class Todos implements Serializable {
         this.time = time;
         this.isAlerted = isAlerted;
         this.remindTime = remindTime;
+        this.remindTimeNoDay = remindTimeNoDay;
+        this.isRepeat = isRepeat;
     }
 
     public void setId(int id){
@@ -56,6 +57,14 @@ public class Todos implements Serializable {
         this.remindTime = remindTime;
     }
 
+    public void setRemindTimeNoDay(long remindTimeNoDay){
+        this.remindTimeNoDay = remindTimeNoDay;
+    }
+
+    public void setIsRepeat(int isRepeat){
+        this.isRepeat = isRepeat;
+    }
+
 
 
     public int getId(){
@@ -85,5 +94,13 @@ public class Todos implements Serializable {
 
     public long getRemindTime(){
         return remindTime;
+    }
+
+    public long getRemindTimeNoDay(){
+        return remindTimeNoDay;
+    }
+
+    public int getIsRepeat(){
+        return isRepeat;
     }
 }

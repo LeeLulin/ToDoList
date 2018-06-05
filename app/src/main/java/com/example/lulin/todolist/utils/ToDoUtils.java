@@ -16,7 +16,7 @@ import static android.support.constraint.Constraints.TAG;
 
 
 /**
- * 待办事项提醒工具类
+ * 用于待办事项提醒服务的工具类
  */
 public class ToDoUtils {
 

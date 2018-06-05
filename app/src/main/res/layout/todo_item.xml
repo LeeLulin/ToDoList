@@ -26,14 +26,14 @@
         android:layout_marginLeft="10dp"
         android:layout_gravity="center_vertical"
         app:cardElevation="1dp"
-        app:contentPadding="15dp">
+        app:contentPadding="10dp">
+
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
@@ -59,22 +59,19 @@
                 android:textColor="@android:color/black"
                 tools:text="Description" />
 
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/isRepeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="right"
+                tools:text="单次"
+                tools:textSize="8sp"/>
+
+
+
         </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/delete_card"-->
-            <!--android:layout_width="72dp"-->
-            <!--android:layout_height="63dp"-->
-            <!--android:layout_gravity="end"-->
-            <!--android:gravity="right">-->
-
-            <!--<Button-->
-                <!--android:layout_width="18dp"-->
-                <!--android:layout_height="18dp"-->
-                <!--android:layout_gravity="bottom"-->
-                <!--android:background="@drawable/delete1" />-->
-
-        <!--</LinearLayout>-->
 
 
 

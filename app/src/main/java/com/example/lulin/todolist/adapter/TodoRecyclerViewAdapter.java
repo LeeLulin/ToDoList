@@ -6,12 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,13 +48,16 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         TextView todo_time;
         TextView isAlerted;
         ImageView timeline_alerted;
-     
+        TextView isRepeat;
+
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             todo_title = (TextView) itemView.findViewById(R.id.todo_title);
             todo_desc = (TextView) itemView.findViewById(R.id.todo_desc);
             todo_date = (TextView) itemView.findViewById(R.id.todo_date);
+            isRepeat = (TextView) itemView.findViewById(R.id.isRepeat);
 //            todo_time = (TextView) itemView.findViewById(R.id.todo_time);
 //            isAlerted = (TextView) itemView.findViewById(R.id.isAlerted);
 //            timeline_alerted = (ImageView) itemView.findViewById(R.id.timelineIV);
@@ -74,11 +79,13 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         ViewHolder.todo_title.setText(todos.get(todos.size()-1-i).getTitle());
         ViewHolder.todo_desc.setText(todos.get(todos.size()-1-i).getDesc());
         ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate().substring(5) + " "+ todos.get(todos.size()-1-i).getTime());
-//        ViewHolder.todo_time.setText(todos.get(todos.size()-1-i).getTime());
-//        if (todos.get(todos.size()-1-i).getisAlerted() == 1){
-//            ViewHolder.isAlerted.setText("已提醒");
-//            ViewHolder.timeline_alerted.setImageResource(R.drawable.timeline_alerted);
-//        }
+        if (todos.get(todos.size()-1-i).getIsRepeat() == 1){
+            ViewHolder.isRepeat.setText("重复");
+            ViewHolder.isRepeat.setTextSize(TypedValue.COMPLEX_UNIT_SP,10);
+        }else {
+            ViewHolder.isRepeat.setText("单次");
+            ViewHolder.isRepeat.setTextSize(TypedValue.COMPLEX_UNIT_SP,10);
+        }
 
 
     }
