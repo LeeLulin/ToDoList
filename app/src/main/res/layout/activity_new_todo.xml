@@ -29,8 +29,6 @@
     </android.support.design.widget.AppBarLayout>
 
 
-
-
     <EditText
         android:id="@+id/new_todo_title"
         android:layout_width="match_parent"

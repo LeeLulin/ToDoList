@@ -1,100 +1,90 @@
 package com.example.lulin.todolist.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lulin.todolist.R;
 
-import org.w3c.dom.Text;
-
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
+    private static final String TAG = "RegisterActivity";
+    private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66"; //把你在Bmob官网获取的APPID放到这里
     private EditText mEtUserName = null;
     private EditText mEtPassWord = null;
-    private SharedPreferences login_sp;
-    private CheckBox mRememberCheck;
-    private Button mBtnGoLogin,mBtnGoRegister;
+    private Button mBtnGoLogin = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStatusBar();
-        setContentView(R.layout.activity_login);
-        mEtUserName = (EditText) findViewById(R.id.et_login_name);
-        mEtPassWord = (EditText) findViewById(R.id.et_login_pwd);
-        mRememberCheck = (CheckBox) findViewById(R.id.Login_Remember);
-        login_sp = getSharedPreferences("userInfo", 0);
-        String name=login_sp.getString("USER_NAME", "");
-        String pwd =login_sp.getString("PASSWORD", "");
-        boolean choseRemember =login_sp.getBoolean("mRememberCheck", false);
-        mBtnGoLogin = (Button) findViewById(R.id.btn_login);
+        setContentView(R.layout.activity_register);
+        Bmob.initialize(this,APP_ID); //初始化BmobSDK
+        mEtUserName = (EditText) findViewById(R.id.et_user_name);
+        mEtPassWord = (EditText) findViewById(R.id.et_user_pwd);
+        mBtnGoLogin = (Button) findViewById(R.id.btn_go_login);
         mBtnGoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
-        mBtnGoRegister = (Button) findViewById(R.id.btn_register);
-        mBtnGoRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-        //如果上次选了记住密码，那进入登录页面也自动勾选记住密码，并填上用户名和密码
-        if(choseRemember){
-            mEtUserName.setText(name);
-            mEtPassWord.setText(pwd);
-            mRememberCheck.setChecked(true);
-        }
-
     }
 
-    public void btnShowLogin(View v) {
+    public void btnShow(View v) {
         final String username = mEtUserName.getText().toString();
         final String password = mEtPassWord.getText().toString();
 
         if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-            Toast.makeText(LoginActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        if (mEtUserName.length() < 4) {
+            Toast.makeText(this, "用户名不能低于4位", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (mEtPassWord.length() < 6) {
+            Toast.makeText(this, "密码不能低于6位", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        /**
+         * Bmob注册
+         */
         final BmobUser user = new BmobUser();
         user.setUsername(username);
         user.setPassword(password);
-        user.login(LoginActivity.this, new SaveListener() {
+        user.signUp(RegisterActivity.this, new SaveListener() { //回调2个方法，成功，失败
             @Override
             public void onSuccess() {
-                Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(RegisterActivity.this, "注册成功，去登录", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onSuccess: "+ "注册成功");
             }
 
             @Override
             public void onFailure(int i, String s) {
-                Toast.makeText(LoginActivity.this, "登陆失败，请检查用户名及密码", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "注册失败，请检查用户名是否存在及网络问题", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onFailure: "+s.toString());
 
             }
         });
     }
-
 
     private void setStatusBar(){
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -110,6 +100,4 @@ public class LoginActivity extends AppCompatActivity {
             window.setNavigationBarColor(Color.TRANSPARENT);
         }
     }
-
-
 }
