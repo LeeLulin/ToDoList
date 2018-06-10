@@ -13,6 +13,7 @@
     <color name="colorAccent">#54aadb</color>
 
     <color name="black_semi_transparent">#B2000000</color>
+    <color name="black_semi">#3B3B3B</color>
     <color name="background">#e5e5e5</color>
     <color name="half_black">#808080</color>
     <color name="white">#fafafa</color>

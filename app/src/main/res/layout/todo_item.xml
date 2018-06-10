@@ -25,16 +25,22 @@
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:layout_gravity="center_vertical"
-        app:cardElevation="1dp"
-        app:contentPadding="10dp">
+        android:src="@drawable/ic_img2"
+        android:foreground = "?attr/selectableItemBackground"
+        app:cardElevation="1dp">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:background="@drawable/ic_img2" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="10dp">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/todo_date"

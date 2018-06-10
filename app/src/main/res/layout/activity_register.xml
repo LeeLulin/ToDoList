@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.lulin.todolist.activity.RegisterActivity"
-    android:background="@mipmap/login_bg"
+    android:background="@drawable/ic_img3"
     >
 
 
@@ -26,8 +26,9 @@
             android:layout_height="wrap_content"
             android:hint="用户名"
             android:gravity="center"
-            android:layout_marginTop="30dp"
-            android:textColorHint="#000000"
+            android:layout_marginTop="100dp"
+            android:textColorHint="@color/black_semi"
+            android:textSize="15sp"
             android:background="@drawable/translucent"/>
 
         <EditText
@@ -37,17 +38,18 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="密码"
-            android:textColorHint="#000000"
+            android:textSize="15sp"
+            android:textColorHint="@color/black_semi"
             android:background="@drawable/translucent"
             android:gravity="center"/>
 
         <Button
             android:text="点击注册"
             android:onClick="btnShow"
-            android:textSize="16sp"
-            android:layout_marginTop="160dp"
-            android:textColor="#000000"
-            android:background="@drawable/translucent"
+            android:textSize="15sp"
+            android:layout_marginTop="60dp"
+            android:textColor="@color/black_semi"
+            android:background="@drawable/shape1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -57,10 +59,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="已有账户？点击登录"
-            android:textSize="16sp"
-            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textColor="@color/black_semi"
             android:layout_marginTop="10dp"
-            android:background="@drawable/translucent"/>
+            android:background="@drawable/shape1"/>
 
     </LinearLayout>
+
 </LinearLayout>

@@ -1,155 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context="com.example.lulin.todolist.activity.NewTodoActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/new_appbar"
+        android:id="@+id/app_bar"
+        android:fitsSystemWindows="true"
+        android:layout_height="230dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/toolbar_theme">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/new_toolbar"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary">
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="新建"
-                android:textColor="@color/white"
-                android:textSize="18sp"/>
-        </android.support.v7.widget.Toolbar>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:background="@drawable/ic_img2"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:gravity="bottom"
+                app:layout_collapseMode="pin"
+                app:layout_collapseParallaxMultiplier="0.7">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="新建"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/new_toolbar"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="新建"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="18sp"/>-->
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
+    <include layout="@layout/content_new_todo" />
 
-    <EditText
-        android:id="@+id/new_todo_title"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_ok"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:hint="标题"
-        android:inputType="text" />
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/selected"
+        app:elevation="0dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey" />
+</android.support.design.widget.CoordinatorLayout>
 
-    <EditText
-        android:id="@+id/new_todo_dsc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:hint="描述"
-        android:inputType="textMultiLine"
-        android:maxLines="15"
-        android:minLines="1" />
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical"-->
+    <!--android:fitsSystemWindows="true">-->
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey" />
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/new_appbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/toolbar_theme">-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/new_toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="@color/colorPrimary">-->
 
-        <TextView
-            android:id="@+id/new_todo_date"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:drawableLeft="@android:drawable/ic_menu_my_calendar"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:text="日期" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:text="新建"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="18sp"/>-->
+        <!--</android.support.v7.widget.Toolbar>-->
 
-        <TextView
-            android:id="@+id/new_todo_time"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:drawableLeft="@android:drawable/ic_lock_idle_alarm"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:text="时间" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="right"
-            android:text="重复提醒"
-            android:textSize="16sp"/>
+    <!--</android.support.design.widget.AppBarLayout>-->
 
 
-       <Switch
-           android:id="@+id/repeat"
-           android:layout_width="0dp"
-           android:layout_height="match_parent"
-           android:gravity="center"
-           android:layout_weight="1"/>
+    <!--<EditText-->
+        <!--android:id="@+id/new_todo_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:hint="标题"-->
+        <!--android:inputType="text" />-->
 
-    </LinearLayout>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/grey" />-->
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey" />
+    <!--<EditText-->
+        <!--android:id="@+id/new_todo_dsc"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="top"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:hint="描述"-->
+        <!--android:inputType="textMultiLine"-->
+        <!--android:maxLines="15"-->
+        <!--android:minLines="1" />-->
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey" />
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/grey" />-->
 
-    <LinearLayout
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:orientation="horizontal">-->
 
-        <Button
-            android:id="@+id/bt_new_cancel"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="48dip"
-            android:text="取消" />
+        <!--<TextView-->
+            <!--android:id="@+id/new_todo_date"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawableLeft="@android:drawable/ic_menu_my_calendar"-->
+            <!--android:drawablePadding="5dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:text="日期" />-->
 
-        <Button
-            android:id="@+id/bt_new_ok"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="48dip"
-            android:text="确定" />
+        <!--<TextView-->
+            <!--android:id="@+id/new_todo_time"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawableLeft="@android:drawable/ic_lock_idle_alarm"-->
+            <!--android:drawablePadding="5dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:text="时间" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-</LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="5"-->
+            <!--android:gravity="right"-->
+            <!--android:text="重复提醒"-->
+            <!--android:textSize="16sp"/>-->
+
+
+       <!--<Switch-->
+           <!--android:id="@+id/repeat"-->
+           <!--android:layout_width="0dp"-->
+           <!--android:layout_height="match_parent"-->
+           <!--android:gravity="center"-->
+           <!--android:layout_weight="1"/>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/grey" />-->
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/grey" />-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="210dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="right">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/bt_new_cancel"-->
+            <!--style="?android:attr/buttonBarButtonStyle"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:minHeight="48dip"-->
+            <!--android:text="取消" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/bt_new_ok"-->
+            <!--style="?android:attr/buttonBarButtonStyle"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:minHeight="48dip"-->
+            <!--android:text="确定" />-->
+
+    <!--</LinearLayout>-->
+
+<!--</LinearLayout>-->

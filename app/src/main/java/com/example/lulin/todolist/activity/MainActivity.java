@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -73,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-        LinearLayout nav_header = headerView.findViewById(R.id.nav_header);
-        nav_header.setOnClickListener(this);
+        ImageView user_image = headerView.findViewById(R.id.user_image);
+        user_image.setOnClickListener(this);
         dbHelper = new MyDatabaseHelper(this, "Data.db", null, 2);
         dbHelper.getWritableDatabase();
 
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 
                 break;
 
-            case R.id.nav_header:
+            case R.id.user_image:
                 CircularAnim.fullActivity(MainActivity.this, view)
                         .go(new CircularAnim.OnAnimationEndListener() {
                             @Override

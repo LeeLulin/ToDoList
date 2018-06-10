@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.provider.ContactsContract;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class NewTodoActivity extends AppCompatActivity {
     private String todoTitle,todoDsc;
     private String todoDate = null, todoTime = null;
     private Button ok,cancel;
+    private FloatingActionButton fab_ok;
     private TextView nv_todo_title,nv_todo_dsc,nv_todo_date,nv_todo_time;
     private Switch nv_repeat;
     private int mYear,mMonth,mDay;//当前日期
@@ -62,7 +64,7 @@ public class NewTodoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setStatusBar();
+        setStatusBar();
         setContentView(R.layout.activity_new_todo);
         toolbar = (Toolbar) findViewById(R.id.new_toolbar);
         setSupportActionBar(toolbar);
@@ -76,8 +78,9 @@ public class NewTodoActivity extends AppCompatActivity {
     }
 
     private void initFindview() {
-        ok = (Button) findViewById(R.id.bt_new_ok);
-        cancel = (Button) findViewById(R.id.bt_new_cancel);
+//        ok = (Button) findViewById(R.id.bt_new_ok);
+        fab_ok = (FloatingActionButton) findViewById(R.id.fab_ok);
+//        cancel = (Button) findViewById(R.id.bt_new_cancel);
         nv_todo_title = (TextView) findViewById(R.id.new_todo_title);
         nv_todo_dsc = (TextView) findViewById(R.id.new_todo_dsc);
         nv_todo_date = (TextView) findViewById(R.id.new_todo_date);
@@ -105,25 +108,13 @@ public class NewTodoActivity extends AppCompatActivity {
 
     private void initView() {
 
-        ok.setOnClickListener(new View.OnClickListener() {
+        fab_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (todoDate==null){
-                    Snackbar.make(view, "未选择日期", Snackbar.LENGTH_LONG)
-                            .setAction("确定", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-
-                                }
-                            }).show();
+                    Toast.makeText(NewTodoActivity.this, "没有设置日期", Toast.LENGTH_SHORT).show();
                 } else if (todoTime==null) {
-                    Snackbar.make(view, "未选择时间", Snackbar.LENGTH_LONG)
-                            .setAction("确定", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-
-                                }
-                            }).show();
+                    Toast.makeText(NewTodoActivity.this, "没有设置时间", Toast.LENGTH_SHORT).show();
 
                 } else {
                     todoTitle = nv_todo_title.getText().toString();
@@ -161,12 +152,12 @@ public class NewTodoActivity extends AppCompatActivity {
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+//        cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
 
         nv_todo_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,6 +234,15 @@ public class NewTodoActivity extends AppCompatActivity {
             nv_todo_time.setText(todoTime);
         }
     };
+
+    /**
+     * 返回按钮监听
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 
     private void setStatusBar(){
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);

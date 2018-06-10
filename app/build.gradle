@@ -19,6 +19,7 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
@@ -38,7 +39,6 @@ dependencies {
     }
 
     implementation 'site.gemus:openingstartanimation:1.0.0'
-
-    implementation 'cn.bmob.android:bmob-sdk:3.4.7-aar'
+    implementation 'cn.bmob.android:bmob-sdk:3.6.3'
 
 }

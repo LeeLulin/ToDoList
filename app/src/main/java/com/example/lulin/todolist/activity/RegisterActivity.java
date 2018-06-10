@@ -18,11 +18,10 @@ import com.example.lulin.todolist.R;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 public class RegisterActivity extends AppCompatActivity {
-    private static final String TAG = "RegisterActivity";
-    private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66"; //把你在Bmob官网获取的APPID放到这里
     private EditText mEtUserName = null;
     private EditText mEtPassWord = null;
     private Button mBtnGoLogin = null;
@@ -32,7 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setStatusBar();
         setContentView(R.layout.activity_register);
-        Bmob.initialize(this,APP_ID); //初始化BmobSDK
         mEtUserName = (EditText) findViewById(R.id.et_user_name);
         mEtPassWord = (EditText) findViewById(R.id.et_user_pwd);
         mBtnGoLogin = (Button) findViewById(R.id.btn_go_login);
@@ -41,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -70,18 +69,18 @@ public class RegisterActivity extends AppCompatActivity {
         final BmobUser user = new BmobUser();
         user.setUsername(username);
         user.setPassword(password);
-        user.signUp(RegisterActivity.this, new SaveListener() { //回调2个方法，成功，失败
+        user.signUp(new SaveListener<BmobUser>() {
             @Override
-            public void onSuccess() {
-                Toast.makeText(RegisterActivity.this, "注册成功，去登录", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "onSuccess: "+ "注册成功");
-            }
+            public void done(BmobUser bmobUser, BmobException e) {
+                if(e==null){
+                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
 
-            @Override
-            public void onFailure(int i, String s) {
-                Toast.makeText(RegisterActivity.this, "注册失败，请检查用户名是否存在及网络问题", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "onFailure: "+s.toString());
-
+                    Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

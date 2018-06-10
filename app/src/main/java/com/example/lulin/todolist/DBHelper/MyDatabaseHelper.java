@@ -12,8 +12,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TODO = "create table Todo ("
-            + "id integer primary key autoincrement, "
-            + "todotitle String, "
+            + "packageName text primary key autoincrement, "
+            + "name text, "
             + "tododsc String,"
             + "tododate String,"
             + "todotime String,"

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -21,7 +22,9 @@ import com.example.lulin.todolist.R;
 
 import org.w3c.dom.Text;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,12 +33,14 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences login_sp;
     private CheckBox mRememberCheck;
     private Button mBtnGoLogin,mBtnGoRegister;
+    private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStatusBar();
         setContentView(R.layout.activity_login);
+        Bmob.initialize(this, APP_ID);
         mEtUserName = (EditText) findViewById(R.id.et_login_name);
         mEtPassWord = (EditText) findViewById(R.id.et_login_pwd);
         mRememberCheck = (CheckBox) findViewById(R.id.Login_Remember);
@@ -47,10 +52,33 @@ public class LoginActivity extends AppCompatActivity {
         mBtnGoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
-                startActivity(intent);
+                final String username = mEtUserName.getText().toString();
+                final String password = mEtPassWord.getText().toString();
+
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+                    Toast.makeText(LoginActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                final BmobUser user = new BmobUser();
+                user.setUsername(username);
+                user.setPassword(password);
+                user.login(new SaveListener<BmobUser>() {
+                    @Override
+                    public void done(BmobUser bmobUser, BmobException e) {
+                        if(e==null){
+                            Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }else{
+                            Toast.makeText(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
+
         mBtnGoRegister = (Button) findViewById(R.id.btn_register);
         mBtnGoRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         //如果上次选了记住密码，那进入登录页面也自动勾选记住密码，并填上用户名和密码
         if(choseRemember){
             mEtUserName.setText(name);
@@ -66,33 +95,6 @@ public class LoginActivity extends AppCompatActivity {
             mRememberCheck.setChecked(true);
         }
 
-    }
-
-    public void btnShowLogin(View v) {
-        final String username = mEtUserName.getText().toString();
-        final String password = mEtPassWord.getText().toString();
-
-        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-            Toast.makeText(LoginActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        final BmobUser user = new BmobUser();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.login(LoginActivity.this, new SaveListener() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onFailure(int i, String s) {
-                Toast.makeText(LoginActivity.this, "登陆失败，请检查用户名及密码", Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
 
