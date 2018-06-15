@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -282,14 +283,17 @@ public class LoginSuccessActivity extends AppCompatActivity implements View.OnCl
     }
 
     /**
-     * 返回按钮监听
+     * 重写返回按钮监听刷新主界面头像
      */
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(LoginSuccessActivity.this, MainActivity.class);
-        setResult(3, intent);
-        finish();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Intent intent = new Intent(LoginSuccessActivity.this, MainActivity.class);
+            setResult(2, intent);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }
