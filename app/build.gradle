@@ -41,4 +41,12 @@ dependencies {
     implementation 'site.gemus:openingstartanimation:1.0.0'
     implementation 'cn.bmob.android:bmob-sdk:3.6.3'
 
+    //圆形头像
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    //ButterKnife框架
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jiechic.library:xUtils:2.6.14'
+    implementation 'com.google.android.gms:play-services-appindexing:8.4.0'
+
 }

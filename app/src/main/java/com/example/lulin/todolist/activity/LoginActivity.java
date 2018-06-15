@@ -33,14 +33,12 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences login_sp;
     private CheckBox mRememberCheck;
     private Button mBtnGoLogin,mBtnGoRegister;
-    private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStatusBar();
         setContentView(R.layout.activity_login);
-        Bmob.initialize(this, APP_ID);
         mEtUserName = (EditText) findViewById(R.id.et_login_name);
         mEtPassWord = (EditText) findViewById(R.id.et_login_pwd);
         mRememberCheck = (CheckBox) findViewById(R.id.Login_Remember);

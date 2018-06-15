@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,10 +32,20 @@ import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.adapter.FragmentAdapter;
 import com.example.lulin.todolist.fragment.ClockFragment;
 import com.example.lulin.todolist.fragment.TodoFragment;
+import com.example.lulin.todolist.utils.User;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 import top.wefor.circularanim.CircularAnim;
 
 
@@ -44,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager mViewPager;
     private FloatingActionButton fab;
     private MyDatabaseHelper dbHelper;
+    private ImageView user_image;
+    private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
 
 
     @Override
@@ -53,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //设置状态栏
         setStatusBar();
         setContentView(R.layout.activity_main);
+        Bmob.initialize(this, APP_ID);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -74,11 +88,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-        ImageView user_image = headerView.findViewById(R.id.user_image);
+        user_image = headerView.findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
         dbHelper = new MyDatabaseHelper(this, "Data.db", null, 2);
         dbHelper.getWritableDatabase();
 
+        setUserImg();
         initView();
         initViewPager();
     }
@@ -168,8 +183,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             public void onAnimationEnd() {
                                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                                 drawer.closeDrawer(GravityCompat.START);
-                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                                startActivity(intent);
+                                User user = BmobUser.getCurrentUser(User.class);
+                                if (user != null){
+                                    Intent intent = new Intent(MainActivity.this, LoginSuccessActivity.class);
+                                    startActivityForResult(intent, 1);
+                                } else {
+                                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                    startActivityForResult(intent,1);
+                                }
                             }
                         });
 
@@ -277,13 +298,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent);
         }
-        if (requestCode == 10) {
+        else if (requestCode == 10) {
             if (Build.VERSION.SDK_INT >= 23) {
                 if (!Settings.canDrawOverlays(this)) {
                     // SYSTEM_ALERT_WINDOW permission not granted...
                     Toast.makeText(MainActivity.this,"not granted",Toast.LENGTH_SHORT);
                 }
             }
+        }
+        else if (requestCode == 3){
+            setUserImg();
         }
 
     }
@@ -303,5 +327,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private void setUserImg(){
+        User user = BmobUser.getCurrentUser(User.class);
+        BmobQuery<User> bmobQuery = new BmobQuery();
+        bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
+            @Override
+            public void done(final User user, BmobException e) {
+
+                BmobFile bmobFile = user.getImg();
+                bmobFile.download(new DownloadFileListener() {
+                    @Override
+                    public void done(String path, BmobException e) {
+                        if(e==null){
+                            Log.i("MainActivity", "保存路径: " + path);
+                            File file = new File(path);
+                            Uri uri = Uri.fromFile(file);
+                            user_image.setImageURI(uri);
+                        }else{
+                            Log.i("MainActivity", "下载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onProgress(Integer integer, long l) {
+
+                    }
+                });
+
+            }
+        });
+    }
 
 }
