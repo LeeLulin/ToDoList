@@ -93,7 +93,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dbHelper = new MyDatabaseHelper(this, "Data.db", null, 2);
         dbHelper.getWritableDatabase();
 
-        setUserImg();
+        if (BmobUser.getCurrentUser() != null){
+            setUserImg();
+        }
+
         initView();
         initViewPager();
     }

@@ -7,16 +7,16 @@
     tools:context="com.example.lulin.todolist.fragment.ClockFragment">
 
 
-    <TextView
-        android:id="@+id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_width="fill_parent"
+    <Switch
+        android:id="@+id/set_focus"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="45dp"
-        android:text="Clock"
-        android:textStyle="bold"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:text="专注模式"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>
