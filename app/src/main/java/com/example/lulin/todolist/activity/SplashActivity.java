@@ -1,12 +1,14 @@
 package com.example.lulin.todolist.activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.Receiver.NetworkReceiver;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.NetWorkUtils;
 
@@ -15,19 +17,23 @@ import site.gemus.openingstartanimation.LineDrawStrategy;
 import site.gemus.openingstartanimation.NormalDrawStrategy;
 import site.gemus.openingstartanimation.OpeningStartAnimation;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BasicActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 1500;
     private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
+    private NetworkReceiver networkReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_splash);
-        if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
-            Bmob.initialize(getApplicationContext(), APP_ID);
+
+        if (NetWorkUtils.isNetworkConnected(getApplication())){
+            Bmob.initialize(getApplication(), APP_ID);
         }
+
+
         startService(new Intent(this, AlarmService.class));
         OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
                 .setDrawStategy(new LineDrawStrategy()) //设置动画效果
@@ -47,6 +53,7 @@ public class SplashActivity extends AppCompatActivity {
 //                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(mainIntent);
                 finish();
+//                unregisterReceiver(networkReceiver);
             }
         }, SPLASH_DISPLAY_LENGTH);
     }

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.utils.NetWorkUtils;
 
 import org.w3c.dom.Text;
 
@@ -27,7 +28,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BasicActivity {
     private EditText mEtUserName = null;
     private EditText mEtPassWord = null;
     private SharedPreferences login_sp;
@@ -53,27 +54,33 @@ public class LoginActivity extends AppCompatActivity {
                 final String username = mEtUserName.getText().toString();
                 final String password = mEtPassWord.getText().toString();
 
-                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(LoginActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                if (NetWorkUtils.isNetworkConnected(getApplicationContext())) {
 
-                final BmobUser user = new BmobUser();
-                user.setUsername(username);
-                user.setPassword(password);
-                user.login(new SaveListener<BmobUser>() {
-                    @Override
-                    public void done(BmobUser bmobUser, BmobException e) {
-                        if(e==null){
-                            Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }else{
-                            Toast.makeText(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT).show();
-                        }
+
+                    if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+                        Toast.makeText(LoginActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                });
+
+                    final BmobUser user = new BmobUser();
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    user.login(new SaveListener<BmobUser>() {
+                        @Override
+                        public void done(BmobUser bmobUser, BmobException e) {
+                            if (e == null) {
+                                Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(LoginActivity.this, "无网络连接！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

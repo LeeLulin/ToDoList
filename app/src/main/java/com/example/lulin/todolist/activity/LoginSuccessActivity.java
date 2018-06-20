@@ -43,6 +43,7 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -51,7 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @author zhengzhong on 2016/8/6 16:16
  * Email zheng_zhong@163.com
  */
-public class LoginSuccessActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginSuccessActivity extends BasicActivity implements View.OnClickListener {
     private static final String TAG = "login";
     @ViewInject(R.id.photo)
     private CircleImageView photo;

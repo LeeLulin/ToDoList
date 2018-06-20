@@ -21,7 +21,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BasicActivity {
     private EditText mEtUserName = null;
     private EditText mEtPassWord = null;
     private Button mBtnGoLogin = null;

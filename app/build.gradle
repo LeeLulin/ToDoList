@@ -39,7 +39,8 @@ dependencies {
     }
 
     implementation 'site.gemus:openingstartanimation:1.0.0'
-    implementation 'cn.bmob.android:bmob-sdk:3.6.3'
+    implementation 'cn.bmob.android:bmob-sdk:3.6.4'
+    implementation 'cn.bmob.android:http-legacy:1.0'
 
     //圆形头像
     implementation 'de.hdodenhof:circleimageview:2.2.0'

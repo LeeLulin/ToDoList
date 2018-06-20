@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * 编辑待办事项类
  */
-public class EditTodoActivity extends AppCompatActivity {
+public class EditTodoActivity extends BasicActivity {
 
     private MyDatabaseHelper dbHelper;
 

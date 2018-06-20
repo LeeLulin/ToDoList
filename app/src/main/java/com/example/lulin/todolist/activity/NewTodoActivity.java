@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit;
  * 新建待办事项类
  * Created by Lulin on 2018/5/5.
  */
-public class NewTodoActivity extends AppCompatActivity {
+public class NewTodoActivity extends BasicActivity {
 
     private MyDatabaseHelper dbHelper;
     private String todoTitle,todoDsc;

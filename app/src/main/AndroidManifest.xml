@@ -21,7 +21,7 @@
     <!-- 允许读取手机状态 用于创建BmobInstallation -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <!-- 任务栈权限-->
+    <!-- 任务栈权限 -->
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -87,9 +87,7 @@
         <service
             android:name=".Service.FocusService"
             android:enabled="true"
-            android:exported="true">
-
-        </service>
+            android:exported="true"></service>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -101,6 +99,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity
+            android:name=".activity.BasicActivity"
+            android:label="@string/title_activity_basic"></activity>
     </application>
 
 </manifest>

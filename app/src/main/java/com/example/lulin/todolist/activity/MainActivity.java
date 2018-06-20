@@ -50,7 +50,7 @@ import cn.bmob.v3.listener.QueryListener;
 import top.wefor.circularanim.CircularAnim;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class MainActivity extends BasicActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setUserData();
             }
         }
+
+
 
         initView();
         initViewPager();
@@ -340,7 +342,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setUserData(){
         User user = BmobUser.getCurrentUser(User.class);
         BmobQuery<User> bmobQuery = new BmobQuery();
-        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
         bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
             @Override
             public void done(final User user, BmobException e) {
