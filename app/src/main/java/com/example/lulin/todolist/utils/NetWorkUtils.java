@@ -3,7 +3,8 @@ package com.example.lulin.todolist.utils;
 import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;import android.telephony.TelephonyManager;
+import android.net.NetworkInfo;
+import android.telephony.TelephonyManager;
 /**
  * 网络工具类
  */

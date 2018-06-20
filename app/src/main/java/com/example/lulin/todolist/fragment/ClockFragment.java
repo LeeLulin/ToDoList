@@ -25,6 +25,9 @@ import java.util.Locale;
 public class ClockFragment extends Fragment {
 
     private Switch focus;
+    private UsageStatsManager usageStatsManager;
+    private List<UsageStats> queryUsageStats;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +78,10 @@ public class ClockFragment extends Fragment {
      */
     private boolean isNoSwitch() {
         long ts = System.currentTimeMillis();
-        UsageStatsManager usageStatsManager = (UsageStatsManager) getActivity().getApplicationContext().getSystemService("usagestats");
-        List<UsageStats> queryUsageStats = usageStatsManager.queryUsageStats(
-                UsageStatsManager.INTERVAL_BEST, 0, ts);
+        if(Build.VERSION.SDK_INT >=21){
+            usageStatsManager = (UsageStatsManager) getActivity().getApplicationContext().getSystemService("usagestats");
+            queryUsageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, ts);
+        }
         if (queryUsageStats == null || queryUsageStats.isEmpty()) {
             return false;
         }

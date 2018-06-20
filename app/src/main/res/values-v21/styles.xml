@@ -77,4 +77,9 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
+    <style name="My_CheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox">
+        <item name="android:colorControlActivated">@color/black_semi</item>
+        <item name="android:colorControlNormal">@color/black</item>
+    </style>
+
 </resources>

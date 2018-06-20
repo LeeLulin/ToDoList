@@ -41,13 +41,13 @@ public class FocusService extends Service {
 
             if (!recentTaskName.equals("com.example.lulin.todolist")
                     ) {
-                Log.i("FocusService", "Yes--recentTaskName=" + recentTaskName);
+                Log.i("FocusService", "阻止运行 " + recentTaskName);
                 Intent intentNewActivity = new Intent(FocusService.this, MainActivity.class);
                 intentNewActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentNewActivity);
 
             }else{
-                Log.i("FocusService", "No--recentTaskName="+recentTaskName);
+                Log.i("FocusService", "不阻止运行 "+recentTaskName);
 
 
 

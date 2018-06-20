@@ -56,6 +56,8 @@
             android:layout_weight="1"
             android:checked="false"
             android:text="记住密码"
+            android:textSize="14sp"
+            android:theme="@style/My_CheckBox"
             android:textColor="@color/black_semi" />
 
         <CheckBox
@@ -64,6 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="自动登录"
+            android:textSize="14sp"
+            android:theme="@style/My_CheckBox"
             android:textColor="@color/black_semi" />
 
     </LinearLayout>
@@ -76,7 +80,6 @@
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="30dp"
-        android:onClick="btnShowLogin"
         android:text="登录"
         android:textColor="@color/black_semi"/>
 
