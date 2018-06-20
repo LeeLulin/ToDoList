@@ -28,11 +28,12 @@
 
 
     <TextView
+        android:id="@+id/nick_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:paddingLeft="10dp"
-        android:text="昵称"
+        android:text="未登录"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"/>
 

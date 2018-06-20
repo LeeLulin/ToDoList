@@ -1,6 +1,7 @@
 package com.example.lulin.todolist.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,9 +15,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.lulin.todolist.R;
@@ -29,15 +36,12 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 
 
 import java.io.File;
-import java.util.List;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
-import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
@@ -65,39 +69,58 @@ public class LoginSuccessActivity extends AppCompatActivity implements View.OnCl
     private Uri imageUri;
     private Uri cropImageUri;
     private User user;
+    private Button save;
+    private EditText et_nickname = null;
+    private EditText et_autograph = null;
+    private EditText et_sex = null;
+    private Dialog mCameradialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_success);
         ViewUtils.inject(this);
-        setUserImg();
+        initView();
+        saveInformation();
+        setUserData();
     }
 
+    private void initView(){
+        et_nickname = (EditText) findViewById(R.id.nickname);
+        et_autograph = (EditText) findViewById(R.id.autograph);
+        et_sex = (EditText) findViewById(R.id.sex1);
+    }
 
     @OnClick({R.id.takePic, R.id.takeGallery})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.photo:
+                setDialog();
+                break;
             case R.id.takePic:
+                mCameradialog.cancel();
                 autoObtainCameraPermission();
                 break;
             case R.id.takeGallery:
+                mCameradialog.cancel();
                 autoObtainStoragePermission();
                 break;
             default:
         }
     }
 
-    private void setUserImg(){
+    private void setUserData(){
         User user = BmobUser.getCurrentUser(User.class);
         BmobQuery<User> bmobQuery = new BmobQuery();
         bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
             @Override
             public void done(User user, BmobException e) {
-
-                BmobFile bmobFile = user.getImg();
-                bmobFile.download(new DownloadFileListener() {
+                et_nickname.setText(user.getNickName());
+                et_autograph.setText(user.getAutograph());
+                et_sex.setText(user.getSex());
+                BmobFile userImg = user.getImg();
+                userImg.download(new DownloadFileListener() {
                     @Override
                     public void done(String path, BmobException e) {
                         if(e==null){
@@ -119,6 +142,7 @@ public class LoginSuccessActivity extends AppCompatActivity implements View.OnCl
             }
         });
     }
+
 
     /**
      * 自动获取相机权限
@@ -230,7 +254,7 @@ public class LoginSuccessActivity extends AppCompatActivity implements View.OnCl
                                         public void done(BmobException e) {
                                             if (e==null){
                                                 Log.i("login", "上传成功！" + bmobFile.getUrl());
-                                                setUserImg();
+                                                setUserData();
                                             } else {
                                                 Log.i("login", "上传失败！" + e.getMessage());
                                             }
@@ -294,6 +318,60 @@ public class LoginSuccessActivity extends AppCompatActivity implements View.OnCl
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void setDialog() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        mCameradialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) inflater.from(this).inflate(R.layout.pop_menu,null);
+        root.findViewById(R.id.takePic).setOnClickListener(this);
+        root.findViewById(R.id.takeGallery).setOnClickListener(this);
+        root.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCameradialog.cancel();
+            }
+        });
+        mCameradialog.setContentView(root);
+        Window dialogWindow = mCameradialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        //        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameradialog.show();
+    }
+
+    private void saveInformation(){
+        save = (Button) findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nickname = et_nickname.getText().toString();
+                String autograph = et_autograph.getText().toString();
+                String sex1 = et_sex.getText().toString();
+                User user = BmobUser.getCurrentUser(User.class);
+                user.setNickName(nickname);
+                user.setAutograph(autograph);
+                user.setSex(sex1);
+                user.update(new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if (e == null){
+                            Log.i(TAG, "更新成功");
+                        }else {
+                            Log.i(TAG, "失败"+ e.getMessage());
+                        }
+                    }
+                });
+            }});
+
     }
 
 }

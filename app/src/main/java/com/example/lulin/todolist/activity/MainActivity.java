@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
@@ -32,6 +33,7 @@ import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.adapter.FragmentAdapter;
 import com.example.lulin.todolist.fragment.ClockFragment;
 import com.example.lulin.todolist.fragment.TodoFragment;
+import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.User;
 
 import java.io.File;
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FloatingActionButton fab;
     private MyDatabaseHelper dbHelper;
     private ImageView user_image;
+    private TextView nick_name;
+    private User user;
     private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
 
 
@@ -67,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //设置状态栏
         setStatusBar();
         setContentView(R.layout.activity_main);
-        Bmob.initialize(this, APP_ID);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -89,13 +92,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
+        nick_name = headerView.findViewById(R.id.nick_name);
         user_image = headerView.findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
         dbHelper = new MyDatabaseHelper(this, "Data.db", null, 2);
         dbHelper.getWritableDatabase();
 
-        if (BmobUser.getCurrentUser() != null){
-            setUserImg();
+        if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
+            if (BmobUser.getCurrentUser() != null){
+                setUserData();
+            }
         }
 
         initView();
@@ -187,7 +193,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             public void onAnimationEnd() {
                                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                                 drawer.closeDrawer(GravityCompat.START);
-                                User user = BmobUser.getCurrentUser(User.class);
+                                if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
+                                    user = BmobUser.getCurrentUser(User.class);
+                                }
                                 if (user != null){
                                     Intent intent = new Intent(MainActivity.this, LoginSuccessActivity.class);
                                     startActivityForResult(intent, 1);
@@ -311,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if (requestCode == 3){
-            setUserImg();
+            setUserData();
         }
 
     }
@@ -331,13 +339,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void setUserImg(){
+    private void setUserData(){
         User user = BmobUser.getCurrentUser(User.class);
         BmobQuery<User> bmobQuery = new BmobQuery();
+        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
         bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
             @Override
             public void done(final User user, BmobException e) {
-
+                nick_name.setText(user.getNickName());
                 BmobFile bmobFile = user.getImg();
                 bmobFile.download(new DownloadFileListener() {
                     @Override

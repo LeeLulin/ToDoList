@@ -7,13 +7,16 @@ public class User extends BmobUser {
 
     private BmobFile img;
     private String nickName;
+    private String autograph;
+    private String sex;
 
     public User(){}
 
-
+    public String getSex(){return sex;}
     public String getNickName(){
         return nickName;
     }
+    public String getAutograph(){return autograph;}
     public BmobFile getImg() {
         return img;
     }
@@ -21,8 +24,9 @@ public class User extends BmobUser {
     public void setNickName(String nickName){
         this.nickName = nickName;
     }
-
+    public void setAutograph(String autograph){this.autograph = autograph;}
     public void setImg(BmobFile img) {
         this.img = img;
     }
+    public void setSex(String sex){this.sex = sex;}
 }

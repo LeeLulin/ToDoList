@@ -8,7 +8,9 @@ import android.view.WindowManager;
 
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
+import com.example.lulin.todolist.utils.NetWorkUtils;
 
+import cn.bmob.v3.Bmob;
 import site.gemus.openingstartanimation.LineDrawStrategy;
 import site.gemus.openingstartanimation.NormalDrawStrategy;
 import site.gemus.openingstartanimation.OpeningStartAnimation;
@@ -16,12 +18,16 @@ import site.gemus.openingstartanimation.OpeningStartAnimation;
 public class SplashActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 1500;
+    private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_splash);
+        if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
+            Bmob.initialize(getApplicationContext(), APP_ID);
+        }
         startService(new Intent(this, AlarmService.class));
         OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
                 .setDrawStategy(new LineDrawStrategy()) //设置动画效果
