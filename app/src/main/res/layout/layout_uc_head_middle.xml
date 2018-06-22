@@ -31,15 +31,15 @@
                 android:textColor="@color/black_semi"
                 android:textSize="17sp" />
 
-            <Button
-                android:id="@+id/exit_login"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/exit"
-                android:gravity="right" />
+            <!--<Button-->
+                <!--android:id="@+id/exit_login"-->
+                <!--android:layout_width="32dp"-->
+                <!--android:layout_height="32dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginEnd="10dp"-->
+                <!--android:background="@drawable/exit"-->
+                <!--android:gravity="right" />-->
 
 
         </RelativeLayout>

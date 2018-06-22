@@ -82,7 +82,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
     private Uri imageUri;
     private Uri cropImageUri;
     private User user;
-    private FloatingActionButton edit;
+    private FloatingActionButton edit,exit;
     private EditText et_nickname = null;
     private EditText et_autograph = null;
     private EditText et_sex = null;
@@ -94,7 +94,6 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
     private ImageView top_bg;
     private CircleImageView toolbar_userhead;
     private String imgPath;
-    private Button exit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +120,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         user_head = (CircleImageView) findViewById(R.id.user_head);
         top_bg = (ImageView) findViewById(R.id.top_bg);
         toolbar_userhead = (CircleImageView) findViewById(R.id.toolbar_userhead);
-        exit = (Button) findViewById(R.id.exit_login);
+        exit = (FloatingActionButton) findViewById(R.id.exit_login);
     }
 
     @OnClick({R.id.takePic, R.id.takeGallery})
