@@ -3,8 +3,10 @@ package com.example.lulin.todolist.activity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -38,8 +40,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.utils.PhotoUtils;
+import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.User;
 import com.example.lulin.todolist.widget.CircleImageView;
@@ -107,9 +111,9 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         saveInformation();
 
         setUserDataFromBmob();
+        glideLoad();
         signOut();
 
-//        setUserData();
 
 
     }
@@ -129,9 +133,6 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.user_head:
-//                setDialog();
-//                break;
             case R.id.takePic:
                 mCameradialog.cancel();
                 autoObtainCameraPermission();
@@ -142,89 +143,6 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                 break;
             default:
         }
-    }
-
-    private void setUserData(){
-        User user = BmobUser.getCurrentUser(User.class);
-        toolbar_username.setText(user.getNickName());
-        tv_nickname.setText(user.getNickName());
-        tv_autograph.setText(user.getAutograph());
-
-        Glide.with(getApplicationContext())
-                .load(user.getLocalImg())
-                .into(toolbar_userhead);
-
-        Glide.with(getApplicationContext())
-                .load(user.getLocalImg())
-                .into(user_head);
-
-        Glide.with(getApplicationContext())
-                .load(user.getLocalImg())
-                .apply(bitmapTransform(new BlurTransformation(25, 3)))
-                .into(top_bg);
-
-    }
-    private void setUserDataFromBmob(){
-        user = BmobUser.getCurrentUser(User.class);
-        BmobQuery<User> bmobQuery = new BmobQuery();
-        bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
-            @Override
-            public void done(User user, BmobException e) {
-//                et_nickname.setText(user.getNickName());
-//                et_autograph.setText(user.getAutograph());
-//                et_sex.setText(user.getSex());
-                toolbar_username.setText(user.getNickName());
-                tv_nickname.setText(user.getNickName());
-                tv_autograph.setText(user.getAutograph());
-                BmobFile userImg = user.getImg();
-                userImg.download(new DownloadFileListener() {
-                    @Override
-                    public void done(String path, BmobException e) {
-                        if(e==null){
-                            Log.i(TAG, "保存路径: " + path);
-                            imgPath = path;
-                            File file = new File(path);
-                            Uri uri = Uri.fromFile(file);
-//                            photo.setImageURI(uri);
-
-                            RequestOptions options_1 = new RequestOptions()
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true)
-                                    .placeholder(R.drawable.default_photo);
-
-                            RequestOptions options_2 = new RequestOptions()
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true)
-                                    .placeholder(R.drawable.ic_img2);
-
-                            Glide.with(getApplicationContext())
-                                    .load(path)
-                                    .apply(options_1)
-                                    .into(toolbar_userhead);
-
-                            Glide.with(getApplicationContext())
-                                    .load(path)
-                                    .apply(options_1)
-                                    .into(user_head);
-                            
-                            Glide.with(getApplicationContext())
-                                    .load(path)
-                                    .apply(bitmapTransform(new BlurTransformation(25, 3)))
-                                    .apply(options_2)
-                                    .into(top_bg);
-                        }else{
-                            Log.i(TAG, "下载失败" + e.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onProgress(Integer integer, long l) {
-
-                    }
-                });
-
-            }
-        });
     }
 
 
@@ -322,11 +240,12 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                     final Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, this);
                     if (bitmap != null) {
                         user.setLocalImg(bitmap);
-                        showImages(bitmap);
-                        Glide.with(getApplicationContext())
-                                .load(bitmap)
-                                .apply(bitmapTransform(new BlurTransformation(25, 3)))
-                                .into(top_bg);
+                        glideLoad();
+//                        showImages(bitmap);
+//                        Glide.with(getApplicationContext())
+//                                .load(bitmap)
+//                                .apply(bitmapTransform(new BlurTransformation(25, 3)))
+//                                .into(top_bg);
 
                         String picPath = cropImageUri.getPath();
                         Log.i("login",picPath);
@@ -410,7 +329,76 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         return super.onKeyDown(keyCode, event);
     }
 
-    private void setDialog() {
+    /**
+     * 保存用户信息
+     */
+    private void saveInformation(){
+        user_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopDialog();
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showEditDialog();
+            }});
+    }
+
+    /**
+     * 退出登录
+     */
+    private void signOut(){
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(UserDataActivity.this)
+                        .setTitle("是否退出登录？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                BmobUser.logOut();   //清除缓存用户对象
+                                Log.i(TAG, "注销成功");
+                                Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
+                                setResult(2, intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
+            }
+        });
+    }
+
+    /**
+     * 设置状态栏透明
+     */
+    private void setStatusBar(){
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        }
+    }
+
+    /**
+     * 显示底部弹出菜单
+     */
+    private void showPopDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         mCameradialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) inflater.from(this).inflate(R.layout.pop_menu,null);
@@ -438,70 +426,10 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         mCameradialog.show();
     }
 
-    private void saveInformation(){
-        user_head.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setDialog();
-            }
-        });
-
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAddDialog();
-            }});
-    }
-
-    private void signOut(){
-        exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AlertDialog.Builder(UserDataActivity.this)
-                        .setTitle("是否退出登录？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                BmobUser.logOut();   //清除缓存用户对象
-                                Log.i(TAG, "注销成功");
-                                Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
-                                setResult(2, intent);
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .show();
-//                BmobUser.logOut();   //清除缓存用户对象
-//                Log.i(TAG, "成功");
-//                Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
-//                setResult(2, intent);
-//                finish();
-            }
-        });
-    }
-
-
-    private void setStatusBar(){
-        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
-        }
-    }
-
-    protected void showAddDialog() {
+    /**
+     * 显示用户信息编辑框
+     */
+    protected void showEditDialog() {
         User user = BmobUser.getCurrentUser(User.class);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View textEntryView = layoutInflater.inflate(R.layout.edit_dialog, null);
@@ -542,6 +470,76 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         });
         editDialog.show();// 显示对话框
 
+    }
+
+    /**
+     * 从Bmob加载用户信息
+     */
+    private void setUserDataFromBmob(){
+        user = BmobUser.getCurrentUser(User.class);
+        BmobQuery<User> bmobQuery = new BmobQuery();
+        bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
+            @Override
+            public void done(User user, BmobException e) {
+                toolbar_username.setText(user.getNickName());
+                tv_nickname.setText(user.getNickName());
+                tv_autograph.setText(user.getAutograph());
+                BmobFile userImg = user.getImg();
+                userImg.download(new DownloadFileListener() {
+                    @Override
+                    public void done(String path, BmobException e) {
+                        if(e==null){
+                            Log.i(TAG, "保存路径: " + path);
+                            imgPath = path;
+                            SPUtils.put(UserDataActivity.this, "path", imgPath);
+                            SPUtils.put(UserDataActivity.this, "head_signature", String.valueOf(System.currentTimeMillis()));
+                            glideLoad();
+
+                        }else{
+                            Log.i(TAG, "下载失败" + e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onProgress(Integer integer, long l) {
+
+                    }
+                });
+
+            }
+        });
+    }
+
+    /**
+     * Glide图片加载
+     */
+    private void glideLoad(){
+
+        RequestOptions options_1 = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .signature(new ObjectKey(SPUtils.get(UserDataActivity.this,"head_signature","")))
+                .placeholder(R.drawable.default_photo);
+
+        RequestOptions options_2 = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .signature(new ObjectKey(SPUtils.get(UserDataActivity.this,"head_signature","")))
+                .placeholder(R.drawable.ic_img2);
+
+        Glide.with(getApplicationContext())
+                .load(SPUtils.get(UserDataActivity.this, "path" ,""))
+                .apply(options_1)
+                .into(toolbar_userhead);
+
+        Glide.with(getApplicationContext())
+                .load(SPUtils.get(UserDataActivity.this, "path" ,""))
+                .apply(options_1)
+                .into(user_head);
+
+        Glide.with(getApplicationContext())
+                .load(SPUtils.get(UserDataActivity.this, "path" ,""))
+                .apply(bitmapTransform(new BlurTransformation(25, 3)))
+                .apply(options_2)
+                .into(top_bg);
     }
 
 }

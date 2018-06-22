@@ -29,12 +29,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.MediaStoreSignature;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.adapter.FragmentAdapter;
 import com.example.lulin.todolist.fragment.ClockFragment;
 import com.example.lulin.todolist.fragment.TodoFragment;
 import com.example.lulin.todolist.utils.NetWorkUtils;
+import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.User;
 import com.example.lulin.todolist.widget.CircleImageView;
 
@@ -65,6 +67,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     private User local_user;
     private ImageView nav_bg;
     private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
+    private String imgPath;
 
 
     @Override
@@ -105,17 +108,20 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         dbHelper = new MyDatabaseHelper(this, "Data.db", null, 2);
         dbHelper.getWritableDatabase();
 
+
         if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
 
             if (BmobUser.getCurrentUser() != null){
                 try{
-                    setUserData();
+                    setUserDataFromBmob();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
 
 
             }
+        }else {
+            glideLoad();
         }
 
 
@@ -182,13 +188,6 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         switch (view.getId()) {
 
             case R.id.fab:
-//                Snackbar.make(view, "你点击了按钮", Snackbar.LENGTH_LONG)
-//                        .setAction("确定", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                            }
-//                        }).show();
 
                 //跳转动画
                 CircularAnim.fullActivity(MainActivity.this, view)
@@ -203,6 +202,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                 break;
 
             case R.id.user_image:
+
                 CircularAnim.fullActivity(MainActivity.this, view)
                         .go(new CircularAnim.OnAnimationEndListener() {
                             @Override
@@ -262,17 +262,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_todo) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_clock) {
-//
-//        } else if (id == R.id.nav_frends) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        }
+
         switch (item.getItemId()){
 
             case R.id.nav_todo:
@@ -321,25 +311,18 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == 2){
                 finish();
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent);
         }
-//        else if (requestCode == 10) {
-//            if (Build.VERSION.SDK_INT >= 23) {
-//                if (!Settings.canDrawOverlays(this)) {
-//                    // SYSTEM_ALERT_WINDOW permission not granted...
-//                    Toast.makeText(MainActivity.this,"not granted",Toast.LENGTH_SHORT);
-//                }
-//            }
-//        }
-//        else if (requestCode == 3){
-//            setUserData();
-//        }
 
     }
 
+    /**
+     * 设置状态栏透明
+     */
     private void setStatusBar(){
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -355,7 +338,10 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         }
     }
 
-    private void setUserData(){
+    /**
+     * 从Bmob加载用户信息
+     */
+    private void setUserDataFromBmob(){
         User user = BmobUser.getCurrentUser(User.class);
         BmobQuery<User> bmobQuery = new BmobQuery();
         bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
@@ -369,24 +355,9 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                     public void done(String path, BmobException e) {
                         if(e==null){
                             Log.i("MainActivity", "保存路径: " + path);
-                            String imgPath = path;
-                            File file = new File(path);
-                            Uri uri = Uri.fromFile(file);
-
-                            RequestOptions options = new RequestOptions()
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true);
-
-                            Glide.with(getApplicationContext())
-                                    .load(path)
-                                    .apply(options)
-                                    .into(user_image);
-
-                            Glide.with(getApplicationContext())
-                                    .load(path)
-                                    .apply(bitmapTransform(new BlurTransformation(25, 3)))
-                                    .apply(options)
-                                    .into(nav_bg);
+                            imgPath = path;
+                            SPUtils.put(MainActivity.this, "path", imgPath);
+                            glideLoad();
                         }else{
                             Log.i("MainActivity", "下载失败");
                         }
@@ -400,6 +371,27 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
             }
         });
+    }
+
+    /**
+     * Glide图片加载
+     */
+    private void glideLoad(){
+
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .signature(new ObjectKey(SPUtils.get(MainActivity.this,"head_signature","")));
+
+        Glide.with(getApplicationContext())
+                .load(SPUtils.get(MainActivity.this, "path" ,""))
+                .apply(options)
+                .into(user_image);
+
+        Glide.with(getApplicationContext())
+                .load(SPUtils.get(MainActivity.this, "path" ,""))
+                .apply(bitmapTransform(new BlurTransformation(25, 3)))
+                .apply(options)
+                .into(nav_bg);
     }
 
 }
