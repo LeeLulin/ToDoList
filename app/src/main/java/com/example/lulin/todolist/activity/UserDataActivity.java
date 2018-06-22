@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -455,12 +457,30 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BmobUser.logOut();   //清除缓存用户对象
-                Log.i(TAG, "成功");
-//                user = BmobUser.getCurrentUser(User.class); // 现在的currentUser是null了
-                Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
-                setResult(2, intent);
-                finish();
+                new AlertDialog.Builder(UserDataActivity.this)
+                        .setTitle("是否退出登录？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                BmobUser.logOut();   //清除缓存用户对象
+                                Log.i(TAG, "注销成功");
+                                Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
+                                setResult(2, intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
+//                BmobUser.logOut();   //清除缓存用户对象
+//                Log.i(TAG, "成功");
+//                Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
+//                setResult(2, intent);
+//                finish();
             }
         });
     }
