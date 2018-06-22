@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -15,15 +14,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.utils.NetWorkUtils;
 
-import org.w3c.dom.Text;
-
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -34,19 +29,18 @@ public class LoginActivity extends BasicActivity {
     private SharedPreferences login_sp;
     private CheckBox mRememberCheck;
     private Button mBtnGoLogin,mBtnGoRegister;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStatusBar();
         setContentView(R.layout.activity_login);
+        login_sp= PreferenceManager.getDefaultSharedPreferences(this);
         mEtUserName = (EditText) findViewById(R.id.et_login_name);
         mEtPassWord = (EditText) findViewById(R.id.et_login_pwd);
-        mRememberCheck = (CheckBox) findViewById(R.id.Login_Remember);
-        login_sp = getSharedPreferences("userInfo", 0);
-        String name=login_sp.getString("USER_NAME", "");
-        String pwd =login_sp.getString("PASSWORD", "");
-        boolean choseRemember =login_sp.getBoolean("mRememberCheck", false);
+        mRememberCheck = (CheckBox) findViewById(R.id.login_remember);
+        boolean isRemenber = login_sp.getBoolean("remember_password",false);
         mBtnGoLogin = (Button) findViewById(R.id.btn_login);
         mBtnGoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +64,19 @@ public class LoginActivity extends BasicActivity {
                         public void done(BmobUser bmobUser, BmobException e) {
                             if (e == null) {
                                 Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, UserDataActivity.class);
+//                                startActivityForResult(intent,1);
                                 startActivity(intent);
+                                //记住密码
+                                editor=login_sp.edit();
+                                if(mRememberCheck.isChecked()){
+                                    editor.putBoolean("remember_password",true);
+                                    editor.putString("account",username);
+                                    editor.putString("password",password);
+                                }else {
+                                    editor.clear();
+                                }
+                                editor.apply();
                                 finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT).show();
@@ -94,10 +99,14 @@ public class LoginActivity extends BasicActivity {
         });
 
         //如果上次选了记住密码，那进入登录页面也自动勾选记住密码，并填上用户名和密码
-        if(choseRemember){
-            mEtUserName.setText(name);
-            mEtPassWord.setText(pwd);
+        if(isRemenber){
+            //将账号和密码都设置到文本中
+            String account=login_sp.getString("account","");
+            String password=login_sp.getString("password","");
+            mEtUserName.setText(account);
+            mEtPassWord.setText(password);
             mRememberCheck.setChecked(true);
+
         }
 
     }

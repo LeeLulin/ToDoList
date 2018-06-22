@@ -81,7 +81,7 @@
             android:name=".activity.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.LoginSuccessActivity"
+            android:name=".activity.UserDataActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service

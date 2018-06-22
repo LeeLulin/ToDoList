@@ -50,7 +50,7 @@
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/Login_Remember"
+            android:id="@+id/login_remember"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -60,15 +60,6 @@
             android:theme="@style/My_CheckBox"
             android:textColor="@color/black_semi" />
 
-        <CheckBox
-            android:id="@+id/cb_auto"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="自动登录"
-            android:textSize="14sp"
-            android:theme="@style/My_CheckBox"
-            android:textColor="@color/black_semi" />
 
     </LinearLayout>
 

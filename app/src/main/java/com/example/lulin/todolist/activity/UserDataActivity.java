@@ -1,35 +1,46 @@
 package com.example.lulin.todolist.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.utils.PhotoUtils;
 import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.User;
+import com.example.lulin.todolist.widget.CircleImageView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -43,19 +54,20 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.QueryListener;
-import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
-import de.hdodenhof.circleimageview.CircleImageView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * @author zhengzhong on 2016/8/6 16:16
  * Email zheng_zhong@163.com
  */
-public class LoginSuccessActivity extends BasicActivity implements View.OnClickListener {
+public class UserDataActivity extends BasicActivity implements View.OnClickListener {
     private static final String TAG = "login";
-    @ViewInject(R.id.photo)
-    private CircleImageView photo;
+    @ViewInject(R.id.user_head)
+    private CircleImageView user_head;
     @ViewInject(R.id.takePic)
     private Button takePic;
     @ViewInject(R.id.takeGallery)
@@ -70,35 +82,55 @@ public class LoginSuccessActivity extends BasicActivity implements View.OnClickL
     private Uri imageUri;
     private Uri cropImageUri;
     private User user;
-    private Button save;
+    private FloatingActionButton edit;
     private EditText et_nickname = null;
     private EditText et_autograph = null;
     private EditText et_sex = null;
+    private TextView tv_nickname;
+    private TextView tv_autograph;
+    private TextView toolbar_username;
     private Dialog mCameradialog;
+    private Toolbar toolbar;
+    private ImageView top_bg;
+    private CircleImageView toolbar_userhead;
+    private String imgPath;
+    private Button exit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_success);
+        setStatusBar();
+        setContentView(R.layout.activity_user_data);
         ViewUtils.inject(this);
         initView();
         saveInformation();
-        setUserData();
+
+        setUserDataFromBmob();
+        signOut();
+
+//        setUserData();
+
+
     }
 
     private void initView(){
-        et_nickname = (EditText) findViewById(R.id.nickname);
-        et_autograph = (EditText) findViewById(R.id.autograph);
-        et_sex = (EditText) findViewById(R.id.sex1);
+        toolbar_username = (TextView) findViewById(R.id.toolbar_username);
+        tv_nickname = (TextView) findViewById(R.id.nickname);
+        tv_autograph = (TextView) findViewById(R.id.autograph);
+        edit = (FloatingActionButton) findViewById(R.id.user_edit);
+        user_head = (CircleImageView) findViewById(R.id.user_head);
+        top_bg = (ImageView) findViewById(R.id.top_bg);
+        toolbar_userhead = (CircleImageView) findViewById(R.id.toolbar_userhead);
+        exit = (Button) findViewById(R.id.exit_login);
     }
 
     @OnClick({R.id.takePic, R.id.takeGallery})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.photo:
-                setDialog();
-                break;
+//            case R.id.user_head:
+//                setDialog();
+//                break;
             case R.id.takePic:
                 mCameradialog.cancel();
                 autoObtainCameraPermission();
@@ -113,24 +145,74 @@ public class LoginSuccessActivity extends BasicActivity implements View.OnClickL
 
     private void setUserData(){
         User user = BmobUser.getCurrentUser(User.class);
+        toolbar_username.setText(user.getNickName());
+        tv_nickname.setText(user.getNickName());
+        tv_autograph.setText(user.getAutograph());
+
+        Glide.with(getApplicationContext())
+                .load(user.getLocalImg())
+                .into(toolbar_userhead);
+
+        Glide.with(getApplicationContext())
+                .load(user.getLocalImg())
+                .into(user_head);
+
+        Glide.with(getApplicationContext())
+                .load(user.getLocalImg())
+                .apply(bitmapTransform(new BlurTransformation(25, 3)))
+                .into(top_bg);
+
+    }
+    private void setUserDataFromBmob(){
+        user = BmobUser.getCurrentUser(User.class);
         BmobQuery<User> bmobQuery = new BmobQuery();
         bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
             @Override
             public void done(User user, BmobException e) {
-                et_nickname.setText(user.getNickName());
-                et_autograph.setText(user.getAutograph());
-                et_sex.setText(user.getSex());
+//                et_nickname.setText(user.getNickName());
+//                et_autograph.setText(user.getAutograph());
+//                et_sex.setText(user.getSex());
+                toolbar_username.setText(user.getNickName());
+                tv_nickname.setText(user.getNickName());
+                tv_autograph.setText(user.getAutograph());
                 BmobFile userImg = user.getImg();
                 userImg.download(new DownloadFileListener() {
                     @Override
                     public void done(String path, BmobException e) {
                         if(e==null){
                             Log.i(TAG, "保存路径: " + path);
+                            imgPath = path;
                             File file = new File(path);
                             Uri uri = Uri.fromFile(file);
-                            photo.setImageURI(uri);
+//                            photo.setImageURI(uri);
+
+                            RequestOptions options_1 = new RequestOptions()
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true)
+                                    .placeholder(R.drawable.default_photo);
+
+                            RequestOptions options_2 = new RequestOptions()
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true)
+                                    .placeholder(R.drawable.ic_img2);
+
+                            Glide.with(getApplicationContext())
+                                    .load(path)
+                                    .apply(options_1)
+                                    .into(toolbar_userhead);
+
+                            Glide.with(getApplicationContext())
+                                    .load(path)
+                                    .apply(options_1)
+                                    .into(user_head);
+                            
+                            Glide.with(getApplicationContext())
+                                    .load(path)
+                                    .apply(bitmapTransform(new BlurTransformation(25, 3)))
+                                    .apply(options_2)
+                                    .into(top_bg);
                         }else{
-                            Log.i(TAG, "下载失败");
+                            Log.i(TAG, "下载失败" + e.getMessage());
                         }
                     }
 
@@ -162,7 +244,7 @@ public class LoginSuccessActivity extends BasicActivity implements View.OnClickL
                 imageUri = Uri.fromFile(fileUri);
                 //通过FileProvider创建一个content类型的Uri
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    imageUri = FileProvider.getUriForFile(LoginSuccessActivity.this, "com.example.fileprovider", fileUri);
+                    imageUri = FileProvider.getUriForFile(UserDataActivity.this, "com.example.fileprovider", fileUri);
                 }
                 PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
             } else {
@@ -182,7 +264,7 @@ public class LoginSuccessActivity extends BasicActivity implements View.OnClickL
                     if (hasSdcard()) {
                         imageUri = Uri.fromFile(fileUri);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                            imageUri = FileProvider.getUriForFile(LoginSuccessActivity.this, "com.example.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
+                            imageUri = FileProvider.getUriForFile(UserDataActivity.this, "com.example.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
                         PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
                     } else {
                         ToastUtils.showShort(this, "设备没有SD卡！");
@@ -238,7 +320,13 @@ public class LoginSuccessActivity extends BasicActivity implements View.OnClickL
                 case CODE_RESULT_REQUEST:
                     final Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, this);
                     if (bitmap != null) {
+                        user.setLocalImg(bitmap);
                         showImages(bitmap);
+                        Glide.with(getApplicationContext())
+                                .load(bitmap)
+                                .apply(bitmapTransform(new BlurTransformation(25, 3)))
+                                .into(top_bg);
+
                         String picPath = cropImageUri.getPath();
                         Log.i("login",picPath);
                         final BmobFile bmobFile = new BmobFile(new File(picPath));
@@ -255,7 +343,7 @@ public class LoginSuccessActivity extends BasicActivity implements View.OnClickL
                                         public void done(BmobException e) {
                                             if (e==null){
                                                 Log.i("login", "上传成功！" + bmobFile.getUrl());
-                                                setUserData();
+                                                setUserDataFromBmob();
                                             } else {
                                                 Log.i("login", "上传失败！" + e.getMessage());
                                             }
@@ -296,7 +384,7 @@ public class LoginSuccessActivity extends BasicActivity implements View.OnClickL
     }
 
     private void showImages(Bitmap bitmap) {
-        photo.setImageBitmap(bitmap);
+        user_head.setImageBitmap(bitmap);
     }
 
     /**
@@ -313,7 +401,7 @@ public class LoginSuccessActivity extends BasicActivity implements View.OnClickL
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            Intent intent = new Intent(LoginSuccessActivity.this, MainActivity.class);
+            Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
             setResult(2, intent);
             finish();
             return true;
@@ -350,28 +438,90 @@ public class LoginSuccessActivity extends BasicActivity implements View.OnClickL
     }
 
     private void saveInformation(){
-        save = (Button) findViewById(R.id.save);
-        save.setOnClickListener(new View.OnClickListener() {
+        user_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setDialog();
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAddDialog();
+            }});
+    }
+
+    private void signOut(){
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BmobUser.logOut();   //清除缓存用户对象
+                Log.i(TAG, "成功");
+//                user = BmobUser.getCurrentUser(User.class); // 现在的currentUser是null了
+                Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
+                setResult(2, intent);
+                finish();
+            }
+        });
+    }
+
+
+    private void setStatusBar(){
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        }
+    }
+
+    protected void showAddDialog() {
+        User user = BmobUser.getCurrentUser(User.class);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View textEntryView = layoutInflater.inflate(R.layout.edit_dialog, null);
+        et_nickname = (EditText) textEntryView.findViewById(R.id.edit_nickname);
+        et_autograph = (EditText)textEntryView.findViewById(R.id.edit_autograph);
+        et_nickname.setText(user.getNickName());
+        et_autograph.setText(user.getAutograph());
+        AlertDialog.Builder editDialog = new AlertDialog.Builder(UserDataActivity.this);
+        editDialog.setTitle("编辑信息");
+        editDialog.setView(textEntryView);
+        editDialog.setPositiveButton("保存", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+
                 String nickname = et_nickname.getText().toString();
                 String autograph = et_autograph.getText().toString();
-                String sex1 = et_sex.getText().toString();
                 User user = BmobUser.getCurrentUser(User.class);
                 user.setNickName(nickname);
                 user.setAutograph(autograph);
-                user.setSex(sex1);
                 user.update(new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
                         if (e == null){
                             Log.i(TAG, "更新成功");
+                            setUserDataFromBmob();
                         }else {
                             Log.i(TAG, "失败"+ e.getMessage());
                         }
                     }
                 });
-            }});
+
+
+            }
+        });
+        editDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+
+            }
+        });
+        editDialog.show();// 显示对话框
 
     }
 

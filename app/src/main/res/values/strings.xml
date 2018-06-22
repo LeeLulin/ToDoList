@@ -126,4 +126,7 @@
         completions."
     </string>
     <string name="title_activity_basic">BasicActivity</string>
+
+    <string name="appbar_circleimageview_behavior">com.example.lulin.todolist.CircleImageInUsercBehavior</string>
+    <string name="appbar_overscroll_behavior">com.example.lulin.todolist.AppBarLayoutOverScrollViewBehavior</string>
 </resources>

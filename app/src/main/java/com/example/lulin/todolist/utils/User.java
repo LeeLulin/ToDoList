@@ -1,5 +1,7 @@
 package com.example.lulin.todolist.utils;
 
+import android.graphics.Bitmap;
+
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 
@@ -9,6 +11,7 @@ public class User extends BmobUser {
     private String nickName;
     private String autograph;
     private String sex;
+    private Bitmap localImg;
 
     public User(){}
 
@@ -20,6 +23,10 @@ public class User extends BmobUser {
     public BmobFile getImg() {
         return img;
     }
+    public Bitmap getLocalImg(){
+        return localImg;
+    }
+
 
     public void setNickName(String nickName){
         this.nickName = nickName;
@@ -29,4 +36,7 @@ public class User extends BmobUser {
         this.img = img;
     }
     public void setSex(String sex){this.sex = sex;}
+    public void setLocalImg(Bitmap localImg){
+        this.localImg = localImg;
+    }
 }

@@ -49,5 +49,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.jiechic.library:xUtils:2.6.14'
     implementation 'com.google.android.gms:play-services-appindexing:8.4.0'
+    //磨砂图片
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'jp.wasabeef:glide-transformations:3.3.0'
 
 }

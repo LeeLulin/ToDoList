@@ -14,7 +14,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -23,31 +22,36 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.MediaStoreSignature;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
-import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.adapter.FragmentAdapter;
 import com.example.lulin.todolist.fragment.ClockFragment;
 import com.example.lulin.todolist.fragment.TodoFragment;
 import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.User;
+import com.example.lulin.todolist.widget.CircleImageView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.QueryListener;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import top.wefor.circularanim.CircularAnim;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 
 public class MainActivity extends BasicActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -56,9 +60,10 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     private ViewPager mViewPager;
     private FloatingActionButton fab;
     private MyDatabaseHelper dbHelper;
-    private ImageView user_image;
-    private TextView nick_name;
-    private User user;
+    private CircleImageView user_image;
+    private TextView nick_name,autograph;
+    private User local_user;
+    private ImageView nav_bg;
     private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
 
 
@@ -71,14 +76,14 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (! Settings.canDrawOverlays(MainActivity.this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent,10);
-            }
-        }
+//
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            if (! Settings.canDrawOverlays(MainActivity.this)) {
+//                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+//                        Uri.parse("package:" + getPackageName()));
+//                startActivityForResult(intent,10);
+//            }
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -90,15 +95,26 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
+
+        nav_bg = headerView.findViewById(R.id.nav_bg);
         nick_name = headerView.findViewById(R.id.nick_name);
+        autograph = headerView.findViewById(R.id.user_autograph);
         user_image = headerView.findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
+
         dbHelper = new MyDatabaseHelper(this, "Data.db", null, 2);
         dbHelper.getWritableDatabase();
 
         if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
+
             if (BmobUser.getCurrentUser() != null){
-                setUserData();
+                try{
+                    setUserData();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
             }
         }
 
@@ -194,10 +210,10 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                                 drawer.closeDrawer(GravityCompat.START);
                                 if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
-                                    user = BmobUser.getCurrentUser(User.class);
+                                    local_user = BmobUser.getCurrentUser(User.class);
                                 }
-                                if (user != null){
-                                    Intent intent = new Intent(MainActivity.this, LoginSuccessActivity.class);
+                                if (local_user != null){
+                                    Intent intent = new Intent(MainActivity.this, UserDataActivity.class);
                                     startActivityForResult(intent, 1);
                                 } else {
                                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -310,17 +326,17 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent);
         }
-        else if (requestCode == 10) {
-            if (Build.VERSION.SDK_INT >= 23) {
-                if (!Settings.canDrawOverlays(this)) {
-                    // SYSTEM_ALERT_WINDOW permission not granted...
-                    Toast.makeText(MainActivity.this,"not granted",Toast.LENGTH_SHORT);
-                }
-            }
-        }
-        else if (requestCode == 3){
-            setUserData();
-        }
+//        else if (requestCode == 10) {
+//            if (Build.VERSION.SDK_INT >= 23) {
+//                if (!Settings.canDrawOverlays(this)) {
+//                    // SYSTEM_ALERT_WINDOW permission not granted...
+//                    Toast.makeText(MainActivity.this,"not granted",Toast.LENGTH_SHORT);
+//                }
+//            }
+//        }
+//        else if (requestCode == 3){
+//            setUserData();
+//        }
 
     }
 
@@ -346,15 +362,31 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
             @Override
             public void done(final User user, BmobException e) {
                 nick_name.setText(user.getNickName());
+                autograph.setText(user.getAutograph());
                 BmobFile bmobFile = user.getImg();
                 bmobFile.download(new DownloadFileListener() {
                     @Override
                     public void done(String path, BmobException e) {
                         if(e==null){
                             Log.i("MainActivity", "保存路径: " + path);
+                            String imgPath = path;
                             File file = new File(path);
                             Uri uri = Uri.fromFile(file);
-                            user_image.setImageURI(uri);
+
+                            RequestOptions options = new RequestOptions()
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true);
+
+                            Glide.with(getApplicationContext())
+                                    .load(path)
+                                    .apply(options)
+                                    .into(user_image);
+
+                            Glide.with(getApplicationContext())
+                                    .load(path)
+                                    .apply(bitmapTransform(new BlurTransformation(25, 3)))
+                                    .apply(options)
+                                    .into(nav_bg);
                         }else{
                             Log.i("MainActivity", "下载失败");
                         }
