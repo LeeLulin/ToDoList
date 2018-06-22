@@ -401,7 +401,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
+            Intent intent = new Intent(UserDataActivity.this, LoginActivity.class);
             setResult(2, intent);
             finish();
             return true;

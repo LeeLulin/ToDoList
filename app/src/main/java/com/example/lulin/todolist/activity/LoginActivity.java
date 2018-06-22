@@ -65,8 +65,8 @@ public class LoginActivity extends BasicActivity {
                             if (e == null) {
                                 Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, UserDataActivity.class);
-//                                startActivityForResult(intent,1);
-                                startActivity(intent);
+                                startActivityForResult(intent,1);
+//                                startActivity(intent);
                                 //记住密码
                                 editor=login_sp.edit();
                                 if(mRememberCheck.isChecked()){
@@ -77,7 +77,7 @@ public class LoginActivity extends BasicActivity {
                                     editor.clear();
                                 }
                                 editor.apply();
-                                finish();
+//                                finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT).show();
                             }
@@ -125,6 +125,28 @@ public class LoginActivity extends BasicActivity {
             window.setStatusBarColor(Color.TRANSPARENT);
             window.setNavigationBarColor(Color.TRANSPARENT);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 2){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            setResult(2, intent);
+            finish();
+        }
+//        else if (requestCode == 10) {
+//            if (Build.VERSION.SDK_INT >= 23) {
+//                if (!Settings.canDrawOverlays(this)) {
+//                    // SYSTEM_ALERT_WINDOW permission not granted...
+//                    Toast.makeText(MainActivity.this,"not granted",Toast.LENGTH_SHORT);
+//                }
+//            }
+//        }
+//        else if (requestCode == 3){
+//            setUserData();
+//        }
+
     }
 
 
