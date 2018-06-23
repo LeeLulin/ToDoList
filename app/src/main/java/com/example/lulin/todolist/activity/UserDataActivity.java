@@ -256,7 +256,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                             @Override
                             public void done(BmobException e) {
                                 if (e==null){
-                                    user = BmobUser.getCurrentUser(User.class);
+                                    user = User.getCurrentUser(User.class);
                                     user.setImg(bmobFile);
                                     user.update(new UpdateListener() {
                                         @Override
@@ -430,7 +430,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
      * 显示用户信息编辑框
      */
     protected void showEditDialog() {
-        User user = BmobUser.getCurrentUser(User.class);
+        User user = User.getCurrentUser(User.class);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View textEntryView = layoutInflater.inflate(R.layout.edit_dialog, null);
         et_nickname = (EditText) textEntryView.findViewById(R.id.edit_nickname);
@@ -445,7 +445,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
 
                 String nickname = et_nickname.getText().toString();
                 String autograph = et_autograph.getText().toString();
-                User user = BmobUser.getCurrentUser(User.class);
+                User user = User.getCurrentUser(User.class);
                 user.setNickName(nickname);
                 user.setAutograph(autograph);
                 user.update(new UpdateListener() {
@@ -476,7 +476,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
      * 从Bmob加载用户信息
      */
     private void setUserDataFromBmob(){
-        user = BmobUser.getCurrentUser(User.class);
+        user = User.getCurrentUser(User.class);
         BmobQuery<User> bmobQuery = new BmobQuery();
         bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
             @Override

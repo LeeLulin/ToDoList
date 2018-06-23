@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -41,6 +42,9 @@ import com.example.lulin.todolist.utils.User;
 import com.example.lulin.todolist.widget.CircleImageView;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,14 +83,6 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//
-//        if (Build.VERSION.SDK_INT >= 23) {
-//            if (! Settings.canDrawOverlays(MainActivity.this)) {
-//                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-//                        Uri.parse("package:" + getPackageName()));
-//                startActivityForResult(intent,10);
-//            }
-//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -111,7 +107,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
         if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
 
-            if (BmobUser.getCurrentUser() != null){
+            if (User.getCurrentUser() != null){
                 try{
                     setUserDataFromBmob();
                 }catch (Exception e){
@@ -210,7 +206,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                                 drawer.closeDrawer(GravityCompat.START);
                                 if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
-                                    local_user = BmobUser.getCurrentUser(User.class);
+                                    local_user = User.getCurrentUser(User.class);
                                 }
                                 if (local_user != null){
                                     Intent intent = new Intent(MainActivity.this, UserDataActivity.class);
@@ -342,7 +338,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
      * 从Bmob加载用户信息
      */
     private void setUserDataFromBmob(){
-        User user = BmobUser.getCurrentUser(User.class);
+        User user = User.getCurrentUser(User.class);
         BmobQuery<User> bmobQuery = new BmobQuery();
         bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
             @Override

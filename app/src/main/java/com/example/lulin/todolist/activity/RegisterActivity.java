@@ -1,11 +1,9 @@
 package com.example.lulin.todolist.activity;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Environment;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,16 +19,12 @@ import com.example.lulin.todolist.utils.User;
 
 import java.io.File;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
-public class RegisterActivity extends BasicActivity {
+public class RegisterActivity extends BasicActivity{
     private EditText mEtUserName = null;
     private EditText mEtPassWord = null;
     private Button mBtnGoLogin = null;
@@ -75,56 +69,102 @@ public class RegisterActivity extends BasicActivity {
         /**
          * Bmob注册
          */
-        final BmobUser user = new BmobUser();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.signUp(new SaveListener<BmobUser>() {
+        final User user = new User();
+        final String path = this.getApplicationContext().getFilesDir().getAbsolutePath() + "/default_head.png";
+        Log.i("register", path);
+        final BmobFile bmobFile = new BmobFile(new File(path));
+        bmobFile.uploadblock(new UploadFileListener() {
             @Override
-            public void done(BmobUser bmobUser, BmobException e) {
+            public void done(BmobException e) {
+                if (e==null){
 
-                if(e==null){
-//                    BmobQuery<BmobUser> bmobQuery = new BmobQuery();
-//                    bmobQuery.getObject(bmobUser.getObjectId(), new QueryListener<BmobUser>() {
-//                        @Override
-//                        public void done(BmobUser bmobUser, BmobException e) {
+                    Log.i("register", "上传成功！" + bmobFile.getUrl());
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    user.setNickName(username);
+                    user.setAutograph("个性签名");
+                    user.setImg(bmobFile);
+                    user.signUp(new SaveListener<User>() {
+                        @Override
+                        public void done(User s, BmobException e) {
+                            if(e==null){
+                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }else{
+                                Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                                Log.i("register", e.getMessage());
+                            }
+                        }
+                    });
+
+                }else {
+                    Log.i("register", "失败！ " + e.getMessage() + path);
+                }
+
+            }
+
+            @Override
+            public void onProgress(Integer value) {
+                // 返回的上传进度（百分比）
+            }
+        });
+
+
+//        final BmobUser user = new BmobUser();
+//        user.setUsername(username);
+//        user.setPassword(password);
+//        user.signUp(new SaveListener<BmobUser>() {
+//            @Override
+//            public void done(BmobUser bmobUser, BmobException e) {
 //
-//                            User user = BmobUser.getCurrentUser(User.class);
-//                            user.setNickName(username);
-//                            user.setAutograph("个性签名");
+//                if(e==null){
+////                    BmobQuery<BmobUser> bmobQuery = new BmobQuery();
+////                    bmobQuery.getObject(bmobUser.getObjectId(), new QueryListener<BmobUser>() {
+////                        @Override
+////                        public void done(BmobUser bmobUser, BmobException e) {
+////
+////                            User user = BmobUser.getCurrentUser(User.class);
+////                            user.setNickName(username);
+////                            user.setAutograph("个性签名");
 //                            Uri uri =  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
 //                                    + getResources().getResourcePackageName(R.drawable.default_photo) + "/"
 //                                    + getResources().getResourceTypeName(R.drawable.default_photo) + "/"
 //                                    + getResources().getResourceEntryName(R.drawable.default_photo));
 //                            String picPath = uri.getPath();
 //                            BmobFile bmobFile = new BmobFile(new File(picPath));
-//                            user.setImg(bmobFile);
-//                            user.update(new UpdateListener() {
-//                                @Override
-//                                public void done(BmobException e) {
-//                                    if (e==null){
+////                            user.setImg(bmobFile);
+////                            user.update(new UpdateListener() {
+////                                @Override
+////                                public void done(BmobException e) {
+////                                    if (e==null){
+////
+////                                    } else {
+////                                        Log.i("MainActivity", e.getMessage());
+////                                    }
+////                                }
+////                            });
+////
+////                        }
+////                    });
 //
-//                                    } else {
-//                                        Log.i("MainActivity", e.getMessage());
-//                                    }
-//                                }
-//                            });
+//                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }else{
 //
-//                        }
-//                    });
-
-                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else{
-
-                    Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
-                    Log.i("MainActivity", e.getMessage());
-                }
-            }
-        });
+//                    Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+//                    Log.i("MainActivity", e.getMessage());
+//                }
+//            }
+//        });
     }
 
+    /**
+     * 设置状态栏透明
+     */
     private void setStatusBar(){
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

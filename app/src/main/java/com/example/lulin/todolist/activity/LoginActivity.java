@@ -89,6 +89,7 @@ public class LoginActivity extends BasicActivity {
             }
         });
 
+        //跳转注册页面
         mBtnGoRegister = (Button) findViewById(R.id.btn_register);
         mBtnGoRegister.setOnClickListener(new View.OnClickListener() {
             @Override
