@@ -30,13 +30,20 @@ import android.support.v7.widget.Toolbar;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
+import com.example.lulin.todolist.utils.NetWorkUtils;
+import com.example.lulin.todolist.utils.Time;
 import com.example.lulin.todolist.utils.Todos;
+import com.example.lulin.todolist.utils.User;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 
 /**
@@ -142,6 +149,27 @@ public class NewTodoActivity extends BasicActivity {
                     values.put("isRepeat", isRepeat);
 
                     db.insert("Todo", null, values);
+
+                    if(NetWorkUtils.isNetworkConnected(getApplicationContext()) && User.getCurrentUser()!= null){
+                        User user = BmobUser.getCurrentUser(User.class);
+                        user.getObjectId();
+                        final Time time=new Time();
+                        time.setObjectId(user.getObjectId());
+//                        time.setTime(remindTime);
+                        time.setUser(user);
+                        time.save(new SaveListener<String>() {
+
+                            @Override
+                            public void done(String objectId,BmobException e) {
+                                if(e==null){
+                                    Log.i("bmob","成功");
+                                }else{
+                                    Log.i("bmob","失败："+e.getMessage());
+                                }
+                            }
+
+                        });
+                    }
 
                     Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
                     setResult(2, intent);
