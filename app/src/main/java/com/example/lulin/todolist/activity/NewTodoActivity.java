@@ -30,8 +30,10 @@ import android.support.v7.widget.Toolbar;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
+import com.example.lulin.todolist.utils.Describe;
 import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.Time;
+import com.example.lulin.todolist.utils.Title;
 import com.example.lulin.todolist.utils.Todos;
 import com.example.lulin.todolist.utils.User;
 
@@ -154,20 +156,51 @@ public class NewTodoActivity extends BasicActivity {
                         User user = BmobUser.getCurrentUser(User.class);
                         user.getObjectId();
                         final Time time=new Time();
+                        final Title title=new Title();
+                        final Describe describe=new Describe();
+                        //添加时间表与用户表的关联
                         time.setObjectId(user.getObjectId());
 //                        time.setTime(remindTime);
                         time.setUser(user);
+                        //添加标题表与用户表的关联
+                        title.setObjectId(user.getObjectId());
+                        title.setUser(user);
+                        //添加描述表与用户表的关联
+                        describe.setObjectId(user.getObjectId());
+                        describe.setUser(user);
+                        //时间
                         time.save(new SaveListener<String>() {
-
                             @Override
                             public void done(String objectId,BmobException e) {
                                 if(e==null){
-                                    Log.i("bmob","成功");
+                                    Log.i("bmob","时间成功");
                                 }else{
-                                    Log.i("bmob","失败："+e.getMessage());
+                                    Log.i("bmob","时间失败："+e.getMessage());
                                 }
                             }
 
+                        });
+                        //标题
+                        title.save(new SaveListener<String>() {
+                            @Override
+                            public void done(String s, BmobException e) {
+                                if(e==null){
+                                    Log.i("bmob","标题成功");
+                                }else{
+                                    Log.i("bmob","标题失败："+e.getMessage());
+                                }
+                            }
+                        });
+                        //描述
+                        describe.save(new SaveListener<String>() {
+                            @Override
+                            public void done(String s, BmobException e) {
+                                if(e==null){
+                                    Log.i("bmob","描述成功");
+                                }else{
+                                    Log.i("bmob","描述失败："+e.getMessage());
+                                }
+                            }
                         });
                     }
 
