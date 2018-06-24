@@ -8,13 +8,13 @@ public class Todos implements Serializable {
     private String date;
     private String time;
     private long remindTime,remindTimeNoDay;
-    private int id,isAlerted,isRepeat;
+    private int id,isAlerted,isRepeat,imgId;
 
 
     /**
      * Constructs a new instance of {@code Object}.
      */
-    public Todos(int id,String title, String desc, String date, String time,long remindTime,long remindTimeNoDay,int isAlerted,int isRepeat) {
+    public Todos(int id,String title, String desc, String date, String time,long remindTime,long remindTimeNoDay,int isAlerted,int isRepeat,int imgId) {
 
         this.id = id;
         this.title = title;
@@ -25,6 +25,7 @@ public class Todos implements Serializable {
         this.remindTime = remindTime;
         this.remindTimeNoDay = remindTimeNoDay;
         this.isRepeat = isRepeat;
+        this.imgId = imgId;
     }
 
     public void setId(int id){
@@ -65,6 +66,10 @@ public class Todos implements Serializable {
         this.isRepeat = isRepeat;
     }
 
+    public void setImgId(int imgId){
+        this.imgId = imgId;
+    }
+
 
 
     public int getId(){
@@ -102,5 +107,9 @@ public class Todos implements Serializable {
 
     public int getIsRepeat(){
         return isRepeat;
+    }
+
+    public int getImgId(){
+        return imgId;
     }
 }

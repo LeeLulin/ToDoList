@@ -41,7 +41,7 @@ public class TodoFragment extends Fragment {
     private TodoRecyclerViewAdapter todoRecyclerViewAdapter;
     private MyDatabaseHelper dbHelper;
     private String todoTitle,todoDsc,todoDate,todoTime;
-    private int id,isAlerted,isRepeat;
+    private int id,isAlerted,isRepeat,imgId;
     private long remindTime,remindTimeNoDay;
 
 
@@ -140,7 +140,8 @@ public class TodoFragment extends Fragment {
                 remindTimeNoDay = cursor.getLong(cursor.getColumnIndex("remindTimeNoDay"));
                 isAlerted = cursor.getInt(cursor.getColumnIndex("isAlerted"));
                 isRepeat = cursor.getInt(cursor.getColumnIndex("isRepeat"));
-                Todos data = new Todos(id,todoTitle,todoDsc,todoDate,todoTime,remindTime,remindTimeNoDay,isAlerted,isRepeat);
+                imgId = cursor.getInt(cursor.getColumnIndex("imgId"));
+                Todos data = new Todos(id,todoTitle,todoDsc,todoDate,todoTime,remindTime,remindTimeNoDay,isAlerted,isRepeat,imgId);
                 todosList.add(data);
             }
 

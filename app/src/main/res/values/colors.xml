@@ -62,5 +62,7 @@
     <color name="text1">#4D4D4D</color>
     <color name="text2">#999999</color>
 
+    <color name="icon_color">#4a8fff</color>
+
 
 </resources>

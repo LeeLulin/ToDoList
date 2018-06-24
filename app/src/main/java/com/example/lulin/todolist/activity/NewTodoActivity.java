@@ -7,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -27,11 +30,16 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.Describe;
 import com.example.lulin.todolist.utils.NetWorkUtils;
+import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.Time;
 import com.example.lulin.todolist.utils.Title;
 import com.example.lulin.todolist.utils.Todos;
@@ -41,11 +49,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 
 /**
@@ -69,6 +81,15 @@ public class NewTodoActivity extends BasicActivity {
     private static final String TAG = "time";
     private Toolbar toolbar;
     private int isRepeat = 0;
+    private ImageView new_bg;
+    private static int[] imageArray = new int[]{R.drawable.img_1,
+            R.drawable.img_2,
+            R.drawable.img_3,
+            R.drawable.img_4,
+            R.drawable.img_5,
+            R.drawable.img_6,
+            R.drawable.ic_img2};
+    private int imgId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +105,7 @@ public class NewTodoActivity extends BasicActivity {
         getTime();
         initFindview();
         initView();
+        initHeadImage();
     }
 
     private void initFindview() {
@@ -95,8 +117,16 @@ public class NewTodoActivity extends BasicActivity {
         nv_todo_date = (TextView) findViewById(R.id.new_todo_date);
         nv_todo_time = (TextView) findViewById(R.id.new_todo_time);
         nv_repeat = (Switch) findViewById(R.id.repeat);
+        new_bg = (ImageView) findViewById(R.id.new_bg);
     }
 
+    private void initHeadImage(){
+
+        Random random = new Random();
+        imgId = imageArray[random.nextInt(7)];
+        new_bg.setImageDrawable(getApplicationContext().getResources().getDrawable(imgId));
+
+    }
     /**
      * 获取日期
      */
@@ -149,6 +179,7 @@ public class NewTodoActivity extends BasicActivity {
                     values.put("remindTime", remindTime);
                     values.put("isAlerted", 0);
                     values.put("isRepeat", isRepeat);
+                    values.put("imgId", imgId);
 
                     db.insert("Todo", null, values);
 

@@ -25,14 +25,15 @@
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_img2"
         android:foreground = "?attr/selectableItemBackground"
         app:cardElevation="1dp">
 
         <ImageView
+            android:id="@+id/card_bg"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:background="@drawable/ic_img2" />
+            android:background="@drawable/ic_img2"
+            android:scaleType="centerCrop"/>
 
 
         <LinearLayout

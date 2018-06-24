@@ -20,6 +20,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             + "remindTime long,"
             + "remindTimeNoDay long,"
             + "isAlerted int,"
+            + "imgId int,"
             + "isRepeat int )";
 
 

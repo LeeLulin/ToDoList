@@ -46,10 +46,10 @@ public class SplashActivity extends BasicActivity {
                 .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
 //                .setAppIcon() //设置图标
 //                .setColorOfAppIcon() //设置绘制图标线条的颜色
-//                .setAppName() //设置app名称
-//                .setColorOfAppName() //设置app名称颜色
-                .setAppStatement("你要内心温柔，安静努力") //设置一句话描述
-//                .setColorOfAppStatement() // 设置一句话描述的颜色
+//                .setAppName("Do it") //设置app名称
+//                .setColorOfAppName(R.color.icon_color) //设置app名称颜色
+                .setAppStatement("Just do it!") //设置一句话描述
+                .setColorOfAppStatement(R.color.icon_color) // 设置一句话描述的颜色
                 .create();
         openingStartAnimation.show(this);
         new Handler().postDelayed(new Runnable() {

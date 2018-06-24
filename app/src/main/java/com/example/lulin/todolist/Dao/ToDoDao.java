@@ -54,7 +54,8 @@ public class ToDoDao {
                     cursor.getLong(cursor.getColumnIndex("remindTime")),
                     cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")),
                     cursor.getInt(cursor.getColumnIndex("isAlerted")),
-                    cursor.getInt(cursor.getColumnIndex("isRepeat")));
+                    cursor.getInt(cursor.getColumnIndex("isRepeat")),
+                    cursor.getInt(cursor.getColumnIndex("imgId")));
             allTodos.add(data);
         }
 
@@ -82,7 +83,8 @@ public class ToDoDao {
                     cursor.getLong(cursor.getColumnIndex("remindTime")),
                     cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")),
                     cursor.getInt(cursor.getColumnIndex("isAlerted")),
-                    cursor.getInt(cursor.getColumnIndex("isRepeat")));
+                    cursor.getInt(cursor.getColumnIndex("isRepeat")),
+                    cursor.getInt(cursor.getColumnIndex("imgId")));
         }
         cursor.close();
         close();

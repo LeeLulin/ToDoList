@@ -47,7 +47,7 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         TextView todo_date;
         TextView todo_time;
         TextView isAlerted;
-        ImageView timeline_alerted;
+        ImageView card_background;
         TextView isRepeat;
 
 
@@ -60,7 +60,7 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
             isRepeat = (TextView) itemView.findViewById(R.id.isRepeat);
 //            todo_time = (TextView) itemView.findViewById(R.id.todo_time);
 //            isAlerted = (TextView) itemView.findViewById(R.id.isAlerted);
-//            timeline_alerted = (ImageView) itemView.findViewById(R.id.timelineIV);
+            card_background = (ImageView) itemView.findViewById(R.id.card_bg);
 
         }
 
@@ -79,6 +79,8 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         ViewHolder.todo_title.setText(todos.get(todos.size()-1-i).getTitle());
         ViewHolder.todo_desc.setText(todos.get(todos.size()-1-i).getDesc());
         ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate().substring(5) + " "+ todos.get(todos.size()-1-i).getTime());
+        ViewHolder.card_background.setImageDrawable(context.getResources().getDrawable(todos.get(todos.size()-1-i).getImgId()));
+
         if (todos.get(todos.size()-1-i).getIsRepeat() == 1){
             ViewHolder.isRepeat.setText("重复");
             ViewHolder.isRepeat.setTextSize(TypedValue.COMPLEX_UNIT_SP,10);

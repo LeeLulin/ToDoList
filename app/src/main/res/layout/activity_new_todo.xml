@@ -17,6 +17,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/toolbar_layout"
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
@@ -24,25 +25,33 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="?attr/colorPrimary">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
-                android:background="@drawable/ic_img2"
-                android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:gravity="bottom"
+                android:layout_gravity="bottom"
                 app:layout_collapseMode="pin"
                 app:layout_collapseParallaxMultiplier="0.7">
+
+                <ImageView
+                    android:id="@+id/new_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_img2"
+                    android:scaleType="centerCrop"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginStart="20dp"
                     android:text="新建"
                     android:textColor="@color/white"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="40sp" />
+                    android:textSize="40sp"
+                    app:layout_anchor="@id/new_bg" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
             <android.support.v7.widget.Toolbar
