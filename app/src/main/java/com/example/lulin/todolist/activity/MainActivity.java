@@ -40,6 +40,8 @@ import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.User;
 import com.example.lulin.todolist.widget.CircleImageView;
+import com.kekstudio.dachshundtablayout.DachshundTabLayout;
+import com.kekstudio.dachshundtablayout.indicators.LineMoveIndicator;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,7 +64,7 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class MainActivity extends BasicActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    private TabLayout mTabLayout;
+    private DachshundTabLayout mTabLayout;
     private ViewPager mViewPager;
     private FloatingActionButton fab;
     private MyDatabaseHelper dbHelper;
@@ -134,7 +136,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     }
 
     private void initViewPager() {
-        mTabLayout = findViewById(R.id.tab_layout_main);
+        mTabLayout = (DachshundTabLayout) findViewById(R.id.tab_layout_main);
         mViewPager = findViewById(R.id.view_pager_main);
 
 
@@ -151,6 +153,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         mViewPager.setOffscreenPageLimit(2);
 
         FragmentAdapter mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
+        mTabLayout.setAnimatedIndicator(new LineMoveIndicator(mTabLayout));
         mViewPager.setAdapter(mFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabsFromPagerAdapter(mFragmentAdapter);
@@ -287,7 +290,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
-                
+
                 break;
         }
 
