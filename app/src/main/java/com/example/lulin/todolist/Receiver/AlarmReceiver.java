@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.util.Log;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.activity.MainActivity;
+import com.example.lulin.todolist.utils.SPUtils;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -21,6 +23,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     private String title;
     private String dsc;
     private static final String TAG = "receiver";
+    private static final String KEY_RINGTONE = "ring_tone";
+    private static final String KEY_VIBRATE = "vibrator";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -49,9 +53,15 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setContentTitle(title)        //设置通知标题。
                     .setContentText(dsc)        //设置通知内容。
                     .setAutoCancel(true)                //点击通知后通知消失
-                    .setDefaults(Notification.DEFAULT_ALL)        //设置系统默认的通知音乐、振动、LED等。
+//                    .setDefaults(Notification.DEFAULT_ALL)        //设置系统默认的通知音乐、振动、LED等。
+
                     .setFullScreenIntent(pi, true)
                     .setContentIntent(pi);
+        if ((String)SPUtils.get(context, KEY_RINGTONE, "") == null){
+            notification.setDefaults(Notification.DEFAULT_ALL);        //设置系统默认的通知音乐、振动、LED等。
+        } else {
+            notification.setSound(Uri.parse((String)SPUtils.get(context, KEY_RINGTONE, "")));
+        }
         if (Build.VERSION.SDK_INT >= 21) {
             notification.setVisibility(Notification.VISIBILITY_PUBLIC);
         }

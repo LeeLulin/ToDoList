@@ -64,7 +64,6 @@ public class TodoFragment extends Fragment {
                 query();
             }
         }
-        query();
     }
 
     private void initPersonData() {

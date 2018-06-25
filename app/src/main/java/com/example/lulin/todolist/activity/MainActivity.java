@@ -249,6 +249,9 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+
             return true;
         }
 
@@ -259,18 +262,17 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
 
         switch (item.getItemId()){
 
             case R.id.nav_todo:
                 mViewPager.setCurrentItem(0);
-                drawer.closeDrawer(GravityCompat.START);
+
                 break;
 
             case R.id.nav_clock:
                 mViewPager.setCurrentItem(1);
-                drawer.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_frends:
@@ -285,10 +287,12 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
+                
                 break;
         }
 
-
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }

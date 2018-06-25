@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class SPUtils {
 
+    private static final String KEY_VIBRATE = "vibrator";
+
     /**
      * 保存在手机里面的文件名
      */
@@ -193,5 +195,6 @@ public class SPUtils {
             editor.commit();
         }
     }
+
 
 }

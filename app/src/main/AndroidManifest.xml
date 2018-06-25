@@ -88,7 +88,8 @@
         <service
             android:name=".Service.FocusService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true">
+        </service>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -102,11 +103,12 @@
 
         <activity
             android:name=".activity.BasicActivity"
-            android:label="@string/title_activity_basic"></activity>
-
+            android:label="@string/title_activity_basic">
+        </activity>
         <activity
             android:name=".activity.SettingsActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

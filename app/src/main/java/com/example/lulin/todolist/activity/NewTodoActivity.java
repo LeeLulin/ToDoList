@@ -91,6 +91,7 @@ public class NewTodoActivity extends BasicActivity {
             R.drawable.img_6,
             R.drawable.ic_img2};
     private int imgId;
+    private static final String KEY_RINGTONE = "ring_tone";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,6 +256,7 @@ public class NewTodoActivity extends BasicActivity {
 //                        });
                     }
 
+//                    SPUtils.put(getApplicationContext(), KEY_RINGTONE, "content://settings/system/notification_sound");
                     Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
                     setResult(2, intent);
                     startService(new Intent(NewTodoActivity.this, AlarmService.class));

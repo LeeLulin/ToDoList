@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="设置">
+
     <PreferenceCategory
-        android:title="设置">
-        <CheckBoxPreference
-            android:key="check_box_pref"
-            android:title="标题"
-            android:summary="描述">
-        </CheckBoxPreference>
+        android:title="通知">
+
+        <RingtonePreference
+            android:key="ring_tone"
+            android:title="通知铃声"
+            android:summary="默认"
+            android:ringtoneType="notification"
+            android:defaultValue="content://settings/system/notification_sound"/>
+
+        <!--<SwitchPreference-->
+            <!--android:key="vibrator"-->
+            <!--android:title="震动"-->
+            <!--android:defaultValue="true"-->
+            <!--android:switchTextOn="开"-->
+            <!--android:switchTextOff="关"-->
+            <!--android:summaryOn="开"-->
+            <!--android:summaryOff="关" />-->
+
     </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="">
+
+
+
+    </PreferenceCategory>
+
+
+
+
 </PreferenceScreen>
+
+
+
+

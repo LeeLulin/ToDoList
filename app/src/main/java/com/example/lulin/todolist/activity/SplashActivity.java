@@ -13,6 +13,7 @@ import com.example.lulin.todolist.Receiver.NetworkReceiver;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.FileUtils;
 import com.example.lulin.todolist.utils.NetWorkUtils;
+import com.example.lulin.todolist.utils.SPUtils;
 
 import cn.bmob.v3.Bmob;
 import site.gemus.openingstartanimation.LineDrawStrategy;
@@ -25,11 +26,13 @@ public class SplashActivity extends BasicActivity {
     private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
     private NetworkReceiver networkReceiver;
     private FileUtils fileUtils;
+    private static final String KEY_VIBRATE = "vibrator";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+
 //        setContentView(R.layout.activity_splash);
 
         //复制assets下的资源文件到sd卡
