@@ -25,6 +25,7 @@ import com.example.lulin.todolist.activity.LoginActivity;
 import com.example.lulin.todolist.activity.MainActivity;
 import com.example.lulin.todolist.activity.NewTodoActivity;
 import com.example.lulin.todolist.adapter.TodoRecyclerViewAdapter;
+import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.RecyclerItemClickListener;
 import com.example.lulin.todolist.utils.Title;
 import com.example.lulin.todolist.utils.Todos;
@@ -38,6 +39,8 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import top.wefor.circularanim.CircularAnim;
+
+import static cn.bmob.v3.Bmob.getApplicationContext;
 
 
 public class TodoFragment extends Fragment {
@@ -55,6 +58,12 @@ public class TodoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initMenu();
+        if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
+
+            if (User.getCurrentUser() != null){
+                query();
+            }
+        }
         query();
     }
 
