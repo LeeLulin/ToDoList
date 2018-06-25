@@ -45,17 +45,17 @@ public class ToDoDao {
         Cursor cursor = db.query("Todo",
                 null, "isAlerted = ?", new String[] { "0" }, null, null, "remindTime");
         while (cursor.moveToNext()) {
-            Todos data = new Todos(
-                    cursor.getInt(cursor.getColumnIndex("id")),
-                    cursor.getString(cursor.getColumnIndex("todotitle")),
-                    cursor.getString(cursor.getColumnIndex("tododsc")),
-                    cursor.getString(cursor.getColumnIndex("tododate")),
-                    cursor.getString(cursor.getColumnIndex("todotime")),
-                    cursor.getLong(cursor.getColumnIndex("remindTime")),
-                    cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")),
-                    cursor.getInt(cursor.getColumnIndex("isAlerted")),
-                    cursor.getInt(cursor.getColumnIndex("isRepeat")),
-                    cursor.getInt(cursor.getColumnIndex("imgId")));
+            Todos data = new Todos();
+            data.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            data.setTitle(cursor.getString(cursor.getColumnIndex("todotitle")));
+            data.setDesc(cursor.getString(cursor.getColumnIndex("tododsc")));
+            data.setDate(cursor.getString(cursor.getColumnIndex("tododate")));
+            data.setTime(cursor.getString(cursor.getColumnIndex("todotime")));
+            data.setRemindTime(cursor.getLong(cursor.getColumnIndex("remindTime")));
+            data.setRemindTimeNoDay(cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")));
+            data.setisAlerted(cursor.getInt(cursor.getColumnIndex("isAlerted")));
+            data.setIsRepeat(cursor.getInt(cursor.getColumnIndex("isRepeat")));
+            data.setImgId(cursor.getInt(cursor.getColumnIndex("imgId")));
             allTodos.add(data);
         }
 
@@ -71,24 +71,23 @@ public class ToDoDao {
      */
     public Todos getTask(int id) {
         open();
-        Todos todos = null;
+        Todos data = new Todos();
         Cursor cursor = db.rawQuery("SELECT * FROM Todo WHERE id =" + id, null);
         if (cursor.moveToNext()) {
-            todos = new Todos(
-                    cursor.getInt(cursor.getColumnIndex("id")),
-                    cursor.getString(cursor.getColumnIndex("todotitle")),
-                    cursor.getString(cursor.getColumnIndex("tododsc")),
-                    cursor.getString(cursor.getColumnIndex("tododate")),
-                    cursor.getString(cursor.getColumnIndex("todotime")),
-                    cursor.getLong(cursor.getColumnIndex("remindTime")),
-                    cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")),
-                    cursor.getInt(cursor.getColumnIndex("isAlerted")),
-                    cursor.getInt(cursor.getColumnIndex("isRepeat")),
-                    cursor.getInt(cursor.getColumnIndex("imgId")));
+            data.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            data.setTitle(cursor.getString(cursor.getColumnIndex("todotitle")));
+            data.setDesc(cursor.getString(cursor.getColumnIndex("tododsc")));
+            data.setDate(cursor.getString(cursor.getColumnIndex("tododate")));
+            data.setTime(cursor.getString(cursor.getColumnIndex("todotime")));
+            data.setRemindTime(cursor.getLong(cursor.getColumnIndex("remindTime")));
+            data.setRemindTimeNoDay(cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")));
+            data.setisAlerted(cursor.getInt(cursor.getColumnIndex("isAlerted")));
+            data.setIsRepeat(cursor.getInt(cursor.getColumnIndex("isRepeat")));
+            data.setImgId(cursor.getInt(cursor.getColumnIndex("imgId")));
         }
         cursor.close();
         close();
-        return todos;
+        return data;
     }
 
     /**

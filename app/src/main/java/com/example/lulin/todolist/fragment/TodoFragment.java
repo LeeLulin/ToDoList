@@ -26,11 +26,17 @@ import com.example.lulin.todolist.activity.MainActivity;
 import com.example.lulin.todolist.activity.NewTodoActivity;
 import com.example.lulin.todolist.adapter.TodoRecyclerViewAdapter;
 import com.example.lulin.todolist.utils.RecyclerItemClickListener;
+import com.example.lulin.todolist.utils.Title;
 import com.example.lulin.todolist.utils.Todos;
+import com.example.lulin.todolist.utils.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import top.wefor.circularanim.CircularAnim;
 
 
@@ -49,6 +55,7 @@ public class TodoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initMenu();
+        query();
     }
 
     private void initPersonData() {
@@ -131,17 +138,27 @@ public class TodoFragment extends Fragment {
             Cursor cursor=db.rawQuery("SELECT * FROM Todo", null);
             while(cursor.moveToNext()) {
 
-                id = cursor.getInt(cursor.getColumnIndex("id"));
-                todoTitle = cursor.getString(cursor.getColumnIndex("todotitle"));
-                todoDsc = cursor.getString(cursor.getColumnIndex("tododsc"));
-                todoDate = cursor.getString(cursor.getColumnIndex("tododate"));
-                todoTime = cursor.getString(cursor.getColumnIndex("todotime"));
-                remindTime = cursor.getLong(cursor.getColumnIndex("remindTime"));
-                remindTimeNoDay = cursor.getLong(cursor.getColumnIndex("remindTimeNoDay"));
-                isAlerted = cursor.getInt(cursor.getColumnIndex("isAlerted"));
-                isRepeat = cursor.getInt(cursor.getColumnIndex("isRepeat"));
-                imgId = cursor.getInt(cursor.getColumnIndex("imgId"));
-                Todos data = new Todos(id,todoTitle,todoDsc,todoDate,todoTime,remindTime,remindTimeNoDay,isAlerted,isRepeat,imgId);
+//                id = cursor.getInt(cursor.getColumnIndex("id"));
+//                todoTitle = cursor.getString(cursor.getColumnIndex("todotitle"));
+//                todoDsc = cursor.getString(cursor.getColumnIndex("tododsc"));
+//                todoDate = cursor.getString(cursor.getColumnIndex("tododate"));
+//                todoTime = cursor.getString(cursor.getColumnIndex("todotime"));
+//                remindTime = cursor.getLong(cursor.getColumnIndex("remindTime"));
+//                remindTimeNoDay = cursor.getLong(cursor.getColumnIndex("remindTimeNoDay"));
+//                isAlerted = cursor.getInt(cursor.getColumnIndex("isAlerted"));
+//                isRepeat = cursor.getInt(cursor.getColumnIndex("isRepeat"));
+//                imgId = cursor.getInt(cursor.getColumnIndex("imgId"));
+                Todos data = new Todos();
+                data.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                data.setTitle(cursor.getString(cursor.getColumnIndex("todotitle")));
+                data.setDesc(cursor.getString(cursor.getColumnIndex("tododsc")));
+                data.setDate(cursor.getString(cursor.getColumnIndex("tododate")));
+                data.setTime(cursor.getString(cursor.getColumnIndex("todotime")));
+                data.setRemindTime(cursor.getLong(cursor.getColumnIndex("remindTime")));
+                data.setRemindTimeNoDay(cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")));
+                data.setisAlerted(cursor.getInt(cursor.getColumnIndex("isAlerted")));
+                data.setIsRepeat(cursor.getInt(cursor.getColumnIndex("isRepeat")));
+                data.setImgId(cursor.getInt(cursor.getColumnIndex("imgId")));
                 todosList.add(data);
             }
 
@@ -153,6 +170,24 @@ public class TodoFragment extends Fragment {
                 db.close();
             }
         }
+    }
+
+    private void query(){
+        User user = User.getCurrentUser(User.class);
+        BmobQuery<Todos>  bmobQuery = new BmobQuery<Todos>();
+        bmobQuery.addWhereEqualTo("user", user);
+        bmobQuery.findObjects(new FindListener<Todos>() {
+            @Override
+            public void done(List<Todos> object, BmobException e) {
+                if (e==null){
+                    for (Todos todos : object){
+                        Log.i("main", "查询到："+String.valueOf(object.size())+"组数据:"+todos.getTitle()+" "+todos.getDesc()+" "+todos.getBmobDate().getDate());
+                    }
+                } else {
+                    Log.i("main", e.getMessage());
+                }
+            }
+        });
     }
 
 }

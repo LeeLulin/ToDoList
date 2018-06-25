@@ -1,32 +1,34 @@
 package com.example.lulin.todolist.utils;
 
-import java.io.Serializable;
 
-public class Todos implements Serializable {
+import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobDate;
+
+public class Todos extends BmobObject{
     private String title;
     private String desc;
     private String date;
     private String time;
     private long remindTime,remindTimeNoDay;
     private int id,isAlerted,isRepeat,imgId;
+    private BmobDate bmobDate;
+    private User user;
 
+    public Todos(){}
 
-    /**
-     * Constructs a new instance of {@code Object}.
-     */
-    public Todos(int id,String title, String desc, String date, String time,long remindTime,long remindTimeNoDay,int isAlerted,int isRepeat,int imgId) {
-
-        this.id = id;
-        this.title = title;
-        this.desc = desc;
-        this.date = date;
-        this.time = time;
-        this.isAlerted = isAlerted;
-        this.remindTime = remindTime;
-        this.remindTimeNoDay = remindTimeNoDay;
-        this.isRepeat = isRepeat;
-        this.imgId = imgId;
-    }
+//    public Todos(int id,String title, String desc, String date, String time,long remindTime,long remindTimeNoDay,int isAlerted,int isRepeat,int imgId) {
+//
+//        this.id = id;
+//        this.title = title;
+//        this.desc = desc;
+//        this.date = date;
+//        this.time = time;
+//        this.isAlerted = isAlerted;
+//        this.remindTime = remindTime;
+//        this.remindTimeNoDay = remindTimeNoDay;
+//        this.isRepeat = isRepeat;
+//        this.imgId = imgId;
+//    }
 
     public void setId(int id){
         this.id = id;
@@ -70,6 +72,14 @@ public class Todos implements Serializable {
         this.imgId = imgId;
     }
 
+    public void setBmobDate(BmobDate bmobDate){
+        this.bmobDate = bmobDate;
+    }
+
+    public void setUser(User user){
+        this.user = user;
+    }
+
 
 
     public int getId(){
@@ -111,5 +121,13 @@ public class Todos implements Serializable {
 
     public int getImgId(){
         return imgId;
+    }
+
+    public BmobDate getBmobDate() {
+        return bmobDate;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

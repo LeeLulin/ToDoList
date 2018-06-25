@@ -68,7 +68,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     private MyDatabaseHelper dbHelper;
     private CircleImageView user_image;
     private TextView nick_name,autograph;
-    private User local_user;
+    public User local_user;
     private ImageView nav_bg;
     private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
     private String imgPath;
@@ -259,14 +259,18 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         switch (item.getItemId()){
 
             case R.id.nav_todo:
                 mViewPager.setCurrentItem(0);
+                drawer.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_clock:
                 mViewPager.setCurrentItem(1);
+                drawer.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_frends:
@@ -279,11 +283,13 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
             case R.id.nav_setting:
 
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+
+
         return true;
     }
 

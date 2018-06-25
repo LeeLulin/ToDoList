@@ -103,6 +103,10 @@
         <activity
             android:name=".activity.BasicActivity"
             android:label="@string/title_activity_basic"></activity>
+
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

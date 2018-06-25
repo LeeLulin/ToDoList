@@ -53,6 +53,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -185,54 +186,73 @@ public class NewTodoActivity extends BasicActivity {
 
                     if(NetWorkUtils.isNetworkConnected(getApplicationContext()) && User.getCurrentUser()!= null){
                         User user = BmobUser.getCurrentUser(User.class);
-                        user.getObjectId();
-                        final Time time=new Time();
-                        final Title title=new Title();
-                        final Describe describe=new Describe();
-                        //添加时间表与用户表的关联
-                        time.setObjectId(user.getObjectId());
-//                        time.setTime(remindTime);
-                        time.setUser(user);
-                        //添加标题表与用户表的关联
-                        title.setObjectId(user.getObjectId());
-                        title.setUser(user);
-                        //添加描述表与用户表的关联
-                        describe.setObjectId(user.getObjectId());
-                        describe.setUser(user);
-                        //时间
-                        time.save(new SaveListener<String>() {
-                            @Override
-                            public void done(String objectId,BmobException e) {
-                                if(e==null){
-                                    Log.i("bmob","时间成功");
-                                }else{
-                                    Log.i("bmob","时间失败："+e.getMessage());
-                                }
-                            }
+                        Date date = new Date(remindTime);
+                        BmobDate bmobDate = new BmobDate(date);
 
-                        });
-                        //标题
-                        title.save(new SaveListener<String>() {
+                        Todos todos = new Todos();
+                        todos.setUser(user);
+                        todos.setTitle(todoTitle);
+                        todos.setDesc(todoDsc);
+                        todos.setBmobDate(bmobDate);
+                        todos.save(new SaveListener<String>() {
                             @Override
                             public void done(String s, BmobException e) {
                                 if(e==null){
-                                    Log.i("bmob","标题成功");
+                                    Log.i("bmob","保存到Bmob成功");
                                 }else{
-                                    Log.i("bmob","标题失败："+e.getMessage());
+                                    Log.i("bmob","保存到Bmob失败："+e.getMessage());
                                 }
                             }
                         });
-                        //描述
-                        describe.save(new SaveListener<String>() {
-                            @Override
-                            public void done(String s, BmobException e) {
-                                if(e==null){
-                                    Log.i("bmob","描述成功");
-                                }else{
-                                    Log.i("bmob","描述失败："+e.getMessage());
-                                }
-                            }
-                        });
+
+//                        final Time time=new Time();
+//                        final Title title=new Title();
+//                        final Describe describe=new Describe();
+//                        //添加时间表与用户表的关联
+//                        time.setObjectId(user.getObjectId());
+////                        time.setTime(remindTime);
+//                        time.setUser(user);
+//                        //添加标题表与用户表的关联
+////                        title.setObjectId(user.getObjectId());
+//                        title.setUser(user);
+//                        title.setTitle(todoTitle);
+//                        //添加描述表与用户表的关联
+//                        describe.setObjectId(user.getObjectId());
+//                        describe.setUser(user);
+//                        //时间
+//                        time.save(new SaveListener<String>() {
+//                            @Override
+//                            public void done(String objectId,BmobException e) {
+//                                if(e==null){
+//                                    Log.i("bmob","时间成功");
+//                                }else{
+//                                    Log.i("bmob","时间失败："+e.getMessage());
+//                                }
+//                            }
+//
+//                        });
+//                        //标题
+//                        title.save(new SaveListener<String>() {
+//                            @Override
+//                            public void done(String s, BmobException e) {
+//                                if(e==null){
+//                                    Log.i("bmob","标题成功");
+//                                }else{
+//                                    Log.i("bmob","标题失败："+e.getMessage());
+//                                }
+//                            }
+//                        });
+//                        //描述
+//                        describe.save(new SaveListener<String>() {
+//                            @Override
+//                            public void done(String s, BmobException e) {
+//                                if(e==null){
+//                                    Log.i("bmob","描述成功");
+//                                }else{
+//                                    Log.i("bmob","描述失败："+e.getMessage());
+//                                }
+//                            }
+//                        });
                     }
 
                     Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
