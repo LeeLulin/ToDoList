@@ -9,9 +9,16 @@ import android.util.Log;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.utils.Todos;
+import com.example.lulin.todolist.utils.User;
+import com.lidroid.xutils.DbUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+
 import static android.support.constraint.Constraints.TAG;
 
 /**
@@ -33,6 +40,29 @@ public class ToDoDao {
 
     public void close() {
         dbHelper.close();
+    }
+
+    /**
+     * 创建成功，返回记录的ID
+     *
+     * @param todos
+     * @return
+     */
+    public long create(Todos todos) {
+
+        open();
+        ContentValues values = new ContentValues();
+        values.put("todotitle", todos.getTitle());
+        values.put("tododsc", todos.getDesc());
+        values.put("tododate", todos.getDate());
+        values.put("todotime", todos.getTime());
+        values.put("remindTime", todos.getRemindTime());
+        values.put("isAlerted", todos.getisAlerted());
+        values.put("isRepeat", todos.getIsRepeat());
+        values.put("imgId", todos.getImgId());
+        long id = db.insert("Todo", null, values);
+        close();
+        return id;
     }
 
     /**
@@ -62,6 +92,37 @@ public class ToDoDao {
         cursor.close();
         close();
         return allTodos;
+    }
+
+    /**
+     * 获取所有task
+     *
+     * @return
+     */
+    public List<Todos> getAllTask() {
+        open();
+        List<Todos> todosList = new ArrayList<Todos>();
+        Cursor cursor=db.rawQuery("SELECT * FROM Todo", null);
+        while(cursor.moveToNext()) {
+            Todos data = new Todos();
+            data.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            data.setTitle(cursor.getString(cursor.getColumnIndex("todotitle")));
+            data.setDesc(cursor.getString(cursor.getColumnIndex("tododsc")));
+            data.setDate(cursor.getString(cursor.getColumnIndex("tododate")));
+            data.setTime(cursor.getString(cursor.getColumnIndex("todotime")));
+            data.setRemindTime(cursor.getLong(cursor.getColumnIndex("remindTime")));
+            data.setRemindTimeNoDay(cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")));
+            data.setisAlerted(cursor.getInt(cursor.getColumnIndex("isAlerted")));
+            data.setIsRepeat(cursor.getInt(cursor.getColumnIndex("isRepeat")));
+            data.setImgId(cursor.getInt(cursor.getColumnIndex("imgId")));
+            todosList.add(data);
+        }
+        // make sure to close the cursor
+
+        cursor.close();
+        close();
+        Log.i("ToDoDao", "查询到本地的任务个数：" + todosList.size());
+        return todosList;
     }
 
     /**
@@ -104,4 +165,17 @@ public class ToDoDao {
         close();
 
     }
+
+    /**
+     * 保存多个
+     *
+     * @param list
+     */
+    public void saveAll(List<Todos> list) {
+        for (Todos todos : list) {
+            create(todos);
+        }
+    }
+
+
 }

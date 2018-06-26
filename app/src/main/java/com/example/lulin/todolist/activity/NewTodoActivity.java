@@ -3,17 +3,11 @@ package com.example.lulin.todolist.activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,42 +17,28 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.signature.ObjectKey;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
+import com.example.lulin.todolist.Dao.ToDoDao;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
-import com.example.lulin.todolist.utils.Describe;
 import com.example.lulin.todolist.utils.NetWorkUtils;
-import com.example.lulin.todolist.utils.SPUtils;
-import com.example.lulin.todolist.utils.Time;
-import com.example.lulin.todolist.utils.Title;
 import com.example.lulin.todolist.utils.Todos;
 import com.example.lulin.todolist.utils.User;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 
 /**
@@ -174,27 +154,35 @@ public class NewTodoActivity extends BasicActivity {
                     remindTime = calendarTime.getTimeInMillis();
                     Log.i(TAG, "时间是"+String.valueOf(remindTime));
                     //插入数据
-                    values.put("todotitle", todoTitle);
-                    values.put("tododsc", todoDsc);
-                    values.put("tododate", todoDate);
-                    values.put("todotime", todoTime);
-                    values.put("remindTime", remindTime);
-                    values.put("isAlerted", 0);
-                    values.put("isRepeat", isRepeat);
-                    values.put("imgId", imgId);
+//                    values.put("todotitle", todoTitle);
+//                    values.put("tododsc", todoDsc);
+//                    values.put("tododate", todoDate);
+//                    values.put("todotime", todoTime);
+//                    values.put("remindTime", remindTime);
+//                    values.put("isAlerted", 0);
+//                    values.put("isRepeat", isRepeat);
+//                    values.put("imgId", imgId);
+//
+//                    db.insert("Todo", null, values);
 
-                    db.insert("Todo", null, values);
-
+                    User user = BmobUser.getCurrentUser(User.class);
+                    Todos todos = new Todos();
+                    todos.setUser(user);
+                    todos.setTitle(todoTitle);
+                    todos.setDesc(todoDsc);
+                    todos.setDate(todoDate);
+                    todos.setTime(todoTime);
+                    todos.setRemindTime(remindTime);
+                    todos.setisAlerted(0);
+                    todos.setIsRepeat(isRepeat);
+                    todos.setImgId(imgId);
+                    Date date = new Date(remindTime);
+                    BmobDate bmobDate = new BmobDate(date);
+                    todos.setBmobDate(bmobDate);
+                    //插入本地数据库
+                    new ToDoDao(getApplicationContext()).create(todos);
+                    //保存数据到Bmob
                     if(NetWorkUtils.isNetworkConnected(getApplicationContext()) && User.getCurrentUser()!= null){
-                        User user = BmobUser.getCurrentUser(User.class);
-                        Date date = new Date(remindTime);
-                        BmobDate bmobDate = new BmobDate(date);
-
-                        Todos todos = new Todos();
-                        todos.setUser(user);
-                        todos.setTitle(todoTitle);
-                        todos.setDesc(todoDsc);
-                        todos.setBmobDate(bmobDate);
                         todos.save(new SaveListener<String>() {
                             @Override
                             public void done(String s, BmobException e) {
@@ -206,54 +194,6 @@ public class NewTodoActivity extends BasicActivity {
                             }
                         });
 
-//                        final Time time=new Time();
-//                        final Title title=new Title();
-//                        final Describe describe=new Describe();
-//                        //添加时间表与用户表的关联
-//                        time.setObjectId(user.getObjectId());
-////                        time.setTime(remindTime);
-//                        time.setUser(user);
-//                        //添加标题表与用户表的关联
-////                        title.setObjectId(user.getObjectId());
-//                        title.setUser(user);
-//                        title.setTitle(todoTitle);
-//                        //添加描述表与用户表的关联
-//                        describe.setObjectId(user.getObjectId());
-//                        describe.setUser(user);
-//                        //时间
-//                        time.save(new SaveListener<String>() {
-//                            @Override
-//                            public void done(String objectId,BmobException e) {
-//                                if(e==null){
-//                                    Log.i("bmob","时间成功");
-//                                }else{
-//                                    Log.i("bmob","时间失败："+e.getMessage());
-//                                }
-//                            }
-//
-//                        });
-//                        //标题
-//                        title.save(new SaveListener<String>() {
-//                            @Override
-//                            public void done(String s, BmobException e) {
-//                                if(e==null){
-//                                    Log.i("bmob","标题成功");
-//                                }else{
-//                                    Log.i("bmob","标题失败："+e.getMessage());
-//                                }
-//                            }
-//                        });
-//                        //描述
-//                        describe.save(new SaveListener<String>() {
-//                            @Override
-//                            public void done(String s, BmobException e) {
-//                                if(e==null){
-//                                    Log.i("bmob","描述成功");
-//                                }else{
-//                                    Log.i("bmob","描述失败："+e.getMessage());
-//                                }
-//                            }
-//                        });
                     }
 
 //                    SPUtils.put(getApplicationContext(), KEY_RINGTONE, "content://settings/system/notification_sound");

@@ -78,7 +78,7 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
 
         ViewHolder.todo_title.setText(todos.get(todos.size()-1-i).getTitle());
         ViewHolder.todo_desc.setText(todos.get(todos.size()-1-i).getDesc());
-        ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate().substring(5) + " "+ todos.get(todos.size()-1-i).getTime());
+        ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate() + " "+ todos.get(todos.size()-1-i).getTime());
         ViewHolder.card_background.setImageDrawable(context.getResources().getDrawable(todos.get(todos.size()-1-i).getImgId()));
 
         if (todos.get(todos.size()-1-i).getIsRepeat() == 1){

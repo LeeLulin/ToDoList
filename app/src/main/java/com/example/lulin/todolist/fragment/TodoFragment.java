@@ -1,52 +1,44 @@
 package com.example.lulin.todolist.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.SpacesItemDecoration;
-import com.example.lulin.todolist.activity.EditTodoActivity;
-import com.example.lulin.todolist.activity.LoginActivity;
-import com.example.lulin.todolist.activity.MainActivity;
-import com.example.lulin.todolist.activity.NewTodoActivity;
 import com.example.lulin.todolist.adapter.TodoRecyclerViewAdapter;
 import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.RecyclerItemClickListener;
-import com.example.lulin.todolist.utils.Title;
+import com.example.lulin.todolist.utils.ToDoUtils;
 import com.example.lulin.todolist.utils.Todos;
 import com.example.lulin.todolist.utils.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import top.wefor.circularanim.CircularAnim;
 
 import static cn.bmob.v3.Bmob.getApplicationContext;
 
 
-public class TodoFragment extends Fragment {
+public class TodoFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
-    private List<Todos> todosList;
+    private List<Todos> todosList = new ArrayList<>();
     private TodoRecyclerViewAdapter todoRecyclerViewAdapter;
     private MyDatabaseHelper dbHelper;
     private String todoTitle,todoDsc,todoDate,todoTime;
@@ -57,21 +49,6 @@ public class TodoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initMenu();
-        if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
-
-            if (User.getCurrentUser() != null){
-                query();
-            }
-        }
-    }
-
-    private void initPersonData() {
-        todosList =new ArrayList<>();
-        dbData();
-    }
-    public void initMenu(){
-
 
     }
 
@@ -84,7 +61,6 @@ public class TodoFragment extends Fragment {
 //       layout.setStackFromEnd(true);//列表再底部开始展示，反转后由上面开始展示
 //       layout.setReverseLayout(true);//列表翻转
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        initPersonData();
         todoRecyclerViewAdapter = new TodoRecyclerViewAdapter(todosList,getActivity());
         recyclerView.setLayoutManager(layout);
         recyclerView.addItemDecoration(new SpacesItemDecoration(0));
@@ -124,6 +100,17 @@ public class TodoFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
+            if (User.getCurrentUser() != null){
+                query();
+                getMyTask();
+            }
+        }
+
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -135,50 +122,6 @@ public class TodoFragment extends Fragment {
         super.onDetach();
     }
 
-    /**
-     * SQLite与list数据绑定
-     */
-    public void dbData(){
-        dbHelper = new MyDatabaseHelper(getContext(), "Data.db", null, 2);
-        SQLiteDatabase db=dbHelper.getReadableDatabase();
-
-        try{
-            Cursor cursor=db.rawQuery("SELECT * FROM Todo", null);
-            while(cursor.moveToNext()) {
-
-//                id = cursor.getInt(cursor.getColumnIndex("id"));
-//                todoTitle = cursor.getString(cursor.getColumnIndex("todotitle"));
-//                todoDsc = cursor.getString(cursor.getColumnIndex("tododsc"));
-//                todoDate = cursor.getString(cursor.getColumnIndex("tododate"));
-//                todoTime = cursor.getString(cursor.getColumnIndex("todotime"));
-//                remindTime = cursor.getLong(cursor.getColumnIndex("remindTime"));
-//                remindTimeNoDay = cursor.getLong(cursor.getColumnIndex("remindTimeNoDay"));
-//                isAlerted = cursor.getInt(cursor.getColumnIndex("isAlerted"));
-//                isRepeat = cursor.getInt(cursor.getColumnIndex("isRepeat"));
-//                imgId = cursor.getInt(cursor.getColumnIndex("imgId"));
-                Todos data = new Todos();
-                data.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                data.setTitle(cursor.getString(cursor.getColumnIndex("todotitle")));
-                data.setDesc(cursor.getString(cursor.getColumnIndex("tododsc")));
-                data.setDate(cursor.getString(cursor.getColumnIndex("tododate")));
-                data.setTime(cursor.getString(cursor.getColumnIndex("todotime")));
-                data.setRemindTime(cursor.getLong(cursor.getColumnIndex("remindTime")));
-                data.setRemindTimeNoDay(cursor.getLong(cursor.getColumnIndex("remindTimeNoDay")));
-                data.setisAlerted(cursor.getInt(cursor.getColumnIndex("isAlerted")));
-                data.setIsRepeat(cursor.getInt(cursor.getColumnIndex("isRepeat")));
-                data.setImgId(cursor.getInt(cursor.getColumnIndex("imgId")));
-                todosList.add(data);
-            }
-
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-
-            if(db.isOpen()){
-                db.close();
-            }
-        }
-    }
 
     private void query(){
         User user = User.getCurrentUser(User.class);
@@ -197,5 +140,43 @@ public class TodoFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * 获取我的任务list
+     */
+    private void getMyTask() {
+        // 访问数据库在子线程中进行
+        // 1.首先获取本地数据库
+        List<Todos> todos = ToDoUtils.getAllTodos(getContext());
+        if (todos.size() > 0) {
+            setListData(todos);
+        }
+        // 2.获取网络，可能是换手机了，或者是没有添加过，或者是当前时间以后没有
+        if (todos.size() <= 0) {
+            ToDoUtils.getNetAllTodos(context, currentUser, new ToDoUtils.GetTodosCallBack() {
+                @Override
+                public void onSuccess(List<Todos> todos) {
+                    if (todos != null){
+                        setListData(todos);
+                    }
+                }
+
+                @Override
+                public void onError(int errorCode, String msg) {
+
+                }
+            });
+        }
+    }
+
+    /**
+     * 设置list数据
+     */
+    private void setListData(List<Todos> newList) {
+        todosList.clear();
+        todosList.addAll(newList);
+        todoRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
 
 }

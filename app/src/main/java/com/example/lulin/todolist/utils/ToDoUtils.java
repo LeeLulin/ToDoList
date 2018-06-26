@@ -8,9 +8,14 @@ import android.util.Log;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.Dao.ToDoDao;
+import com.lidroid.xutils.DbUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -43,6 +48,30 @@ public class ToDoUtils {
     }
 
     /**
+     * 返回数据库用户所有的任务
+     *
+     * @param context
+     * @return
+     * @throws Exception
+     */
+    public static List<Todos> getAllTodos(Context context) {
+//        DbUtils dbUtils = DbUtils.create(context);
+        List<Todos> temp = new ArrayList<Todos>();
+//        try {
+        // temp = dbUtils.findAll(Tasks.class);
+//            List<Task> findAll = dbUtils.findAll(Selector.from(Task.class).orderBy("time"));
+        List<Todos> findAll = new ToDoDao(context).getAllTask();
+        Log.i("ToDoUtils","大小" + findAll.size());
+        if (findAll != null && findAll.size() > 0) {
+            temp.addAll(findAll);
+        }
+//        } catch (Exception e) {
+        // if (debugDB) e.printStackTrace();
+//        }
+        return temp;
+    }
+
+    /**
      * 将改任务设置为已被提醒
      */
     public static void setHasAlerted(Context context, int id) {
@@ -70,5 +99,50 @@ public class ToDoUtils {
         return false;
     }
 
+    /**
+     * 返回网络上用户所有的任务
+     *
+     * @param context
+     * @param currentUser
+     * @throws Exception
+     */
+    public static void getNetAllTodos(final Context context, User currentUser, final GetTodosCallBack getTodosCallBack) {
+        BmobQuery<Todos> query = new BmobQuery<Todos>();
+        query.addWhereEqualTo("user", currentUser).order("bmobDate");
+        // 这个查询也包括了用户的已经过时的任务
+        query.findObjects(new FindListener<Todos>() {
+            @Override
+            public void done(List<Todos> list, BmobException e) {
+                if (e==null){
+                    Log.i("ToDoUtils", "查询到: " + list.size()+ "条数据");
+                    // 1.更新本地数据库
+                    if (list.size() > 0) {
+                        ToDoDao toDoDao = new ToDoDao(context);
+                        toDoDao.saveAll(list);
+                        // 2.筛选大于当后时间的
+                        List<Todos> listTodo = new ArrayList<Todos>();
+                        long curTime = System.currentTimeMillis();
+                        for (Todos todos : listTodo) {
+                            if (todos.getRemindTime() >= curTime) {
+                                listTodo.add(todos);
+                            }
+                        }
+                    }
+                    getTodosCallBack.onSuccess(list);
+
+                } else {
+                    Log.i("ToDoUtils", "查询失败："+e.getMessage());
+                    getTodosCallBack.onError(e.getErrorCode(),e.getMessage());
+                }
+
+            }
+        });
+    }
+
+    public interface GetTodosCallBack {
+        void onSuccess(List<Todos> todos);
+
+        void onError(int errorCode, String msg);
+    }
 
 }
