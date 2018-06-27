@@ -34,6 +34,15 @@ public class HelpActivity extends BasicActivity{
         super.onDestroy();
     }
 
+    /**
+     * 返回按钮监听
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void setStatusBar(){
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

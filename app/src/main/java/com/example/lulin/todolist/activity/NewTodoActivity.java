@@ -212,6 +212,10 @@ public class NewTodoActivity extends BasicActivity {
                         }
                     } else {
                         new ToDoDao(getApplicationContext()).create(todos);
+                        Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
+                        setResult(2, intent);
+                        startService(new Intent(NewTodoActivity.this, AlarmService.class));
+                        finish();
                     }
 
                 }
