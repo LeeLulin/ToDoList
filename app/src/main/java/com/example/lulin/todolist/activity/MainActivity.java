@@ -271,14 +271,15 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
                 break;
 
-            case R.id.nav_about:
-
+            case R.id.nav_help:
+                Intent intent1 = new Intent(MainActivity.this, HelpActivity.class);
+                startActivity(intent1);
                 break;
 
             case R.id.nav_setting:
 
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                Intent intent2 = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent2);
 
                 break;
         }

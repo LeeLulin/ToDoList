@@ -17,9 +17,9 @@
             android:icon="@drawable/ic_account_box_black_48dp"
             android:title="朋友" />
         <item
-            android:id="@+id/nav_about"
+            android:id="@+id/nav_help"
             android:icon="@drawable/ic_about"
-            android:title="关于" />
+            android:title="帮助" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
