@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/ic_img3"
+    tools:context=".activity.LoginActivity" >
+
+    <include
+        android:id="@+id/login_title"
+        layout="@layout/login_title_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_title"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/do_it" />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <include
+            android:id="@+id/login_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            layout="@layout/login_input_layout" />
+
+        <include
+            android:id="@+id/login_layout_progress"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            layout="@layout/login_layout_progress"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/layout_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="right"
+            android:layout_below="@+id/login_input_layout"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/login_remember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="记住密码"
+                android:textSize="14sp"
+                android:theme="@style/My_CheckBox"
+                android:textColor="@color/half_black_2" />
+        </LinearLayout>
+
+        <!--<TextView-->
+            <!--android:id="@+id/main_btn_login"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/login_input_layout"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_marginTop="15dip"-->
+            <!--android:background="@drawable/text_bg"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingBottom="2dip"-->
+            <!--android:paddingLeft="15dip"-->
+            <!--android:paddingRight="15dip"-->
+            <!--android:paddingTop="2dip"-->
+            <!--android:text="Login"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="20sp" />-->
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/layout_check"
+            android:layout_centerInParent="true"
+            android:background="@drawable/translucent"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="登录"
+            android:textSize="16sp"
+            android:textColor="@color/half_black_2"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/skip_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:clickable="true"
+        android:text="跳过"
+        android:textColor="@drawable/text_press"
+        android:textSize="16sp" />
+
+</RelativeLayout>
