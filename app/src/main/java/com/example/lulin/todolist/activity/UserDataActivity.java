@@ -355,6 +355,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 BmobUser.logOut();   //清除缓存用户对象
+                                SPUtils.put(getApplication(),"sync",false);
                                 Log.i(TAG, "注销成功");
                                 Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
                                 setResult(2, intent);

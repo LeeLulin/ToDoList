@@ -13,6 +13,7 @@ public class Todos extends BmobObject{
     private int id,isAlerted,isRepeat,imgId;
     private BmobDate bmobDate;
     private User user;
+    private String dbObjectId;
 
     public Todos(){}
 
@@ -80,6 +81,10 @@ public class Todos extends BmobObject{
         this.user = user;
     }
 
+    public void setDbObjectId(String dbObjectId){
+        this.dbObjectId = dbObjectId;
+    }
+
 
 
     public int getId(){
@@ -129,5 +134,9 @@ public class Todos extends BmobObject{
 
     public User getUser() {
         return user;
+    }
+
+    public String getDbObjectId(){
+        return dbObjectId;
     }
 }

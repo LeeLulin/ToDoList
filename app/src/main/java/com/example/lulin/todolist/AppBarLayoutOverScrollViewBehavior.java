@@ -15,7 +15,6 @@ import com.example.lulin.todolist.widget.DisInterceptNestedScrollView;
 
 
 /**
- * Created by gjm on 2017/5/24.
  * 目前包括的事件：
  * 图片放大回弹
  * 个人信息布局的top和botoom跟随图片位移

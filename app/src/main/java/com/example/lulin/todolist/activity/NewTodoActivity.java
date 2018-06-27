@@ -28,6 +28,7 @@ import com.example.lulin.todolist.Dao.ToDoDao;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.NetWorkUtils;
+import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.Todos;
 import com.example.lulin.todolist.utils.User;
@@ -182,44 +183,42 @@ public class NewTodoActivity extends BasicActivity {
                     BmobDate bmobDate = new BmobDate(date);
                     todos.setBmobDate(bmobDate);
 
-//                    new ToDoDao(getApplicationContext()).create(todos);
-                    //插入本地数据库
-                    //保存数据到Bmob
-                    if(NetWorkUtils.isNetworkConnected(getApplication()) && User.getCurrentUser()!= null){
-                        todos.save(new SaveListener<String>() {
-                            @Override
-                            public void done(String s, BmobException e) {
-                                if(e==null){
-                                    new ToDoDao(getApplicationContext()).create(todos);
-                                    Log.i("bmob","保存到Bmob成功 "+ todos.getObjectId());
-                                }else{
-                                    Log.i("bmob","保存到Bmob失败："+e.getMessage());
+                    boolean isSync = (Boolean) SPUtils.get(getApplication(),"sync",true);
+                    Log.i("ToDo", "isSync: " + isSync);
+
+                    if (isSync){
+                        //保存数据到Bmob
+                        if(NetWorkUtils.isNetworkConnected(getApplication()) && User.getCurrentUser()!= null){
+                            todos.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if(e==null){
+                                        //插入本地数据库
+                                        new ToDoDao(getApplicationContext()).create(todos);
+                                        Log.i("bmob","保存到Bmob成功 "+ todos.getObjectId());
+                                        Log.i("bmob","保存到本地数据库成功 "+ todos.getObjectId());
+                                        Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
+                                        setResult(2, intent);
+                                        startService(new Intent(NewTodoActivity.this, AlarmService.class));
+                                        finish();
+                                    }else{
+                                        Log.i("bmob","保存到Bmob失败："+e.getMessage());
+                                    }
                                 }
-                            }
-                        });
+                            });
 
-                        Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
-                        setResult(2, intent);
-                        startService(new Intent(NewTodoActivity.this, AlarmService.class));
-                        finish();
-
+                        } else {
+                            ToastUtils.showShort(getApplication(),"请先登录");
+                        }
                     } else {
-                        ToastUtils.showShort(getApplication(),"请先登录");
+                        new ToDoDao(getApplicationContext()).create(todos);
                     }
-
-//                    SPUtils.put(getApplicationContext(), KEY_RINGTONE, "content://settings/system/notification_sound");
 
                 }
 
             }
         });
 
-//        cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                finish();
-//            }
-//        });
 
         nv_todo_date.setOnClickListener(new View.OnClickListener() {
             @Override

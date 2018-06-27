@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.example.lulin.todolist.JellyInterpolator;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.utils.NetWorkUtils;
+import com.example.lulin.todolist.utils.SPUtils;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -103,6 +104,7 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
                 break;
 
             case R.id.skip_login:
+                SPUtils.put(this,"sync",false);
                 Intent intent2 = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent2);
                 finish();
@@ -227,6 +229,7 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
                                 @Override
                                 public void done(BmobUser bmobUser, BmobException e) {
                                     if (e == null) {
+                                        SPUtils.put(getApplication(),"sync",true);
                                         Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivityForResult(intent,2);

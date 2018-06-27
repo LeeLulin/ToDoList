@@ -116,6 +116,7 @@ public class ToDoDao {
             data.setisAlerted(cursor.getInt(cursor.getColumnIndex("isAlerted")));
             data.setIsRepeat(cursor.getInt(cursor.getColumnIndex("isRepeat")));
             data.setImgId(cursor.getInt(cursor.getColumnIndex("imgId")));
+            data.setObjectId(cursor.getString(cursor.getColumnIndex("objectId")));
             todosList.add(data);
         }
         // make sure to close the cursor
@@ -146,6 +147,7 @@ public class ToDoDao {
             data.setisAlerted(cursor.getInt(cursor.getColumnIndex("isAlerted")));
             data.setIsRepeat(cursor.getInt(cursor.getColumnIndex("isRepeat")));
             data.setImgId(cursor.getInt(cursor.getColumnIndex("imgId")));
+            data.setObjectId(cursor.getString(cursor.getColumnIndex("objectId")));
         }
         cursor.close();
         close();

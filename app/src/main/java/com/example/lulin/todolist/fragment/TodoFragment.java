@@ -23,6 +23,7 @@ import com.example.lulin.todolist.activity.NewTodoActivity;
 import com.example.lulin.todolist.adapter.TodoRecyclerViewAdapter;
 import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.RecyclerItemClickListener;
+import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.ToDoUtils;
 import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.Todos;
@@ -122,8 +123,7 @@ public class TodoFragment extends Fragment {
                                         ToastUtils.showShort(getContext(),msg);
                                     }
                                 });
-
-
+                                todoRecyclerViewAdapter.removeItem(position);
 
                             }
                         }).show();
@@ -188,11 +188,14 @@ public class TodoFragment extends Fragment {
      * 获取我的任务list
      */
     private void getMyTask() {
+
+        boolean isSync = (Boolean) SPUtils.get(getActivity(),"sync",true);
         // 1.首先获取本地数据库
         List<Todos> todos = ToDoUtils.getAllTodos(getContext());
         if (todos.size() > 0) {
             setListData(todos);
         }
+
 
         if (NetWorkUtils.isNetworkConnected(getContext())){
             if (currentUser != null){

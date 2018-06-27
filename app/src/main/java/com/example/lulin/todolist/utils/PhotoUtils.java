@@ -13,10 +13,6 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
-/**
- * @author zhengzhong on 2016/8/6 16:16
- * Email zheng_zhong@163.com
- */
 public class PhotoUtils {
     private static final String TAG = "PhotoUtils";
 
