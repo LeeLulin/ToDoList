@@ -1,69 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.lulin.todolist.activity.RegisterActivity"
+    android:fitsSystemWindows="true"
     android:background="@drawable/ic_img3"
-    >
+    tools:context=".activity.RegisterActivity" >
 
+    <include
+        android:id="@+id/register_title"
+        layout="@layout/register_title_layout" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:orientation="vertical">
+        android:layout_below="@+id/register_title"
+        android:orientation="vertical" >
 
-
-
-        <EditText
-            android:id="@+id/et_user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="用户名"
-            android:gravity="center"
-            android:layout_marginTop="100dp"
-            android:textColorHint="@color/black_semi"
-            android:textSize="15sp"
-            android:background="@drawable/translucent"/>
-
-        <EditText
-            android:layout_marginTop="10dp"
-            android:id="@+id/et_user_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="密码"
-            android:textSize="15sp"
-            android:textColorHint="@color/black_semi"
-            android:background="@drawable/translucent"
-            android:gravity="center"/>
-
-        <Button
-            android:text="点击注册"
-            android:onClick="btnShow"
-            android:textSize="15sp"
-            android:layout_marginTop="60dp"
-            android:textColor="@color/black_semi"
-            android:background="@drawable/shape1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-        <Button
-            android:id="@+id/btn_go_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="已有账户？点击登录"
-            android:textSize="15sp"
-            android:textColor="@color/black_semi"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/shape1"/>
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/do_it" />
 
     </LinearLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <include
+            android:id="@+id/input_register_layout"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            layout="@layout/register_input_layout" />
+
+        <include
+            android:id="@+id/register_progress"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            layout="@layout/register_layout_progress"
+            android:visibility="gone" />
+
+        <!--<TextView-->
+        <!--android:id="@+id/main_btn_login"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/login_input_layout"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:layout_marginTop="15dip"-->
+        <!--android:background="@drawable/text_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="2dip"-->
+        <!--android:paddingLeft="15dip"-->
+        <!--android:paddingRight="15dip"-->
+        <!--android:paddingTop="2dip"-->
+        <!--android:text="Login"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textSize="20sp" />-->
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/input_register_layout"
+            android:layout_centerInParent="true"
+            android:background="@drawable/translucent"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="注册"
+            android:textSize="16sp"
+            android:textColor="@color/half_black_2"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

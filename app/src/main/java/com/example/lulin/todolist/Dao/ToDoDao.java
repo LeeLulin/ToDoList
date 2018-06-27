@@ -60,6 +60,7 @@ public class ToDoDao {
         values.put("isAlerted", todos.getisAlerted());
         values.put("isRepeat", todos.getIsRepeat());
         values.put("imgId", todos.getImgId());
+        values.put("objectId",todos.getObjectId());
         long id = db.insert("Todo", null, values);
         close();
         return id;
@@ -175,6 +176,20 @@ public class ToDoDao {
         for (Todos todos : list) {
             create(todos);
         }
+    }
+
+    /**
+     * 删除
+     *
+     * @param todos
+     * @return 是否删除成功
+     */
+    public boolean deleteTask(Todos todos) {
+        open();
+        long id = todos.getId();
+        int affectedRows = db.delete("Todo", "id" + " = ?", new String[] { id + "" });
+        close();
+        return affectedRows > 0;
     }
 
 

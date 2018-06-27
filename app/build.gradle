@@ -53,6 +53,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     implementation 'com.github.Andy671:Dachshund-Tab-Layout:v0.3.3'
+    //进度条
+    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
 
 
 }

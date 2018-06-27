@@ -16,6 +16,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -61,7 +62,7 @@ public class ToDoUtils {
         // temp = dbUtils.findAll(Tasks.class);
 //            List<Task> findAll = dbUtils.findAll(Selector.from(Task.class).orderBy("time"));
         List<Todos> findAll = new ToDoDao(context).getAllTask();
-        Log.i("ToDoUtils","大小" + findAll.size());
+        Log.i("ToDoUtils","任务个数" + findAll.size());
         if (findAll != null && findAll.size() > 0) {
             temp.addAll(findAll);
         }
@@ -114,7 +115,7 @@ public class ToDoUtils {
             @Override
             public void done(List<Todos> list, BmobException e) {
                 if (e==null){
-                    Log.i("ToDoUtils", "查询到: " + list.size()+ "条数据");
+                    Log.i("ToDoUtils", "查询到网络任务个数: " + list.size());
                     // 1.更新本地数据库
                     if (list.size() > 0) {
                         ToDoDao toDoDao = new ToDoDao(context);
@@ -139,10 +140,29 @@ public class ToDoUtils {
         });
     }
 
+    public static void deleteNetTodos(final Context context, Todos todos, final DeleteTaskListener deleteTaskListener) {
+        todos.delete(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e==null){
+                    deleteTaskListener.onSuccess();
+                } else {
+                    deleteTaskListener.onError(e.getErrorCode(),e.getMessage());
+                }
+            }
+        });
+    }
+
     public interface GetTodosCallBack {
         void onSuccess(List<Todos> todos);
 
         void onError(int errorCode, String msg);
+    }
+
+    public interface DeleteTaskListener {
+        void onSuccess();
+
+        void onError(int errorCord, String msg);
     }
 
 }

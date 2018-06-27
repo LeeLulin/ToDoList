@@ -2,14 +2,10 @@ package com.example.lulin.todolist.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -24,12 +20,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.signature.MediaStoreSignature;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
@@ -43,15 +37,10 @@ import com.example.lulin.todolist.widget.CircleImageView;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.LineMoveIndicator;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
@@ -107,7 +96,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         dbHelper.getWritableDatabase();
 
 
-        if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
+        if (NetWorkUtils.isNetworkConnected(getApplication())){
 
             if (User.getCurrentUser() != null){
                 try{
@@ -208,7 +197,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                             public void onAnimationEnd() {
                                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                                 drawer.closeDrawer(GravityCompat.START);
-                                if (NetWorkUtils.isNetworkConnected(getApplicationContext())){
+                                if (NetWorkUtils.isNetworkConnected(getApplication())){
                                     local_user = User.getCurrentUser(User.class);
                                 }
                                 if (local_user != null){

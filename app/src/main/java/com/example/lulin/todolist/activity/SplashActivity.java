@@ -1,10 +1,7 @@
 package com.example.lulin.todolist.activity;
 
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Environment;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
@@ -13,10 +10,9 @@ import com.example.lulin.todolist.Receiver.NetworkReceiver;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.FileUtils;
 import com.example.lulin.todolist.utils.NetWorkUtils;
-import com.example.lulin.todolist.utils.SPUtils;
+import com.example.lulin.todolist.utils.User;
 
 import cn.bmob.v3.Bmob;
-import site.gemus.openingstartanimation.LineDrawStrategy;
 import site.gemus.openingstartanimation.NormalDrawStrategy;
 import site.gemus.openingstartanimation.OpeningStartAnimation;
 
@@ -33,8 +29,6 @@ public class SplashActivity extends BasicActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
 
-//        setContentView(R.layout.activity_splash);
-
         //复制assets下的资源文件到sd卡
         fileUtils = new FileUtils();
         fileUtils.copyData(getApplicationContext());
@@ -50,7 +44,7 @@ public class SplashActivity extends BasicActivity {
 //                .setAppIcon() //设置图标
 //                .setColorOfAppIcon() //设置绘制图标线条的颜色
 //                .setAppName("Do it") //设置app名称
-//                .setColorOfAppName(R.color.icon_color) //设置app名称颜色
+                .setColorOfAppName(R.color.icon_color) //设置app名称颜色
                 .setAppStatement("Just do it!") //设置一句话描述
                 .setColorOfAppStatement(R.color.icon_color) // 设置一句话描述的颜色
                 .create();
@@ -59,11 +53,16 @@ public class SplashActivity extends BasicActivity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-//                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(mainIntent);
-                finish();
-//                unregisterReceiver(networkReceiver);
+                if (User.getCurrentUser(User.class)==null){
+                    Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                } else {
+                    Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
+
             }
         }, SPLASH_DISPLAY_LENGTH);
     }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dip"
+        android:background="@drawable/radius_drawable_bg"
+        android:orientation="vertical"
+        android:padding="10dip" >
+
+        <LinearLayout
+            android:id="@+id/input_register_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/register_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:background="#00000000"
+                android:hint="账号"
+                android:padding="5dip"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="5dip"
+            android:layout_marginTop="5dip"
+            android:background="#eeeeee" />
+
+        <LinearLayout
+            android:id="@+id/input_register_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+
+            <EditText
+                android:id="@+id/register_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:background="#00000000"
+                android:hint="密码"
+                android:inputType="textPassword"
+                android:padding="5dip"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -20,6 +21,9 @@ import java.util.HashMap;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.utils.RecyclerItemClickListener;
+import com.example.lulin.todolist.utils.ToDoUtils;
+import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.Todos;
 
 import java.util.List;

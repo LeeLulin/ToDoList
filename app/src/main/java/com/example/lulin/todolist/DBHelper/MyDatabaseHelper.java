@@ -17,6 +17,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             + "tododsc String,"
             + "tododate String,"
             + "todotime String,"
+            + "objectId String,"
             + "remindTime long,"
             + "remindTimeNoDay long,"
             + "isAlerted int,"

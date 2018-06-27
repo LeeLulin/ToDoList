@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 
 import com.example.lulin.todolist.utils.User;
 
+import cn.bmob.v3.BmobUser;
+
 public class BaseFragment extends Fragment {
 
     protected Context context;
@@ -15,6 +17,6 @@ public class BaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity();
-        currentUser = User.getCurrentUser( User.class);
+        currentUser = User.getCurrentUser(User.class);
     }
 }

@@ -75,10 +75,6 @@
         </receiver>
 
         <activity
-            android:name=".activity.LoginActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activity.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -89,6 +85,7 @@
             android:name=".Service.FocusService"
             android:enabled="true"
             android:exported="true">
+
         </service>
 
         <provider
@@ -104,10 +101,17 @@
         <activity
             android:name=".activity.BasicActivity"
             android:label="@string/title_activity_basic">
+
         </activity>
         <activity
             android:name=".activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".activity.LoginActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
     </application>
 

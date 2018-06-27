@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dip"
+    android:gravity="center_vertical"
+    android:padding="10dip" >
+
+
+    <TextView
+        android:id="@+id/sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@drawable/text_press"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:textSize="16sp"
+        android:text="注册"
+        />
+</RelativeLayout>
