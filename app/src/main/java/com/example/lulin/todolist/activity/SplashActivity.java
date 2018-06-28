@@ -10,6 +10,7 @@ import com.example.lulin.todolist.Receiver.NetworkReceiver;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.FileUtils;
 import com.example.lulin.todolist.utils.NetWorkUtils;
+import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.User;
 
 import cn.bmob.v3.Bmob;
@@ -32,6 +33,7 @@ public class SplashActivity extends BasicActivity {
         //复制assets下的资源文件到sd卡
         fileUtils = new FileUtils();
         fileUtils.copyData(getApplicationContext());
+        SPUtils.put(this,"isFocus",false);
 
         if (NetWorkUtils.isNetworkConnected(getApplication())){
             Bmob.initialize(getApplication(), APP_ID);

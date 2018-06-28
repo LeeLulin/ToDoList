@@ -25,10 +25,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     private static final String TAG = "receiver";
     private static final String KEY_RINGTONE = "ring_tone";
     private static final String KEY_VIBRATE = "vibrator";
+    private String ringTone;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        ringTone = intent.getStringExtra("ringTone");
         //此处接收闹钟时间发送过来的广播信息，为了方便设置提醒内容
         title = intent.getStringExtra("title");
         Log.i(TAG, title);
@@ -57,10 +58,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     .setFullScreenIntent(pi, true)
                     .setContentIntent(pi);
-        if ((String)SPUtils.get(context, KEY_RINGTONE, "") == null){
-            notification.setDefaults(Notification.DEFAULT_ALL);        //设置系统默认的通知音乐、振动、LED等。
+        if (ringTone == ""){
+            notification.setDefaults(Notification.DEFAULT_ALL); //设置系统默认的通知音乐、振动
+            Log.i(TAG, "默认铃声");
         } else {
-            notification.setSound(Uri.parse((String)SPUtils.get(context, KEY_RINGTONE, "")));
+            notification.setSound(Uri.parse(ringTone));
+            notification.setDefaults(Notification.DEFAULT_VIBRATE);
+            Log.i(TAG, ringTone);
         }
         if (Build.VERSION.SDK_INT >= 21) {
             notification.setVisibility(Notification.VISIBILITY_PUBLIC);

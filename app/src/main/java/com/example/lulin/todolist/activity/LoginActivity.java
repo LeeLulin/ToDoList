@@ -219,6 +219,7 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
 
                             if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                                 Toast.makeText(LoginActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
+                                recovery();
                                 return;
                             }
 

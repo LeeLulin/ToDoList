@@ -18,6 +18,7 @@ import android.widget.Switch;
 
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.FocusService;
+import com.example.lulin.todolist.utils.SPUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -37,8 +38,13 @@ public class ClockFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_clock, container, false);
-
+        boolean isFocus = (Boolean) SPUtils.get(getContext(),"isFocus",true);
         focus = rootView.findViewById(R.id.set_focus);
+        if (isFocus){
+            focus.setChecked(true);
+        } else {
+            focus.setChecked(false);
+        }
         focus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -50,9 +56,11 @@ public class ClockFragment extends Fragment {
                     }
                     Intent intent = new Intent(getActivity(), FocusService.class);
                     getActivity().startService(intent);
+                    SPUtils.put(getContext(),"isFocus",true);
                 } else {
                     Intent intent = new Intent(getActivity(), FocusService.class);
                     getActivity().stopService(intent);
+                    SPUtils.put(getContext(),"isFocus",false);
                 }
             }
         });

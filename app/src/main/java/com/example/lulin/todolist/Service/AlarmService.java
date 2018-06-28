@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.lulin.todolist.Receiver.AlarmReceiver;
+import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.ToDoUtils;
 import com.example.lulin.todolist.utils.Todos;
 
@@ -22,6 +23,7 @@ public class AlarmService extends Service {
     private PendingIntent pendingIntent;
     private Intent startNotification;
     private static final String TAG = "service";
+    private static final String KEY_RINGTONE = "ring_tone";
 
     @Nullable
     @Override
@@ -45,6 +47,7 @@ public class AlarmService extends Service {
                         startNotification = new Intent(AlarmService.this, AlarmReceiver.class);   //启动广播
                         startNotification.putExtra("title", todos.getTitle());
                         startNotification.putExtra("dsc", todos.getDesc());
+                        startNotification.putExtra("ringTone", (String) SPUtils.get(getApplication(), KEY_RINGTONE, ""));
                         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);   //这里是系统闹钟的对象
                         pendingIntent = PendingIntent.getBroadcast(this, todos.getId(), startNotification, PendingIntent.FLAG_UPDATE_CURRENT);   //设置事件
                         if (todos.getIsRepeat() == 0){
@@ -53,6 +56,7 @@ public class AlarmService extends Service {
                             Log.i(TAG, "标题是:" + todos.getTitle());
                             Log.i(TAG, "时间是:" + todos.getRemindTime());
                             Log.i(TAG, "日期是:" + System.currentTimeMillis() / 1000 / 60 / 60 / 24);
+                            Log.i(TAG, "铃声：" + (String) SPUtils.get(getApplication(), KEY_RINGTONE, ""));
                         }else if (todos.getIsRepeat() == 1){
                             //设置每隔24小时提醒一次
                             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, todos.getRemindTimeNoDay(), 1000 * 60 * 60 * 24, pendingIntent);

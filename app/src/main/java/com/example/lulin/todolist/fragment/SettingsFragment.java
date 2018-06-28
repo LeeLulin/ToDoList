@@ -22,6 +22,7 @@ public class SettingsFragment extends PreferenceFragment {
     private SwitchPreference mVibrate;
     private static final String KEY_RINGTONE = "ring_tone";
     private static final String KEY_VIBRATE = "vibrator";
+    private static final String TAG = "setting";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,13 @@ public class SettingsFragment extends PreferenceFragment {
         mRingtone = (RingtonePreference) preferenceScreen.findPreference(KEY_RINGTONE);
 //        mVibrate = (SwitchPreference) preferenceScreen.findPreference(KEY_VIBRATE);
         Uri uri = Uri.parse(SPUtils.get(getActivity(), KEY_RINGTONE, "").toString());
-        mRingtone.setSummary(getRingtonName(uri));
+        Log.i(TAG, "铃声" + getRingtonName(uri));
+        if (getRingtonName(uri).equals("未知铃声")){
+            mRingtone.setSummary("默认铃声");
+        } else {
+            mRingtone.setSummary(getRingtonName(uri));
+        }
+
     }
 
     public void setChangeListener(){
@@ -46,7 +53,7 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object value) {
                 if (preference == mRingtone){
                     SPUtils.put(getActivity(), KEY_RINGTONE, value.toString());
-                    Log.i("Setting", value.toString());
+                    Log.i(TAG, value.toString());
                     mRingtone.setSummary(getRingtonName(Uri.parse(value.toString())));
                 }
                 return false;
