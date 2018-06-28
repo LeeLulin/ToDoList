@@ -32,6 +32,7 @@ import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.Todos;
 import com.example.lulin.todolist.utils.User;
+import com.github.jorgecastilloprz.FABProgressCircle;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -72,10 +73,11 @@ public class NewTodoActivity extends BasicActivity {
             R.drawable.img_5,
             R.drawable.img_6,
             R.drawable.img_7,
-            R.drawable.img_8};
+            R.drawable.img_8,};
     private int imgId;
     private static final String KEY_RINGTONE = "ring_tone";
     private Todos todos;
+    private FABProgressCircle fabProgressCircle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,7 @@ public class NewTodoActivity extends BasicActivity {
         nv_todo_time = (TextView) findViewById(R.id.new_todo_time);
         nv_repeat = (Switch) findViewById(R.id.repeat);
         new_bg = (ImageView) findViewById(R.id.new_bg);
+        fabProgressCircle = (FABProgressCircle) findViewById(R.id.fabProgressCircle);
     }
 
     private void initHeadImage(){
@@ -142,6 +145,7 @@ public class NewTodoActivity extends BasicActivity {
                     Toast.makeText(NewTodoActivity.this, "没有设置时间", Toast.LENGTH_SHORT).show();
 
                 } else {
+                    fabProgressCircle.show();
                     todoTitle = nv_todo_title.getText().toString();
                     todoDsc = nv_todo_dsc.getText().toString();
                     dbHelper = new MyDatabaseHelper(NewTodoActivity.this, "Data.db", null, 2);

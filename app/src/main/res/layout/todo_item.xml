@@ -32,7 +32,7 @@
             android:id="@+id/card_bg"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:background="@drawable/ic_img2"
+            android:background="@drawable/ic_img1"
             android:scaleType="centerCrop"/>
 
 

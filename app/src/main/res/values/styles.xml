@@ -110,6 +110,7 @@
         <!-- Dialog进入及退出动画 -->
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
     </style>
+
     <!-- ActionSheet进出动画 -->
     <style name="DialogAnimation" parent="@android:style/Animation.Dialog">
         <item name="android:windowEnterAnimation">@anim/actionsheet_dialog_in</item>

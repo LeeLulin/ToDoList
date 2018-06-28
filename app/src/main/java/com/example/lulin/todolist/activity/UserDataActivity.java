@@ -519,7 +519,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         RequestOptions options_2 = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new ObjectKey(SPUtils.get(UserDataActivity.this,"head_signature","")))
-                .placeholder(R.drawable.ic_img2);
+                .placeholder(R.drawable.ic_img1);
 
         Glide.with(getApplicationContext())
                 .load(SPUtils.get(UserDataActivity.this, "path" ,""))
