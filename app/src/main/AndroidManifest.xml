@@ -106,19 +106,17 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
         <activity android:name=".activity.LoginActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
 
         <activity
-            android:name=".activity.HelpActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
+            android:name=".activity.AboutActivity"
+            android:theme="@style/AppTheme.About">
         </activity>
+
     </application>
 
 </manifest>

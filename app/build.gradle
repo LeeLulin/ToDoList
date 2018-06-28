@@ -55,6 +55,9 @@ dependencies {
     implementation 'com.github.Andy671:Dachshund-Tab-Layout:v0.3.3'
     //进度条
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    //关于页面
+    implementation 'me.drakeet.support:about:2.1.1'
+    implementation 'me.drakeet.multitype:multitype:3.4.4'
 
 
 }

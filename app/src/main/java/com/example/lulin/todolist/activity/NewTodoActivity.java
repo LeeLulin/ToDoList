@@ -71,7 +71,8 @@ public class NewTodoActivity extends BasicActivity {
             R.drawable.img_4,
             R.drawable.img_5,
             R.drawable.img_6,
-            R.drawable.ic_img2};
+            R.drawable.img_7,
+            R.drawable.img_8};
     private int imgId;
     private static final String KEY_RINGTONE = "ring_tone";
     private Todos todos;
@@ -108,7 +109,7 @@ public class NewTodoActivity extends BasicActivity {
     private void initHeadImage(){
 
         Random random = new Random();
-        imgId = imageArray[random.nextInt(7)];
+        imgId = imageArray[random.nextInt(8)];
         new_bg.setImageDrawable(getApplicationContext().getResources().getDrawable(imgId));
 
     }

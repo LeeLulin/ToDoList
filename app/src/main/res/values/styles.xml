@@ -116,5 +116,17 @@
         <item name="android:windowExitAnimation">@anim/actionsheet_dialog_out</item>
     </style>
 
+    <style name="AppTheme.About" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@android:color/black</item>
+
+        <!--optional-->
+        <!--<item name="aboutPageHeaderBackground">reference|color</item>-->
+        <!--<item name="aboutPageHeaderContentScrim">reference|color</item>-->
+        <!--<item name="aboutPageHeaderTextColor">@color/black</item>-->
+        <!--<item name="aboutPageNavigationIcon">reference</item>-->
+    </style>
+
 
 </resources>
