@@ -110,7 +110,7 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
 
                 final MaterialDialog skipDialog = new MaterialDialog(this);
                 skipDialog.setTitle("提示")
-                        .setMessage("跳过登录将无法使用云同步功能，是否跳过")
+                        .setMessage("跳过登录将无法使用云同步功能，数据将无法备份，是否跳过")
                         .setPositiveButton("跳过", new OnClickListener() {
                             @Override
                             public void onClick(View view) {

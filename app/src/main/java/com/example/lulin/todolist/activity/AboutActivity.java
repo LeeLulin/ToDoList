@@ -30,7 +30,10 @@ public class AboutActivity extends AbsAboutActivity {
         items.add(new Card(getString(R.string.card_content)));
 
         items.add(new Category("开发者"));
-        items.add(new Contributor(R.drawable.default_photo,"开发者1", "Developer & designer", "https://github.com/LeeLulin"));
+        items.add(new Contributor(R.drawable.designer1,"LeeLulin", "Developer & designer", "https://github.com/LeeLulin"));
+        items.add(new Contributor(R.drawable.designer2,"Snowaaaas", "Developer & designer","https://github.com/Snowaaaas/home/df/Desktop/designer2.jpg"));
+        items.add(new Contributor(R.drawable.designer3,"xiaoying8023", "Developer & designer","https://github.com/xiaoying8023/home/df/Desktop/designer3.jpg"));
+        items.add(new Contributor(R.drawable.designer4,"VinceDing123", "Developer & designer","https://github.com/VinceDing123"));
 
         items.add(new Category("项目地址"));
         items.add(new Card("https://github.com/LeeLulin/ToDoList"));
