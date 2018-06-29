@@ -84,7 +84,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
     private Uri imageUri;
     private Uri cropImageUri;
     private User user;
-    private FloatingActionButton edit,exit;
+    private FloatingActionButton edit,exit,reset;
     private EditText et_nickname = null;
     private EditText et_autograph = null;
     private EditText et_sex = null;
@@ -96,6 +96,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
     private ImageView top_bg;
     private CircleImageView toolbar_userhead;
     private String imgPath;
+    private EditText oldPwd,newPwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         setUserDataFromBmob();
         glideLoad();
         signOut();
+        resetPassWord();
 
 
 
@@ -122,6 +124,8 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         top_bg = (ImageView) findViewById(R.id.top_bg);
         toolbar_userhead = (CircleImageView) findViewById(R.id.toolbar_userhead);
         exit = (FloatingActionButton) findViewById(R.id.exit_login);
+        reset = (FloatingActionButton) findViewById(R.id.reset_fab);
+
     }
 
     @OnClick({R.id.takePic, R.id.takeGallery})
@@ -470,6 +474,52 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         });
         editDialog.show();// 显示对话框
 
+    }
+
+    public void resetPassWord(){
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                LayoutInflater layoutInflater = LayoutInflater.from(UserDataActivity.this);
+                View textEntryView = layoutInflater.inflate(R.layout.reset_pwd_dialog, null);
+                oldPwd = (EditText) textEntryView.findViewById(R.id.old_pwd);
+                newPwd = (EditText)textEntryView.findViewById(R.id.new_pwd);
+                final MaterialDialog resetDialog = new MaterialDialog(UserDataActivity.this);
+                resetDialog.setTitle("修改密码");
+                resetDialog.setView(textEntryView);
+                resetDialog.setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String old_pwd = oldPwd.getText().toString();
+                        String new_pwd = newPwd.getText().toString();
+                        BmobUser.updateCurrentUserPassword(old_pwd, new_pwd, new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                if(e==null){
+                                    ToastUtils.showShort(getApplication(),"修改成功");
+                                    BmobUser.logOut();   //清除缓存用户对象
+                                    Log.i(TAG, "成功");
+                                    Intent intent = new Intent(UserDataActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }else{
+                                    Log.i(TAG, "done: 失败"+e.getMessage());
+                                    ToastUtils.showShort(getApplication(),"修改失败" + e.getMessage());
+                                }
+                            }
+                        });
+                    }
+                });
+                resetDialog.setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        resetDialog.dismiss();
+                    }
+                });
+                resetDialog.show();// 显示对话框
+            }
+        });
     }
 
     /**

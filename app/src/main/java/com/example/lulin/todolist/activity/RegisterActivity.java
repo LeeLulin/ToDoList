@@ -25,8 +25,8 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 public class RegisterActivity extends BasicActivity implements View.OnClickListener {
-    private EditText mEtUserName = null;
-    private EditText mEtPassWord = null;
+    private EditText mEtUserName;
+    private EditText mEtPassWord;
     private Button mBtnRegister;
     private ImageView mBtnGoLogin;
 
@@ -53,7 +53,7 @@ public class RegisterActivity extends BasicActivity implements View.OnClickListe
                 final String password = mEtPassWord.getText().toString();
 
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(RegisterActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "用户名密码邮箱不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

@@ -84,9 +84,7 @@
         <service
             android:name=".Service.FocusService"
             android:enabled="true"
-            android:exported="true">
-
-        </service>
+            android:exported="true"></service>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -100,23 +98,17 @@
 
         <activity
             android:name=".activity.BasicActivity"
-            android:label="@string/title_activity_basic">
-
-        </activity>
+            android:label="@string/title_activity_basic"></activity>
         <activity
             android:name=".activity.SettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.LoginActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.AboutActivity"
-            android:theme="@style/AppTheme.About">
-        </activity>
-
+            android:theme="@style/AppTheme.About"></activity>
     </application>
 
 </manifest>

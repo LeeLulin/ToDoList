@@ -118,7 +118,6 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
                                 Intent intent2 = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent2);
                                 finish();
-                                skipDialog.dismiss();
                             }
                         })
                         .setNegativeButton("取消", new OnClickListener() {

@@ -50,19 +50,29 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:gravity="right"
             android:layout_below="@+id/login_input_layout"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/login_remember"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:checked="false"
                 android:text="记住密码"
                 android:textSize="14sp"
                 android:theme="@style/My_CheckBox"
                 android:textColor="@color/half_black_2" />
+
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:gravity="right"-->
+                <!--android:text="忘记密码"-->
+                <!--android:textColor="@color/half_black_2"-->
+                <!--android:background="#00000000"/>-->
         </LinearLayout>
 
         <!--<TextView-->

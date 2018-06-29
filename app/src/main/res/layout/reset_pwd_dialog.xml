@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/edit_dialog"
+    android:id="@+id/reset_pwd_dialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="编辑资料"
+        android:text="修改密码"
         android:textSize="20sp"
         android:textColor="@color/black"/>
 
@@ -20,10 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="昵称" />
+        android:text="旧密码" />
 
     <EditText
-        android:id="@+id/edit_nickname"
+        android:id="@+id/old_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -32,10 +32,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="个性签名" />
+        android:text="新密码" />
 
     <EditText
-        android:id="@+id/edit_autograph"
+        android:id="@+id/new_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
