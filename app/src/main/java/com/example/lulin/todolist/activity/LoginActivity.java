@@ -8,7 +8,9 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -40,6 +42,7 @@ import com.example.lulin.todolist.utils.SPUtils;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class LoginActivity extends BasicActivity implements OnClickListener {
 
@@ -104,10 +107,28 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
                 break;
 
             case R.id.skip_login:
-                SPUtils.put(this,"sync",false);
-                Intent intent2 = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent2);
-                finish();
+
+                final MaterialDialog skipDialog = new MaterialDialog(this);
+                skipDialog.setTitle("提示")
+                        .setMessage("跳过登录将无法使用云同步功能，是否跳过")
+                        .setPositiveButton("跳过", new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                SPUtils.put(getApplication(),"sync",false);
+                                Intent intent2 = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent2);
+                                finish();
+                                skipDialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("取消", new OnClickListener() {
+                            public void onClick(View view) {
+                                skipDialog.dismiss();
+                            }
+                        });
+
+                skipDialog.show();
+
                 break;
         }
 

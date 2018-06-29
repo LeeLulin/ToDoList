@@ -58,6 +58,7 @@ import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import me.drakeet.materialdialog.MaterialDialog;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -433,11 +434,12 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         et_autograph = (EditText)textEntryView.findViewById(R.id.edit_autograph);
         et_nickname.setText(user.getNickName());
         et_autograph.setText(user.getAutograph());
-        AlertDialog.Builder editDialog = new AlertDialog.Builder(UserDataActivity.this);
+        final MaterialDialog editDialog = new MaterialDialog(UserDataActivity.this);
         editDialog.setTitle("编辑信息");
         editDialog.setView(textEntryView);
-        editDialog.setPositiveButton("保存", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int i) {
+        editDialog.setPositiveButton("保存", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
                 String nickname = et_nickname.getText().toString();
                 String autograph = et_autograph.getText().toString();
@@ -450,6 +452,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                         if (e == null){
                             Log.i(TAG, "更新成功");
                             setUserDataFromBmob();
+                            editDialog.dismiss();
                         }else {
                             Log.i(TAG, "失败"+ e.getMessage());
                         }
@@ -459,9 +462,10 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
 
             }
         });
-        editDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int i) {
-
+        editDialog.setNegativeButton("取消", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editDialog.dismiss();
             }
         });
         editDialog.show();// 显示对话框
