@@ -112,17 +112,20 @@ public class TodoFragment extends Fragment {
 //                                    }
 //                                });
 
-                                ToDoUtils.deleteNetTodos(getContext(), todos, new ToDoUtils.DeleteTaskListener() {
-                                    @Override
-                                    public void onSuccess() {
+                                if (User.getCurrentUser(User.class) != null){
+                                    ToDoUtils.deleteNetTodos(getContext(), todos, new ToDoUtils.DeleteTaskListener() {
+                                        @Override
+                                        public void onSuccess() {
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onError(int errorCord, String msg) {
-                                        ToastUtils.showShort(getContext(),msg);
-                                    }
-                                });
+                                        @Override
+                                        public void onError(int errorCord, String msg) {
+                                            ToastUtils.showShort(getContext(),msg);
+                                        }
+                                    });
+                                }
+
                                 todoRecyclerViewAdapter.removeItem(position);
 
                             }
