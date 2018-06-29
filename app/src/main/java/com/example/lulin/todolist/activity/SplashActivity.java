@@ -47,7 +47,7 @@ public class SplashActivity extends BasicActivity {
 //                .setColorOfAppIcon() //设置绘制图标线条的颜色
 //                .setAppName("Do it") //设置app名称
                 .setColorOfAppName(R.color.icon_color) //设置app名称颜色
-                .setAppStatement("Just do it!") //设置一句话描述
+                .setAppStatement("生命不息，奋斗不止") //设置一句话描述
                 .setColorOfAppStatement(R.color.icon_color) // 设置一句话描述的颜色
                 .create();
         openingStartAnimation.show(this);

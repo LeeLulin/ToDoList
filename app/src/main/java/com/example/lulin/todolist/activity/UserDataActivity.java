@@ -354,11 +354,11 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(UserDataActivity.this)
-                        .setTitle("是否退出登录？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                final MaterialDialog signOutDialog = new MaterialDialog(UserDataActivity.this);
+                signOutDialog.setTitle("是否退出登录？")
+                        .setPositiveButton("确定", new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onClick(View view) {
                                 BmobUser.logOut();   //清除缓存用户对象
                                 SPUtils.put(getApplication(),"sync",false);
                                 Log.i(TAG, "注销成功");
@@ -367,10 +367,10 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                                 finish();
                             }
                         })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("取消", new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
+                            public void onClick(View view) {
+                                signOutDialog.dismiss();
                             }
                         })
                         .show();
