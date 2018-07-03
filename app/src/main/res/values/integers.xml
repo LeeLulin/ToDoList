@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 定时器设置中的最大值和最小值 -->
+    <integer name="pref_work_length_max">60</integer>
+    <integer name="pref_work_length_min">1</integer>
+    <integer name="pref_short_break_max">20</integer>
+    <integer name="pref_short_break_min">1</integer>
+    <integer name="pref_long_break_max">30</integer>
+    <integer name="pref_long_break_min">2</integer>
+    <integer name="pref_long_break_frequency_max">6</integer>
+    <integer name="pref_long_break_frequency_min">2</integer>
+</resources>

@@ -6,17 +6,33 @@
     android:orientation="vertical"
     tools:context="com.example.lulin.todolist.fragment.ClockFragment">
 
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/clock_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Switch
-        android:id="@+id/set_focus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:gravity="center"
-        android:text="专注模式"
-        android:textStyle="bold" />
+    </android.support.v7.widget.RecyclerView>
+
+
+    <!--<Switch-->
+        <!--android:id="@+id/set_focus"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:gravity="center"-->
+        <!--android:text="专注模式"-->
+        <!--android:textStyle="bold" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_clock"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="149dp"-->
+        <!--android:text="番茄钟" />-->
+
 
 
 </RelativeLayout>

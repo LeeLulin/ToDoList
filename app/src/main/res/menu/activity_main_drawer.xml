@@ -14,8 +14,8 @@
             android:title="番茄时钟" />
         <item
             android:id="@+id/nav_frends"
-            android:icon="@drawable/ic_account_box_black_48dp"
-            android:title="朋友" />
+            android:icon="@drawable/ic_insert_chart_black_24dp"
+            android:title="记录" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_about"

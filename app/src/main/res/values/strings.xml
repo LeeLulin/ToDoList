@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Do it</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -22,95 +22,7 @@
     <string name="news_four_title">标题4</string>
     <string name="news_four_desc">正文4</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="large_text">
-        "Material is the metaphor.\n\n"
 
-        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
-        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
-        "technologically advanced and open to imagination and magic.\n"
-        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
-        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
-        "flexibility of the material creates new affordances that supercede those in the physical "
-        "world, without breaking the rules of physics.\n"
-        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
-        "interact, and exist in space and in relation to each other. Realistic lighting shows "
-        "seams, divides space, and indicates moving parts.\n\n"
-
-        "Bold, graphic, intentional.\n\n"
-
-        "The foundational elements of print based design typography, grids, space, scale, color, "
-        "and use of imagery guide visual treatments. These elements do far more than please the "
-        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
-        "imagery, large scale typography, and intentional white space create a bold and graphic "
-        "interface that immerse the user in the experience.\n"
-        "An emphasis on user actions makes core functionality immediately apparent and provides "
-        "waypoints for the user.\n\n"
-
-        "Motion provides meaning.\n\n"
-
-        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
-        "inflection points that initiate motion, transforming the whole design.\n"
-        "All action takes place in a single environment. Objects are presented to the user without "
-        "breaking the continuity of experience even as they transform and reorganize.\n"
-        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
-        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
-
-        "3D world.\n\n"
-
-        "The material environment is a 3D space, which means all objects have x, y, and z "
-        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
-        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
-        "position along the z-axis and has a standard 1dp thickness.\n"
-        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
-        "emulated by manipulating the y-axis.\n\n"
-
-        "Light and shadow.\n\n"
-
-        "Within the material environment, virtual lights illuminate the scene. Key lights create "
-        "directional shadows, while ambient light creates soft shadows from all angles.\n"
-        "Shadows in the material environment are cast by these two light sources. In Android "
-        "development, shadows occur when light sources are blocked by sheets of material at "
-        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
-        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
-
-        "Resting elevation.\n\n"
-
-        "All material objects, regardless of size, have a resting elevation, or default elevation "
-        "that does not change. If an object changes elevation, it should return to its resting "
-        "elevation as soon as possible.\n\n"
-
-        "Component elevations.\n\n"
-
-        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
-        "does not vary from 6dp in one app to 16dp in another app).\n"
-        "Components may have different resting elevations across platforms, depending on the depth "
-        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
-
-        "Responsive elevation and dynamic elevation offsets.\n\n"
-
-        "Some component types have responsive elevation, meaning they change elevation in response "
-        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
-        "changes are consistently implemented using dynamic elevation offsets.\n"
-        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
-        "to the component’s resting state. They ensure that elevation changes are consistent "
-        "across actions and component types. For example, all components that lift on press have "
-        "the same elevation change relative to their resting elevation.\n"
-        "Once the input event is completed or cancelled, the component will return to its resting "
-        "elevation.\n\n"
-
-        "Avoiding elevation interference.\n\n"
-
-        "Components with responsive elevations may encounter other components as they move between "
-        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
-        "through other material, components avoid interfering with one another any number of ways, "
-        "whether on a per component basis or using the entire app layout.\n"
-        "On a component level, components can move or be removed before they cause interference. "
-        "For example, a floating action button (FAB) can disappear or move off screen before a "
-        "user picks up a card, or it can move if a snackbar appears.\n"
-        "On the layout level, design your app layout to minimize opportunities for interference. "
-        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
-        "when a user tries to pick up one of cards.\n\n"
-    </string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -143,4 +55,73 @@
         \n\n - 云同步：云端+本地双重备份，保证数据不丢失，在登录状态下实时同步数据到云端。
         \n\n - 数据分析：根据用户使用记录，自动分析用户数据，以图表方式直观的展现给用户。
     </string>
+
+
+
+
+    <!-- button -->
+    <string name="btn_start">开始</string>
+    <string name="btn_pause">暂停</string>
+    <string name="btn_resume">继续</string>
+    <string name="btn_stop">放弃</string>
+    <string name="btn_skip">略过</string>
+
+    <string name="scene_title_work">开始工作</string>
+    <string name="scene_title_break">开始休息</string>
+
+    <string name="scene_work">工作</string>
+    <string name="scene_short_break">短时休息</string>
+    <string name="scene_long_break">长时休息</string>
+
+    <string name="amount_durations">番茄总时间 %1$d 分钟</string>
+    <string name="stage_time_unit">%1$d 分钟</string>
+    <string name="time_unit">分钟</string>
+
+
+    <!-- 通知 -->
+    <string name="notification_focus">番茄工作中</string>
+    <string name="notification_focus_pause">番茄暂停中</string>
+    <string name="notification_break">正在休息</string>
+    <string name="notification_break_pause">休息暂停中</string>
+    <string name="notification_time_left">还剩</string>
+    <string name="notification_finish">放下工作，准备休息</string>
+    <string name="notification_finish_content">已经完成一个番茄钟，休息一下吧！</string>
+    <string name="notification_break_finish">休息结束</string>
+    <string name="notification_break_finish_content">休息结束，开启下一个番茄钟吧！</string>
+
+    <!-- 设置 -->
+    <string name="pref_title_tick_title">定时器设置</string>
+    <string name="pref_title_work_length">工作时长</string>
+    <string name="pref_title_short_break">休息时长</string>
+    <string name="pref_title_long_break">长休息时长</string>
+    <string name="pref_title_long_break_frequency">长休息间隔</string>
+    <string name="pref_title_frequency_value">%1$d 个番茄</string>
+    <string name="pref_title_time_value">%1$d 分钟</string>
+
+    <string name="pref_title_pomodoro_element">番茄元素</string>
+    <string name="pref_title_pomodoro_mode">番茄模式</string>
+    <string name="pref_title_pomodoro_mode_summary">在番茄模式下不能暂停定时器</string>
+    <string name="pref_title_infinity_mode">自动模式</string>
+    <string name="pref_title_infinity_mode_summary">自动开始下一个番茄钟</string>
+    <string name="pref_title_ticking_sound">滴答声</string>
+    <string name="pref_title_ticking_sound_summary">在番茄钟工作期间，持续的滴答声</string>
+
+    <string name="pref_title_notifications">提示</string>
+    <string name="pref_title_use_notification">完成后提示</string>
+    <string name="pref_title_notification_sound">提示音</string>
+    <string name="pref_title_notification_vibrate">震动</string>
+
+    <string name="pref_title_advanced">高级</string>
+    <string name="pref_title_screen_on">屏幕常亮</string>
+    <string name="pref_title_screen_on_summary">仅针对主界面，在番茄钟期间保持屏幕常亮</string>
+    <string name="pref_title_check_update">检查更新</string>
+
+    <string name="schedule_today_title">今日数据</string>
+    <string name="schedule_amount_title">累计数据</string>
+    <string name="schedule_durations">番茄时间</string>
+    <string name="schedule_times">番茄次数</string>
+    <string name="schedule_done">完成次数</string>
+    <string name="schedule_amount_summary">注意：卸载应用，累计数据将重新计算!</string>
+    <string name="toast_tick_sound_on">白噪音已开启</string>
+    <string name="toast_tick_sound_off">白噪音已关闭</string>
 </resources>

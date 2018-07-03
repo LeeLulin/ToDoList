@@ -23,4 +23,11 @@
         <attr name="smil_line_width" format="integer" />
         <attr name="smil_duration" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="RippleWrapper">
+        <attr name="rippleColor" format="color"/>
+        <attr name="rippleDuration" format="integer"/>
+        <attr name="rippleDelay" format="integer"/>
+        <attr name="rippleAmount" format="integer"/>
+    </declare-styleable>
 </resources>

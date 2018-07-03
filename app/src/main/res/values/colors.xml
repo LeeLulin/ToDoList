@@ -65,6 +65,14 @@
     <color name="icon_color">#4a8fff</color>
 
     <color name="rice">#FFFFF0</color>
+    <color name="colorTextDark">#333333</color>
+    <!-- 水纹 -->
+    <color name="colorRipple">#F4A5A0</color>
 
+    <!-- 倒计时钟 -->
+    <color name="colorStrokeCircle">#55ffffff</color>
+    <color name="colorStrokeArc">#ffffff</color>
+    <!-- 分割线 -->
+    <color name="colorDivider">#E9E9E9</color>
 
 </resources>

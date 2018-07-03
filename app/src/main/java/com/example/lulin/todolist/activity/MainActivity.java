@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -63,6 +64,8 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     private ImageView nav_bg;
     private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
     private String imgPath;
+    private MenuItem mMenuItemIDLE;
+    private DrawerLayout drawer;
 
 
     @Override
@@ -75,10 +78,32 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+
+                if (mMenuItemIDLE != null && newState == DrawerLayout.STATE_IDLE) {
+                    runNavigationItemSelected(mMenuItemIDLE);
+                    mMenuItemIDLE = null;
+                }
+            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -158,10 +183,35 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
         @Override
         public void onPageSelected(int position) {
+
             if (position == 0) {
-                fab.show();
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CircularAnim.fullActivity(MainActivity.this, v)
+                                .go(new CircularAnim.OnAnimationEndListener() {
+                                    @Override
+                                    public void onAnimationEnd() {
+                                        Intent intent = new Intent(MainActivity.this, NewTodoActivity.class);
+                                        startActivityForResult(intent,1);
+                                    }
+                                });
+                    }
+                });
             } else {
-                fab.hide();
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CircularAnim.fullActivity(MainActivity.this, v)
+                                .go(new CircularAnim.OnAnimationEndListener() {
+                                    @Override
+                                    public void onAnimationEnd() {
+                                        Intent intent = new Intent(MainActivity.this, NewClockActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                    }
+                });
             }
         }
 
@@ -175,19 +225,19 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.fab:
-
-                //跳转动画
-                CircularAnim.fullActivity(MainActivity.this, view)
-                        .go(new CircularAnim.OnAnimationEndListener() {
-                            @Override
-                            public void onAnimationEnd() {
-                                Intent intent = new Intent(MainActivity.this, NewTodoActivity.class);
-                                startActivityForResult(intent,1);
-                            }
-                        });
-                
-                break;
+//            case R.id.fab:
+//
+//                //跳转动画
+//                CircularAnim.fullActivity(MainActivity.this, view)
+//                        .go(new CircularAnim.OnAnimationEndListener() {
+//                            @Override
+//                            public void onAnimationEnd() {
+//                                Intent intent = new Intent(MainActivity.this, NewTodoActivity.class);
+//                                startActivityForResult(intent,1);
+//                            }
+//                        });
+//
+//                break;
 
             case R.id.user_image:
 
@@ -255,6 +305,21 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(MenuItem item) {
 
 
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            mMenuItemIDLE = item;
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
+
+        return true;
+    }
+
+    /**
+     * DrawerLayout 关闭卡顿的综合解决方法
+     *
+     * @link https://stackoverflow.com/questions/18343018/optimizing-drawer-and-activity-launching-speed
+     */
+    private void runNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
 
@@ -268,6 +333,9 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                 break;
 
             case R.id.nav_frends:
+
+                Intent intent3 = new Intent(MainActivity.this, ScheduleActivity.class);
+                startActivity(intent3);
 
                 break;
 
@@ -286,10 +354,6 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-
-        return true;
     }
 
     @Override

@@ -11,4 +11,19 @@
     <dimen name="photo_size_small">50dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="header_spacing">16dp</dimen>
+    <dimen name="info_spacing">16dp</dimen>
+
+    <dimen name="card_view_margin">16dp</dimen>
+    <dimen name="card_view_spacing">16dp</dimen>
+    <dimen name="card_elevation">1dp</dimen>
+
+    <dimen name="info_margin">16dp</dimen>
+    <dimen name="info_header_height">180dp</dimen>
+    <dimen name="info_header_vertical_spacing">16dp</dimen>
+
+    <dimen name="preference_header_padding">16dp</dimen>
+    <dimen name="preference_header_spacing">4dp</dimen>
+    <dimen name="preference_item_padding_side">16dp</dimen>
+    <dimen name="preference_item_padding">16dp</dimen>
 </resources>
