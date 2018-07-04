@@ -4,6 +4,20 @@
     android:title="设置">
 
     <PreferenceCategory
+        android:title="用户">
+
+        <Preference
+            android:title="昵称"
+            android:summary="个性签名"
+            android:icon="@drawable/default_photo"/>
+
+
+
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="通知">
 
         <RingtonePreference

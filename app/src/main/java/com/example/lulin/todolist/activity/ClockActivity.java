@@ -115,12 +115,25 @@ public class ClockActivity extends BasicActivity {
         mBtnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = ClockService.newIntent(getApplicationContext());
-                i.setAction(ClockService.ACTION_STOP);
-                startService(i);
+                final MaterialDialog exitDialog = new MaterialDialog(ClockActivity.this);
+                exitDialog.setTitle("提示")
+                        .setMessage("暂停后，本次番茄钟将作废")
+                        .setPositiveButton("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent2 = new Intent(ClockActivity.this, MainActivity.class);
+                                startActivity(intent2);
+                                exitApp();
+                            }
+                        })
+                        .setNegativeButton("取消", new View.OnClickListener() {
+                            public void onClick(View view) {
+                                exitDialog.dismiss();
+                            }
+                        });
 
-                mApplication.stop();
-                reload();
+                exitDialog.show();
+
             }
         });
 

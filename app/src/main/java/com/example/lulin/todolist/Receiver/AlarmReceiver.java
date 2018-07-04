@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
@@ -48,7 +49,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder notification = new Notification.Builder(context);
-        notification.setSmallIcon(R.mipmap.clock)     //设置通知图标。
+        notification.setSmallIcon(R.mipmap.today)     //设置通知图标。
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                     .setTicker(title)        //通知时在状态栏显示的通知内容
                     .setContentInfo("事项提醒")        //内容信息
                     .setContentTitle(title)        //设置通知标题。

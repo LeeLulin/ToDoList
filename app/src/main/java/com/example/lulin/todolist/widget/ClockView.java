@@ -36,7 +36,7 @@ public class ClockView extends View {  //定义View的子类，用于显示番�
     //分钟
     private int time;
 
-    //tomato
+    //Tomato
     private static int tomato;
 
     //倒计时

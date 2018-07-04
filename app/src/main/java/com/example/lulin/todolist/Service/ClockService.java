@@ -16,17 +16,24 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.activity.ClockActivity;
-import com.example.lulin.todolist.database.ClockDBAdapter;
+import com.example.lulin.todolist.Dao.ClockDao;
+import com.example.lulin.todolist.utils.Clock;
 import com.example.lulin.todolist.utils.CountDownTimer;
 import com.example.lulin.todolist.utils.Sound;
 import com.example.lulin.todolist.utils.TimeFormatUtil;
+import com.example.lulin.todolist.utils.User;
 import com.example.lulin.todolist.utils.WakeLockHelper;
 import com.example.lulin.todolist.widget.ClockApplication;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class ClockService extends Service implements CountDownTimer.OnCountDownTickListener {
     public static final String ACTION_COUNTDOWN_TIMER =
@@ -54,10 +61,12 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
     private CountDownTimer mTimer;
     private ClockApplication mApplication;
     private WakeLockHelper mWakeLockHelper;
-    private ClockDBAdapter mDBAdapter;
+    private ClockDao mDBAdapter;
     private Sound mSound;
     private long mID;
     private String clockTitle;
+    private Clock clock;
+    private User user;
 
     private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
         @Override
@@ -82,7 +91,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
         super.onCreate();
         mApplication = (ClockApplication)getApplication();
         mWakeLockHelper = new WakeLockHelper(WAKELOCK_ID);
-        mDBAdapter = new ClockDBAdapter(getApplicationContext());
+        mDBAdapter = new ClockDao(getApplicationContext());
         mSound = new Sound(getApplicationContext());
         mID = 0;
         IntentFilter intentFilter = new IntentFilter();
@@ -131,6 +140,13 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                         mDBAdapter.open();
                         mID = mDBAdapter.insert(mTimer.getStartTime(),
                                 mTimer.getMinutesInFuture(),clockTitle);
+                        user = User.getCurrentUser(User.class);
+                        clock = new Clock();
+                        clock.setUser(user);
+                        clock.setTitle(clockTitle);
+                        clock.setStart_time(ClockDao.formatDateTime(mTimer.getStartTime()));
+                        clock.setDuration(mTimer.getMinutesInFuture());
+                        clock.setDate_add(ClockDao.formatDate(new Date()));
                         mDBAdapter.close();
                     }
                     break;
@@ -239,6 +255,17 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                 mDBAdapter.open();
                 boolean success = mDBAdapter.update(mID);
                 mDBAdapter.close();
+                clock.setEnd_time(ClockDao.formatDateTime(new Date()));
+                clock.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e==null){
+                            Log.i("ClockService", "保存番茄钟到bmob成功");
+                        } else {
+                            Log.i("ClockService", "保存番茄钟到bmob失败: " + e.getMessage());
+                        }
+                    }
+                });
 
                 if (success) {
                     long amountDurations =

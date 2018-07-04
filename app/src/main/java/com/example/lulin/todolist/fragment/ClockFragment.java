@@ -30,11 +30,14 @@ import com.example.lulin.todolist.activity.ClockActivity;
 import com.example.lulin.todolist.adapter.ClockRecyclerViewAdapter;
 import com.example.lulin.todolist.adapter.TodoRecyclerViewAdapter;
 import com.example.lulin.todolist.utils.Clock;
+import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.RecyclerItemClickListener;
 import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.ToDoUtils;
 import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.Todos;
+import com.example.lulin.todolist.utils.Tomato;
+import com.example.lulin.todolist.utils.TomatoUtils;
 import com.example.lulin.todolist.utils.User;
 import com.example.lulin.todolist.widget.ClockView;
 
@@ -53,16 +56,21 @@ public class ClockFragment extends Fragment {
     private MyDatabaseHelper dbHelper;
     private RecyclerView recyclerView;
     private ClockRecyclerViewAdapter clockRecyclerViewAdapter;
-    private List<Clock> clockList = new ArrayList<>();
+    private List<Tomato> clockList = new ArrayList<>();
     private SQLiteDatabase db;
     private LinearLayoutManager layout;
+    private User currentUser;
+    private List<Tomato> tomato;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHelper = new MyDatabaseHelper(getActivity(), "Data.db", null, 2);
         db = dbHelper.getWritableDatabase();
-        setList();
+        if(NetWorkUtils.isNetworkConnected(getContext())) {
+            currentUser = User.getCurrentUser(User.class);
+        }
+
     }
 
     @Override
@@ -75,6 +83,8 @@ public class ClockFragment extends Fragment {
 //       layout.setReverseLayout(true);//列表翻转
         recyclerView = (RecyclerView) rootView.findViewById(R.id.clock_recycler_view);
         setUI();
+        setDbData();
+        setNetData();
 //        boolean isFocus = (Boolean) SPUtils.get(getContext(),"isFocus",true);
 //        start_clock = rootView.findViewById(R.id.btn_clock);
 //        clockView = rootView.findViewById(R.id.clockView);
@@ -128,7 +138,7 @@ public class ClockFragment extends Fragment {
 
     @Override
     public void onResume(){
-        setList();
+        setDbData();
         setUI();
         super.onResume();
 
@@ -143,16 +153,6 @@ public class ClockFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
 
-//                String title = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTitle();
-//                String dsc = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDesc();
-//                String date = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDate();
-//                String time = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTime();
-//                Intent intent = new Intent(getActivity(), EditTodoActivity.class);
-//                intent.putExtra("title", title);
-//                intent.putExtra("dsc", dsc);
-//                intent.putExtra("date", date);
-//                intent.putExtra("time", time);
-//                startActivityForResult(intent,1);
                 String clockTitle = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position).getTitle();
                 Intent intent = new Intent(getActivity(), ClockActivity.class);
                 intent.putExtra("clocktitle",clockTitle);
@@ -166,10 +166,9 @@ public class ClockFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 String clockTitle = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position).getTitle();
-//                                Todos todos = todosList.get(todoRecyclerViewAdapter.getItemCount() - 1 - position);
                                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-                                db.delete("Todo","todotitle = ?",
-                                        new String[]{clockList.get(clockRecyclerViewAdapter.getItemCount() - 1 - position).getTitle()});
+                                db.delete("Clock","clocktitle = ?",
+                                        new String[]{clockTitle});
 //                                new ToDoDao(getContext()).deleteTask(todos);
 //                                todos.delete(new UpdateListener() {
 //                                    @Override
@@ -240,18 +239,49 @@ public class ClockFragment extends Fragment {
                 }).show();
     }
 
-    private List<Clock> setList(){
-        List<Clock> dbList = new ArrayList<Clock>();
-        Cursor cursor=db.rawQuery("SELECT * FROM Clock", null);
-        while(cursor.moveToNext()) {
-            Clock clock = new Clock();
-            clock.setTitle(cursor.getString(cursor.getColumnIndex("clocktitle")));
-            dbList.add(clock);
-        }
-        cursor.close();
-        clockList = dbList;
-        return clockList;
+    private void setDbData(){
 
+        tomato = TomatoUtils.getAllTomato(getContext());
+        if (tomato.size() > 0) {
+            setListData(tomato);
+        }
+
+
+
+    }
+
+    private void setNetData(){
+        if (NetWorkUtils.isNetworkConnected(getContext())){
+            if (currentUser != null){
+                // 获取网络，可能是换手机了，或者是没有添加过，或者是当前时间以后没有
+                if (tomato.size() <= 0) {
+                    TomatoUtils.getNetAllTomato(getContext(), currentUser, new TomatoUtils.GetTomatoCallBack() {
+                        @Override
+                        public void onSuccess(List<Tomato> tomato) {
+                            if (tomato != null){
+                                setListData(tomato);
+                            }
+                        }
+
+                        @Override
+                        public void onError(int errorCode, String msg) {
+
+                        }
+
+                    });
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 设置list数据
+     */
+    private void setListData(List<Tomato> newList) {
+        clockList.clear();
+        clockList.addAll(newList);
+        clockRecyclerViewAdapter.notifyDataSetChanged();
     }
 
 }

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.utils.Clock;
+import com.example.lulin.todolist.utils.Tomato;
+
 import java.util.List;
 
 /**
@@ -16,12 +18,12 @@ import java.util.List;
  */
 public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecyclerViewAdapter.ViewHolder> {
 
-    private List<Clock> clock;
+    private List<Tomato> tomato;
     private Context context;
 
 
-    public ClockRecyclerViewAdapter(List<Clock> clock, Context context) {
-        this.clock = clock;
+    public ClockRecyclerViewAdapter(List<Tomato> tomato, Context context) {
+        this.tomato = tomato;
         this.context=context;
     }
 
@@ -63,7 +65,7 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
     @Override
     public void onBindViewHolder(ClockRecyclerViewAdapter.ViewHolder ViewHolder, int i) {
 
-        ViewHolder.clock_title.setText(clock.get(clock.size()-1-i).getTitle());
+        ViewHolder.clock_title.setText(tomato.get(tomato.size()-1-i).getTitle());
 
 //        ViewHolder.todo_desc.setText(todos.get(todos.size()-1-i).getDesc());
 //        ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate() + " "+ todos.get(todos.size()-1-i).getTime());
@@ -82,15 +84,15 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
 
     @Override
     public int getItemCount() {
-        return clock.size();
+        return tomato.size();
     }
 
 
 
     public void removeItem(int position){
-        clock.remove(clock.size()-1-position);
+        tomato.remove(tomato.size()-1-position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position,clock.size()-position);
+        notifyItemRangeChanged(position,tomato.size()-position);
     }
 
 

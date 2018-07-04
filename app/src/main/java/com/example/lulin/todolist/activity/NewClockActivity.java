@@ -28,11 +28,15 @@ import com.example.lulin.todolist.Dao.ToDoDao;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.Clock;
+import com.example.lulin.todolist.utils.Tomato;
+import com.example.lulin.todolist.utils.User;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 
 /**
@@ -52,7 +56,7 @@ public class NewClockActivity extends BasicActivity {
     private long remindTime, remindTimeNoDay;
     private Calendar ca;
     private Date data;
-    private static final String TAG = "time";
+    private static final String TAG = "NewClockActivity";
     private Toolbar toolbar;
     private int isRepeat = 0;
     private ImageView new_bg;
@@ -68,6 +72,7 @@ public class NewClockActivity extends BasicActivity {
     private static final String KEY_RINGTONE = "ring_tone";
     private Clock clock;
     SQLiteDatabase db;
+    private Tomato tomato;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +86,8 @@ public class NewClockActivity extends BasicActivity {
         dbHelper = new MyDatabaseHelper(NewClockActivity.this, "Data.db", null, 2);
         db = dbHelper.getWritableDatabase();
         ca = Calendar.getInstance();
-        getDate();
-        getTime();
+//        getDate();
+//        getTime();
         initFindview();
         initView();
 //        initHeadImage();
@@ -132,14 +137,27 @@ public class NewClockActivity extends BasicActivity {
                 nv_clock_title = (TextView) findViewById(R.id.new_clock_title);
                 clockTitle = nv_clock_title.getText().toString();
 //                    todoDsc = nv_todo_dsc.getText().toString();
+                User user = User.getCurrentUser(User.class);
+                tomato = new Tomato();
+                tomato.setUser(user);
+                tomato.setTitle(clockTitle);
+                tomato.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e==null){
+                            ContentValues values = new ContentValues();
+                            values.put("clocktitle", clockTitle);
+                            db.insert("Clock",null,values);
+                            Intent intent = new Intent(NewClockActivity.this, ClockActivity.class);
+                            intent.putExtra("clocktitle",clockTitle);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Log.i(TAG, "保存到bmob云失败: " + e.getMessage());
+                        }
+                    }
+                });
 
-                ContentValues values = new ContentValues();
-                values.put("clocktitle", clockTitle);
-                db.insert("Clock",null,values);
-                Intent intent = new Intent(NewClockActivity.this, ClockActivity.class);
-                intent.putExtra("clocktitle",clockTitle);
-                startActivity(intent);
-                finish();
 
 //                    Calendar calendarTime = Calendar.getInstance();
 //                    calendarTime.setTimeInMillis(System.currentTimeMillis());
