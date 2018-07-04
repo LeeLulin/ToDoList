@@ -4,10 +4,12 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,7 +19,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -28,8 +32,10 @@ import com.example.lulin.todolist.Dao.ToDoDao;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.utils.Clock;
+import com.example.lulin.todolist.utils.SeekBarPreference;
 import com.example.lulin.todolist.utils.Tomato;
 import com.example.lulin.todolist.utils.User;
+import com.example.lulin.todolist.widget.ClockApplication;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -37,6 +43,7 @@ import java.util.Random;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import me.drakeet.materialdialog.MaterialDialog;
 
 
 /**
@@ -50,10 +57,8 @@ public class NewClockActivity extends BasicActivity {
     private String todoDate = null, todoTime = null;
     private Button ok,cancel;
     private FloatingActionButton fab_ok;
-    private TextView nv_clock_title,nv_todo_dsc,nv_todo_date,nv_todo_time;
-    private int mYear,mMonth,mDay;//当前日期
-    private int mHour,mMin;//当前时间
-    private long remindTime, remindTimeNoDay;
+    private EditText nv_clock_title;
+    private TextView nv_clock_length,nv_short_break,nv_long_break,nv_break_frequency;
     private Calendar ca;
     private Date data;
     private static final String TAG = "NewClockActivity";
@@ -86,22 +91,19 @@ public class NewClockActivity extends BasicActivity {
         dbHelper = new MyDatabaseHelper(NewClockActivity.this, "Data.db", null, 2);
         db = dbHelper.getWritableDatabase();
         ca = Calendar.getInstance();
-//        getDate();
-//        getTime();
         initFindview();
-        initView();
+        initClick();
 //        initHeadImage();
     }
 
     private void initFindview() {
-//        ok = (Button) findViewById(R.id.bt_new_ok);
         fab_ok = (FloatingActionButton) findViewById(R.id.fab_clock);
-//        cancel = (Button) findViewById(R.id.bt_new_cancel);
-//        nv_clock_title = (TextView) findViewById(R.id.new_clock_title);
-//        nv_todo_dsc = (TextView) findViewById(R.id.new_clock_dsc);
-//        nv_todo_date = (TextView) findViewById(R.id.new_clock_date);
-//        nv_todo_time = (TextView) findViewById(R.id.new_clock_time);
         new_bg = (ImageView) findViewById(R.id.clock_card_bg);
+//        nv_clock_length = (TextView) findViewById(R.id.clock_length);
+//        nv_short_break = (TextView) findViewById(R.id.short_break);
+//        nv_long_break = (TextView) findViewById(R.id.long_break);
+//        nv_break_frequency = (TextView) findViewById(R.id.break_frequency);
+
     }
 
     private void initHeadImage(){
@@ -111,30 +113,55 @@ public class NewClockActivity extends BasicActivity {
         new_bg.setImageDrawable(getApplicationContext().getResources().getDrawable(imgId));
 
     }
-    /**
-     * 获取日期
-     */
-    private void getDate(){
 
-        mYear = ca.get(Calendar.YEAR);
-        mMonth = ca.get(Calendar.MONTH);
-        mDay = ca.get(Calendar.DAY_OF_MONTH);
-    }
-
-    /**
-     * 获取时间
-     */
-    private void getTime(){
-        mHour = ca.get(Calendar.HOUR_OF_DAY);
-        mMin = ca.get(Calendar.MINUTE);
-    }
-
-    private void initView() {
+    private void initClick() {
+        Resources res = getResources();
+        // 工作时长
+        (new SeekBarPreference(this))
+                .setSeekBar((SeekBar)findViewById(R.id.pref_key_work_length))
+                .setSeekBarValue((TextView)findViewById(R.id.pref_key_work_length_value))
+                .setMax(res.getInteger(R.integer.pref_work_length_max))
+                .setMin(res.getInteger(R.integer.pref_work_length_min))
+                .setUnit(R.string.pref_title_time_value)
+                .setProgress(PreferenceManager.getDefaultSharedPreferences(this)
+                        .getInt("pref_key_work_length", ClockApplication.DEFAULT_WORK_LENGTH))
+                .build();
+        // 短时休息
+        (new SeekBarPreference(this))
+                .setSeekBar((SeekBar)findViewById(R.id.pref_key_short_break))
+                .setSeekBarValue((TextView)findViewById(R.id.pref_key_short_break_value))
+                .setMax(res.getInteger(R.integer.pref_short_break_max))
+                .setMin(res.getInteger(R.integer.pref_short_break_min))
+                .setUnit(R.string.pref_title_time_value)
+                .setProgress(PreferenceManager.getDefaultSharedPreferences(this)
+                        .getInt("pref_key_short_break", ClockApplication.DEFAULT_SHORT_BREAK))
+                .build();
+        // 长时休息
+        (new SeekBarPreference(this))
+                .setSeekBar((SeekBar)findViewById(R.id.pref_key_long_break))
+                .setSeekBarValue((TextView)findViewById(R.id.pref_key_long_break_value))
+                .setMax(res.getInteger(R.integer.pref_long_break_max))
+                .setMin(res.getInteger(R.integer.pref_long_break_min))
+                .setUnit(R.string.pref_title_time_value)
+                .setProgress(PreferenceManager.getDefaultSharedPreferences(this)
+                        .getInt("pref_key_long_break", ClockApplication.DEFAULT_LONG_BREAK))
+                .build();
+        // 长时休息间隔
+        (new SeekBarPreference(this))
+                .setSeekBar((SeekBar)findViewById(R.id.pref_key_long_break_frequency))
+                .setSeekBarValue((TextView)findViewById(R.id.pref_key_long_break_frequency_value))
+                .setMax(res.getInteger(R.integer.pref_long_break_frequency_max))
+                .setMin(res.getInteger(R.integer.pref_long_break_frequency_min))
+                .setUnit(R.string.pref_title_frequency_value)
+                .setProgress(PreferenceManager.getDefaultSharedPreferences(this)
+                        .getInt("pref_key_long_break_frequency",
+                                ClockApplication.DEFAULT_LONG_BREAK_FREQUENCY))
+                .build();
 
         fab_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nv_clock_title = (TextView) findViewById(R.id.new_clock_title);
+                nv_clock_title = (EditText) findViewById(R.id.new_clock_title);
                 clockTitle = nv_clock_title.getText().toString();
 //                    todoDsc = nv_todo_dsc.getText().toString();
                 User user = User.getCurrentUser(User.class);
@@ -158,74 +185,8 @@ public class NewClockActivity extends BasicActivity {
                     }
                 });
 
-
-//                    Calendar calendarTime = Calendar.getInstance();
-//                    calendarTime.setTimeInMillis(System.currentTimeMillis());
-//                    calendarTime.set(Calendar.YEAR, mYear);
-//                    calendarTime.set(Calendar.MONTH, mMonth);
-//                    calendarTime.set(Calendar.DAY_OF_MONTH, mDay);
-//                    calendarTime.set(Calendar.HOUR_OF_DAY, mHour);
-//                    calendarTime.set(Calendar.MINUTE, mMin);
-//                    calendarTime.set(Calendar.SECOND, 0);
-//                    remindTime = calendarTime.getTimeInMillis();
-//                    Log.i(TAG, "时间是"+String.valueOf(remindTime));
-                    //插入数据
-//                    values.put("todotitle", todoTitle);
-//                    values.put("tododsc", todoDsc);
-//                    values.put("tododate", todoDate);
-//                    values.put("todotime", todoTime);
-//                    values.put("remindTime", remindTime);
-//                    values.put("isAlerted", 0);
-//                    values.put("isRepeat", isRepeat);
-//                    values.put("imgId", imgId);
-//
-//                    db.insert("Todo", null, values);
-
-//                    User user = BmobUser.getCurrentUser(User.class);
-//                    Date date = new Date(remindTime);
-//                    BmobDate bmobDate = new BmobDate(date);
-
-
-//                    boolean isSync = (Boolean) SPUtils.get(getApplication(),"sync",true);
-//                    Log.i("ToDo", "isSync: " + isSync);
-
-//                    if (isSync){
-//                        //保存数据到Bmob
-//                        if(NetWorkUtils.isNetworkConnected(getApplication()) && User.getCurrentUser()!= null){
-//                            todos.save(new SaveListener<String>() {
-//                                @Override
-//                                public void done(String s, BmobException e) {
-//                                    if(e==null){
-//                                        //插入本地数据库
-//                                        new ToDoDao(getApplicationContext()).create(todos);
-//                                        Log.i("bmob","保存到Bmob成功 "+ todos.getObjectId());
-//                                        Log.i("bmob","保存到本地数据库成功 "+ todos.getObjectId());
-//                                        Intent intent = new Intent(NewClockActivity.this, MainActivity.class);
-//                                        setResult(2, intent);
-//                                        startService(new Intent(NewClockActivity.this, AlarmService.class));
-//                                        finish();
-//                                    }else{
-//                                        Log.i("bmob","保存到Bmob失败："+e.getMessage());
-//                                    }
-//                                }
-//                            });
-//
-//                        } else {
-//                            ToastUtils.showShort(getApplication(),"请先登录");
-//                        }
-//                    } else {
-//                        new ToDoDao(getApplicationContext()).create(todos);
-//                        Intent intent = new Intent(NewClockActivity.this, MainActivity.class);
-//                        setResult(2, intent);
-//                        startService(new Intent(NewClockActivity.this, AlarmService.class));
-//                        finish();
-//                    }
-
-//                }
-
             }
         });
-
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

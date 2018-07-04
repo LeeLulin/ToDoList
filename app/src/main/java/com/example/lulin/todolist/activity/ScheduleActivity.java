@@ -99,6 +99,10 @@ public class ScheduleActivity extends AppCompatActivity {
                             public void done(List<Clock> list, BmobException e) {
                                 if (e==null){
                                     Log.i("Clock", "查询到: " +list.size()+" 条数据");
+                                    if (list.size()==0){
+                                        todayDurations.setText("0");
+                                        todayTimes.setText("0");
+                                    }
                                     for (Clock clock : list){
                                         if (clock.getEnd_time()!=null){
                                             tdTimes++;

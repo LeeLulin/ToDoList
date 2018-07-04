@@ -130,7 +130,6 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                     e.printStackTrace();
                 }
 
-
             }
         }else {
             glideLoad();
@@ -225,19 +224,19 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     public void onClick(View view) {
         switch (view.getId()) {
 
-//            case R.id.fab:
-//
-//                //跳转动画
-//                CircularAnim.fullActivity(MainActivity.this, view)
-//                        .go(new CircularAnim.OnAnimationEndListener() {
-//                            @Override
-//                            public void onAnimationEnd() {
-//                                Intent intent = new Intent(MainActivity.this, NewTodoActivity.class);
-//                                startActivityForResult(intent,1);
-//                            }
-//                        });
-//
-//                break;
+            case R.id.fab:
+
+                //跳转动画
+                CircularAnim.fullActivity(MainActivity.this, view)
+                        .go(new CircularAnim.OnAnimationEndListener() {
+                            @Override
+                            public void onAnimationEnd() {
+                                Intent intent = new Intent(MainActivity.this, NewTodoActivity.class);
+                                startActivityForResult(intent,1);
+                            }
+                        });
+
+                break;
 
             case R.id.user_image:
 

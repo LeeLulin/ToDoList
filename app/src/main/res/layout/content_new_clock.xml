@@ -29,17 +29,86 @@
             android:layout_height="1dp"
             android:background="@color/grey" />
 
-        <EditText
-            android:id="@+id/new_clock_dsc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="描述"
-            android:inputType="textMultiLine"
-            android:maxLines="15"
-            android:minLines="1" />
+        <!--<EditText-->
+            <!--android:id="@+id/new_clock_dsc"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="top"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:hint="描述"-->
+            <!--android:inputType="textMultiLine"-->
+            <!--android:maxLines="15"-->
+            <!--android:minLines="1" />-->
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/grey" />-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="5dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/clock_length"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:drawablePadding="5dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="番茄钟时长：25分钟" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/short_break"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:drawablePadding="5dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="短休息时长：5分钟" />-->
+
+        <!--</LinearLayout>-->
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/grey" />-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_marginBottom="5dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/break_frequency"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:drawablePadding="5dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="进入长休息：4个番茄钟" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/long_break"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:drawablePadding="5dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="长休息时长：20分钟" />-->
+
+        <!--</LinearLayout>-->
+
+
 
         <View
             android:layout_width="match_parent"
@@ -49,45 +118,178 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/new_clock_date"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:drawableLeft="@android:drawable/ic_menu_my_calendar"
-                android:drawablePadding="5dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:minHeight="?android:attr/listPreferredItemHeight"
                 android:gravity="center_vertical"
-                android:text="日期" />
+                android:clipChildren="false"
+                android:clipToPadding="false">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:ellipsize="marquee"
+                    android:text="@string/pref_title_work_length"
+                    android:paddingBottom="@dimen/preference_header_spacing"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <SeekBar
+                        android:id="@+id/pref_key_work_length"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:background="@null"/>
+                    <TextView android:id="@+id/pref_key_work_length_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:ellipsize="marquee"
+                        android:fadingEdge="horizontal"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/new_clock_time"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:drawableLeft="@android:drawable/ic_lock_idle_alarm"
-                android:drawablePadding="5dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:minHeight="?android:attr/listPreferredItemHeight"
                 android:gravity="center_vertical"
-                android:text="时间" />
+                android:clipChildren="false"
+                android:clipToPadding="false">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:ellipsize="marquee"
+                    android:text="@string/pref_title_short_break"
+                    android:paddingBottom="@dimen/preference_header_spacing"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <SeekBar
+                        android:id="@+id/pref_key_short_break"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:background="@null"/>
+                    <TextView android:id="@+id/pref_key_short_break_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:ellipsize="marquee"
+                        android:fadingEdge="horizontal"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:minHeight="?android:attr/listPreferredItemHeight"
+                android:gravity="center_vertical"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:ellipsize="marquee"
+                    android:text="@string/pref_title_long_break"
+                    android:paddingBottom="@dimen/preference_header_spacing"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <SeekBar
+                        android:id="@+id/pref_key_long_break"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:background="@null"/>
+                    <TextView android:id="@+id/pref_key_long_break_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:ellipsize="marquee"
+                        android:fadingEdge="horizontal"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:minHeight="?android:attr/listPreferredItemHeight"
+                android:gravity="center_vertical"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:ellipsize="marquee"
+                    android:text="@string/pref_title_long_break_frequency"
+                    android:paddingBottom="@dimen/preference_header_spacing"
+                    android:fadingEdge="horizontal"
+                    android:singleLine="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
+                    <SeekBar
+                        android:id="@+id/pref_key_long_break_frequency"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:background="@null"/>
+                    <TextView android:id="@+id/pref_key_long_break_frequency_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical"
+                        android:ellipsize="marquee"
+                        android:fadingEdge="horizontal"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/grey" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/grey" />
 
 
     </LinearLayout>
+
+
 
 
 </android.support.v4.widget.NestedScrollView>

@@ -46,7 +46,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginBottom="15dp"
                     android:layout_marginStart="20dp"
-                    android:text="新建"
+                    android:text="新建待办"
                     android:textColor="@color/white"
                     android:textSize="40sp"
                     app:layout_anchor="@id/new_bg" />
@@ -90,7 +90,7 @@
             android:id="@+id/fab_ok"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/save_ok"
+            android:src="@drawable/done"
             app:elevation="0dp"
             app:borderWidth="0dp" />
 
