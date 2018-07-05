@@ -57,7 +57,10 @@ public class TodoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         dbHelper = new MyDatabaseHelper(getActivity(), "Data.db", null, 2);
         if(NetWorkUtils.isNetworkConnected(getContext())) {
-            currentUser = User.getCurrentUser(User.class);
+            if (User.getCurrentUser() != null){
+                currentUser = BmobUser.getCurrentUser(User.class);
+            }
+
         }
     }
 

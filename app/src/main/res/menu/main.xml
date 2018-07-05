@@ -6,4 +6,9 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_focus"
+        android:orderInCategory="100"
+        android:title="专注模式"
+        app:showAsAction="never" />
 </menu>

@@ -1,6 +1,7 @@
 package com.example.lulin.todolist.activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -40,10 +41,11 @@ public class SplashActivity extends BasicActivity {
         }
 
 
+        Resources res = this.getResources();
         startService(new Intent(this, AlarmService.class));
         OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
                 .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
-//                .setAppIcon() //设置图标
+//                .setAppIcon(res.getDrawable(R.drawable.ic_launcher)) //设置图标
 //                .setColorOfAppIcon() //设置绘制图标线条的颜色
 //                .setAppName("Do it") //设置app名称
                 .setColorOfAppName(R.color.icon_color) //设置app名称颜色

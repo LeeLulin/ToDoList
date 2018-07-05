@@ -19,8 +19,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.Service.FocusService;
+import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.TimeFormatUtil;
 import com.example.lulin.todolist.Service.ClockService;
+import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.widget.RippleWrapper;
 import com.example.lulin.todolist.widget.ClockApplication;
 import com.example.lulin.todolist.widget.ClockProgressBar;
@@ -42,6 +45,7 @@ public class ClockActivity extends BasicActivity {
     private RippleWrapper mRippleWrapper;
     private long mLastClickTime = 0;
     private String clockTitle;
+    private static final String KEY_FOCUS = "focus";
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -77,11 +81,14 @@ public class ClockActivity extends BasicActivity {
                 i.setAction(ClockService.ACTION_START);
                 i.putExtra("clockTitle",clockTitle);
                 startService(i);
-
                 mApplication.start();
                 updateButtons();
                 updateTitle();
                 updateRipple();
+                if (getIsFocus(ClockActivity.this)){
+                    startService(new Intent(ClockActivity.this, FocusService.class));
+                    ToastUtils.showShort(ClockActivity.this,"已开启专注模式");
+                }
             }
         });
 
@@ -117,12 +124,13 @@ public class ClockActivity extends BasicActivity {
             public void onClick(View view) {
                 final MaterialDialog exitDialog = new MaterialDialog(ClockActivity.this);
                 exitDialog.setTitle("提示")
-                        .setMessage("暂停后，本次番茄钟将作废")
+                        .setMessage("放弃后，本次番茄钟将作废")
                         .setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Intent intent2 = new Intent(ClockActivity.this, MainActivity.class);
                                 startActivity(intent2);
+                                stopService(new Intent(ClockActivity.this, FocusService.class));
                                 exitApp();
                             }
                         })
@@ -220,6 +228,7 @@ public class ClockActivity extends BasicActivity {
                         public void onClick(View view) {
                             Intent intent2 = new Intent(ClockActivity.this, MainActivity.class);
                             startActivity(intent2);
+                            stopService(new Intent(ClockActivity.this, FocusService.class));
                             exitApp();
                         }
                     })
@@ -437,5 +446,13 @@ public class ClockActivity extends BasicActivity {
             window.setStatusBarColor(Color.TRANSPARENT);
             window.setNavigationBarColor(Color.TRANSPARENT);
         }
+    }
+
+    public boolean getIsFocus(Context context){
+
+        Boolean isFocus = (Boolean) SPUtils.get(context, KEY_FOCUS, false);
+
+        return isFocus;
+
     }
 }

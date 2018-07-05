@@ -70,8 +70,8 @@ public class ScheduleActivity extends AppCompatActivity {
 //        amountTimes.setText(String.valueOf(amount.get("times")));
 
         new Thread(new Runnable() {
-            //					开启一个线程处理逻辑，然后在线程中在开启一个UI线程，当子线程中的逻辑完成之后，
-//					就会执行UI线程中的操作，将结果反馈到UI界面。
+            //开启一个线程处理逻辑，然后在线程中在开启一个UI线程，当子线程中的逻辑完成之后，
+            //就会执行UI线程中的操作，将结果反馈到UI界面。
             @Override
             public void run() {
                 // 模拟耗时的操作，在子线程中进行。
@@ -136,6 +136,10 @@ public class ScheduleActivity extends AppCompatActivity {
                             public void done(List<Clock> list, BmobException e) {
                                 if (e==null){
                                     Log.i("Clock", "查询到: " +list.size()+" 条数据");
+                                    if (list.size()==0){
+                                        amountDurations.setText("0");
+                                        amountTimes.setText("0");
+                                    }
                                     for (Clock clock : list){
                                         if (clock.getEnd_time()!=null){
                                             allTimes++;

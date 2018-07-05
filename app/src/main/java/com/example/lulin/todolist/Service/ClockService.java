@@ -23,6 +23,7 @@ import com.example.lulin.todolist.activity.ClockActivity;
 import com.example.lulin.todolist.Dao.ClockDao;
 import com.example.lulin.todolist.utils.Clock;
 import com.example.lulin.todolist.utils.CountDownTimer;
+import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.Sound;
 import com.example.lulin.todolist.utils.TimeFormatUtil;
 import com.example.lulin.todolist.utils.User;
@@ -32,6 +33,7 @@ import com.example.lulin.todolist.widget.ClockApplication;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -140,7 +142,9 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                         mDBAdapter.open();
                         mID = mDBAdapter.insert(mTimer.getStartTime(),
                                 mTimer.getMinutesInFuture(),clockTitle);
-                        user = User.getCurrentUser(User.class);
+                        if(NetWorkUtils.isNetworkConnected(getApplication())) {
+                            user = User.getCurrentUser(User.class);
+                        }
                         clock = new Clock();
                         clock.setUser(user);
                         clock.setTitle(clockTitle);
@@ -256,6 +260,8 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                 boolean success = mDBAdapter.update(mID);
                 mDBAdapter.close();
                 clock.setEnd_time(ClockDao.formatDateTime(new Date()));
+
+                if(NetWorkUtils.isNetworkConnected(getApplication()) || User.getCurrentUser()!= null){
                 clock.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {
@@ -266,6 +272,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                         }
                     }
                 });
+                }
 
                 if (success) {
                     long amountDurations =

@@ -1,9 +1,15 @@
 package com.example.lulin.todolist.activity;
 
+import android.app.AlertDialog;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,13 +18,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,13 +49,16 @@ import com.kekstudio.dachshundtablayout.indicators.LineMoveIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.UpdateListener;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import me.drakeet.materialdialog.MaterialDialog;
 import top.wefor.circularanim.CircularAnim;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
@@ -66,6 +78,10 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     private String imgPath;
     private MenuItem mMenuItemIDLE;
     private DrawerLayout drawer;
+    private SwitchCompat isFocus;
+    private static final String KEY_FOCUS = "focus";
+    private UsageStatsManager usageStatsManager;
+    private List<UsageStats> queryUsageStats;
 
 
     @Override
@@ -295,6 +311,32 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
             return true;
         }
+        if (id == R.id.menu_focus){
+            final MaterialDialog focusDialog = new MaterialDialog(MainActivity.this);
+            LayoutInflater layoutInflater = LayoutInflater.from(this);
+            View view = layoutInflater.inflate(R.layout.focus_dialog, null);
+            focusDialog.setTitle("专注模式");
+            focusDialog.setView(view);
+            isFocus = view.findViewById(R.id.sw_focus);
+            isFocus.setChecked(getIsFocus(this));
+            isFocus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        if (Build.VERSION.SDK_INT > 20){
+                            if (!isNoSwitch()){
+                                RequestPromission();
+                            }
+                        }
+                        SPUtils.put(MainActivity.this, KEY_FOCUS, isChecked);
+                    } else {
+                        SPUtils.put(MainActivity.this, KEY_FOCUS, isChecked);
+                    }
+                }
+            });
+            focusDialog.setCanceledOnTouchOutside(true);
+            focusDialog.show();// 显示对话框
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -456,6 +498,49 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                 .apply(bitmapTransform(new BlurTransformation(25, 3)))
                 .apply(options)
                 .into(nav_bg);
+    }
+
+    public boolean getIsFocus(Context context){
+
+        Boolean isFocus = (Boolean) SPUtils.get(context, KEY_FOCUS, false);
+
+        return isFocus;
+
+    }
+
+    /**
+     * 判断“查看应用使用情况”是否开启
+     * @return
+     */
+    private boolean isNoSwitch() {
+        long ts = System.currentTimeMillis();
+        if(Build.VERSION.SDK_INT >=21){
+            //noinspection ResourceType
+            usageStatsManager = (UsageStatsManager)this.getApplicationContext().getSystemService("usagestats");
+            queryUsageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, ts);
+        }
+        if (queryUsageStats == null || queryUsageStats.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 跳转到“查看应用使用情况”页面
+     */
+    public void RequestPromission() {
+        new AlertDialog.Builder(this).
+                setTitle("设置").
+                //setMessage("开启usagestats权限")
+                        setMessage(String.format(Locale.US,"打开专注模式请允App查看应用的使用情况。"))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                        startActivity(intent);
+                        //finish();
+                    }
+                }).show();
     }
 
 }

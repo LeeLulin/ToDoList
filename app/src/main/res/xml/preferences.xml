@@ -13,8 +13,6 @@
 
 
 
-
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -40,7 +38,13 @@
 
 
     <PreferenceCategory
-        android:title="">
+        android:title="专注模式">
+
+        <SwitchPreference
+            android:key="focus"
+            android:title="专注模式"
+            android:summary="打开专注模式将阻止其他App打开"
+            android:defaultValue="false" />
 
 
 

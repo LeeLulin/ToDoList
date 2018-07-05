@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.lulin.todolist.activity.ClockActivity;
 import com.example.lulin.todolist.activity.MainActivity;
 
 import java.util.List;
@@ -33,22 +34,19 @@ public class FocusService extends Service {
             Intent intent = recentInfo.baseIntent;
             String recentTaskName = intent.getComponent().getPackageName();
 
-//
-//          ||!recentTaskName.equals("com.android.contacts")
-//          ||!recentTaskName.equals("com.android.phone")
-//          ||!recentTaskName.equals("com.android.launcher")
-//          ||!recentTaskName.equals("com.miui.home")
 
-            if (!recentTaskName.equals("com.example.lulin.todolist")
+//                    ||!recentTaskName.equals("com.android.contacts")
+//                    ||!recentTaskName.equals("com.android.phone")
+//                    ||!recentTaskName.equals("com.android.launcher")
+
+            if (recentTaskName.equals("com.example.lulin.todolist")
                     ) {
+                Log.i("FocusService", "不阻止运行 "+recentTaskName);
+            } else {
                 Log.i("FocusService", "阻止运行 " + recentTaskName);
-                Intent intentNewActivity = new Intent(FocusService.this, MainActivity.class);
+                Intent intentNewActivity = new Intent(FocusService.this, ClockActivity.class);
                 intentNewActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentNewActivity);
-
-            }else{
-                Log.i("FocusService", "不阻止运行 "+recentTaskName);
-
 
 
             }

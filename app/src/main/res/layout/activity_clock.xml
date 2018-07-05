@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_centerInParent="true"
-                app:rippleColor="@color/colorRipple"
+                app:rippleColor="@color/white"
                 app:rippleDuration="2000"
                 app:rippleDelay="1000"
                 app:rippleAmount="2">
@@ -243,6 +243,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:gravity="center_vertical"

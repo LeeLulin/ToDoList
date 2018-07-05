@@ -91,7 +91,7 @@
 
     <!-- 设置 -->
     <string name="pref_title_tick_title">定时器设置</string>
-    <string name="pref_title_work_length">工作时长</string>
+    <string name="pref_title_work_length">番茄钟时长</string>
     <string name="pref_title_short_break">休息时长</string>
     <string name="pref_title_long_break">长休息时长</string>
     <string name="pref_title_long_break_frequency">长休息间隔</string>
