@@ -43,32 +43,6 @@ public class ScheduleActivity extends AppCompatActivity {
         final TextView amountDurations = (TextView)findViewById(R.id.schedule_amount_durations);
         final TextView amountTimes = (TextView)findViewById(R.id.schedule_amount_times);
 
-//        setToolBar();
-
-//        ClockDao adapter = new ClockDao(this);
-//
-//        // 今日数据
-//        adapter.open();
-//        HashMap today = adapter.getToday();
-//        adapter.close();
-//
-//        TextView todayDurations = (TextView)findViewById(R.id.schedule_today_durations);
-//        TextView todayTimes = (TextView)findViewById(R.id.schedule_today_times);
-//
-//        todayDurations.setText(String.valueOf(today.get("duration")));
-//        todayTimes.setText(String.valueOf(today.get("times")));
-//
-//        // 累计数据
-//        adapter.open();
-//        HashMap amount = adapter.getAmount();
-//        adapter.close();
-//
-//        TextView amountDurations = (TextView)findViewById(R.id.schedule_amount_durations);
-//        TextView amountTimes = (TextView)findViewById(R.id.schedule_amount_times);
-//
-//        amountDurations.setText(String.valueOf(amount.get("duration")));
-//        amountTimes.setText(String.valueOf(amount.get("times")));
-
         new Thread(new Runnable() {
             //开启一个线程处理逻辑，然后在线程中在开启一个UI线程，当子线程中的逻辑完成之后，
             //就会执行UI线程中的操作，将结果反馈到UI界面。
@@ -88,9 +62,6 @@ public class ScheduleActivity extends AppCompatActivity {
                         ClockDao adapter = new ClockDao(ScheduleActivity.this);
 
                         // 今日数据
-//                        adapter.open();
-//                        HashMap today = adapter.getToday();
-//                        adapter.close();
                         BmobQuery<Clock> getToday = new BmobQuery<Clock>();
                         getToday.addWhereEqualTo("user",user);
                         getToday.addWhereEqualTo("date_add", ClockDao.formatDate(new Date()));
@@ -121,14 +92,7 @@ public class ScheduleActivity extends AppCompatActivity {
                         });
 
 
-
-//                        todayDurations.setText(String.valueOf(today.get("duration")));
-//                        todayTimes.setText(String.valueOf(today.get("times")));
-
                         // 累计数据
-//                        adapter.open();
-//                        HashMap amount = adapter.getAmount();
-//                        adapter.close();
                         BmobQuery<Clock> allAmount = new BmobQuery<Clock>();
                         allAmount.addWhereEqualTo("user", user);
                         allAmount.findObjects(new FindListener<Clock>() {
@@ -160,23 +124,12 @@ public class ScheduleActivity extends AppCompatActivity {
 
 
 
-//                        amountDurations.setText(String.valueOf(amount.get("duration")));
-//                        amountTimes.setText(String.valueOf(amount.get("times")));
-
                     }
                 });
             }
         }).start();
     }
 
-//    private void setToolBar() {
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        assert getSupportActionBar() != null;
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

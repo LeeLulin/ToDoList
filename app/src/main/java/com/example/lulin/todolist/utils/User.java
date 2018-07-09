@@ -12,6 +12,7 @@ public class User extends BmobUser {
     private String autograph;
     private String sex;
     private Bitmap localImg;
+    private Integer total;
 
     public User(){}
 
@@ -26,6 +27,9 @@ public class User extends BmobUser {
     public Bitmap getLocalImg(){
         return localImg;
     }
+    public Integer getTotal(){
+        return total;
+    }
 
 
     public void setNickName(String nickName){
@@ -38,5 +42,8 @@ public class User extends BmobUser {
     public void setSex(String sex){this.sex = sex;}
     public void setLocalImg(Bitmap localImg){
         this.localImg = localImg;
+    }
+    public void setTotal(Integer total){
+        this.total = total;
     }
 }

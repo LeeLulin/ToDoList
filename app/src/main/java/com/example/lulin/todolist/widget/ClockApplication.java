@@ -37,31 +37,6 @@ public class ClockApplication extends Application {
 
         mState = STATE_WAIT;
     }
-//    public void setWorkLength(int DEFAULT_WORK_LENGTH){
-//        this.DEFAULT_WORK_LENGTH = DEFAULT_WORK_LENGTH;
-//    }
-//    public void setShortBreak(int DEFAULT_SHORT_BREAK){
-//        this.DEFAULT_SHORT_BREAK = DEFAULT_SHORT_BREAK;
-//    }
-//    public void setLongBreak(int DEFAULT_LONG_BREAK){
-//        this.DEFAULT_LONG_BREAK = DEFAULT_LONG_BREAK;
-//    }
-//    public void setLongBreakFrequency(int DEFAULT_LONG_BREAK_FREQUENCY){
-//        this.DEFAULT_LONG_BREAK_FREQUENCY = DEFAULT_LONG_BREAK_FREQUENCY;
-//    }
-//
-//    public int getWorkLength(){
-//        return DEFAULT_WORK_LENGTH;
-//    }
-//    public int getShortBreak(){
-//        return DEFAULT_SHORT_BREAK;
-//    }
-//    public int getLongBreak(){
-//        return DEFAULT_LONG_BREAK;
-//    }
-//    public int getLongBreakFrequency(){
-//        return DEFAULT_LONG_BREAK_FREQUENCY;
-//    }
 
     public void reload() {
         switch(mState) {

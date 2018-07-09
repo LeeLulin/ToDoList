@@ -1,29 +1,15 @@
 package com.example.lulin.todolist.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
-import android.widget.Switch;
 import android.widget.TextView;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
-import com.example.lulin.todolist.utils.RecyclerItemClickListener;
-import com.example.lulin.todolist.utils.ToDoUtils;
-import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.Todos;
 
 import java.util.List;
@@ -72,7 +58,7 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
     }
     @Override
     public TodoRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v= LayoutInflater.from(context).inflate(R.layout.todo_item,viewGroup,false);
+        View v= LayoutInflater.from(context).inflate(R.layout.item_todo,viewGroup,false);
         ViewHolder viewHolder=new ViewHolder(v);
         return viewHolder;
     }

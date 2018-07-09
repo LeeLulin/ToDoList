@@ -36,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class ClockService extends Service implements CountDownTimer.OnCountDownTickListener {
     public static final String ACTION_COUNTDOWN_TIMER =
@@ -267,6 +268,18 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                     public void done(String s, BmobException e) {
                         if (e==null){
                             Log.i("ClockService", "保存番茄钟到bmob成功");
+                            user.increment("total", getSharedPreferences()
+                                    .getInt("pref_key_work_length", ClockApplication.DEFAULT_WORK_LENGTH));
+                            user.update(new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if (e==null){
+                                        Log.i("ClockService", "番茄钟累计时间增加成功");
+                                    } else {
+                                        Log.i("ClockService", "番茄钟累计时间增加失败");
+                                    }
+                                }
+                            });
                         } else {
                             Log.i("ClockService", "保存番茄钟到bmob失败: " + e.getMessage());
                         }
@@ -412,5 +425,9 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
     private String formatTime(long millisUntilFinished) {
         return getResources().getString(R.string.notification_time_left)  + " " +
                 TimeFormatUtil.formatTime(millisUntilFinished);
+    }
+
+    private SharedPreferences getSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 }

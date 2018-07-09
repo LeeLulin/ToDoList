@@ -85,6 +85,7 @@ public class RegisterActivity extends BasicActivity implements View.OnClickListe
                             user.setNickName(username);
                             user.setAutograph("个性签名");
                             user.setImg(bmobFile);
+                            user.setTotal(0);
                             user.signUp(new SaveListener<User>() {
                                 @Override
                                 public void done(User s, BmobException e) {

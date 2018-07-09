@@ -8,8 +8,7 @@
 
         <Preference
             android:title="昵称"
-            android:summary="个性签名"
-            android:icon="@drawable/default_photo"/>
+            android:summary="个性签名" />
 
 
 
@@ -46,9 +45,16 @@
             android:summary="打开专注模式将阻止其他App打开"
             android:defaultValue="false" />
 
-
-
     </PreferenceCategory>
+
+    <Preference
+        android:key="change_pwd"
+        android:title="修改密码" />
+
+    <Preference
+        android:key="exit_login"
+        android:title="退出登录"
+        />
 
 
 

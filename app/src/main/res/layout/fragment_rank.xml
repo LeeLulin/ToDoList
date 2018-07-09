@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
     android:orientation="vertical"
-    tools:context="com.example.lulin.todolist.fragment.TodoFragment">
-
-
-
+    tools:context="com.example.lulin.todolist.fragment.RankFragment">
 
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/recycler_view"
+        android:id="@+id/rank_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
     </android.support.v7.widget.RecyclerView>
-
 
 </RelativeLayout>

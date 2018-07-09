@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,27 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     tools:context="com.example.lulin.todolist.activity.UserDataActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:fitsSystemWindows="true"
-        android:layout_height="230dp"
+        android:id="@+id/user_app_bar"
         android:layout_width="match_parent"
+        android:layout_height="332dp"
         android:theme="@style/AppTheme.AppBarOverlay"
+        android:fitsSystemWindows="true"
         app:layout_behavior="@string/appbar_overscroll_behavior">
 
+
+
         <android.support.design.widget.CollapsingToolbarLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/toolbar_layout"
-            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="?attr/colorPrimary">
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="342dp"
                 android:orientation="vertical"
                 app:layout_collapseMode="pin"
                 app:layout_collapseParallaxMultiplier="0.7">
@@ -36,44 +40,51 @@
                     android:id="@+id/top_bg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"/>
-
+                    android:src="@drawable/ic_img1"
+                    android:scaleType="centerCrop" />
 
             </LinearLayout>
+
+            <include
+                android:id="@+id/include3"
+                layout="@layout/layout_uc_head_middle"/>
 
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/user_toolbar"
-                android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" >
+                app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <com.example.lulin.todolist.widget.CircleImageView
                     android:id="@+id/toolbar_userhead"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/default_photo"/>
+                    android:src="@drawable/default_photo" />
 
                 <TextView
                     android:id="@+id/toolbar_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
                     android:gravity="center"
+                    android:paddingLeft="5dp"
                     android:text="Lover's Day"
                     android:textColor="@color/white"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
             </android.support.v7.widget.Toolbar>
 
+
         </android.support.design.widget.CollapsingToolbarLayout>
+
 
     </android.support.design.widget.AppBarLayout>
 
     <include
         android:id="@+id/include2"
         layout="@layout/content_user_data" />
+
 
     <com.example.lulin.todolist.widget.CircleImageView
         android:id="@+id/user_head"
@@ -84,7 +95,7 @@
         app:civ_border_color="@android:color/white"
         app:civ_border_width="2dp"
         app:elevation="0dp"
-        app:layout_anchor="@+id/include2"
+        app:layout_anchor="@+id/include3"
         app:layout_anchorGravity="left|top"
         app:layout_behavior="@string/appbar_circleimageview_behavior"/>
 
@@ -95,216 +106,9 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/edit"
         app:elevation="0dp"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/exit_login"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/exit_half_black"
-                android:gravity="center"
-                app:elevation="1dp"
-                app:backgroundTint="@color/white"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/exit_login"
-                android:layout_centerHorizontal="true"
-                android:paddingTop="1dp"
-                android:text="退出登录"
-                android:textSize="12sp"
-                android:textColor="@color/half_black_2"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp">
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/reset_fab"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/reset_password"
-                android:gravity="center"
-                app:elevation="1dp"
-                app:backgroundTint="@color/white"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/reset_fab"
-                android:layout_centerHorizontal="true"
-                android:paddingTop="1dp"
-                android:text="修改密码"
-                android:textSize="12sp"
-                android:textColor="@color/half_black_2"/>
-
-        </RelativeLayout>
-
-
-
-    </LinearLayout>
-
-
-
+        app:layout_anchor="@+id/user_app_bar"
+        app:layout_anchorGravity="right|bottom" />
 
 
 
 </android.support.design.widget.CoordinatorLayout>
-
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@drawable/ic_img2"-->
-    <!--android:orientation="vertical">-->
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="260dp">-->
-
-        <!--<de.hdodenhof.circleimageview.CircleImageView-->
-            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-            <!--android:id="@+id/photo"-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="150dp"-->
-            <!--android:src="@drawable/default_photo"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:onClick="onClick"-->
-            <!--app:civ_fill_color="@color/white"-->
-            <!--/>-->
-
-    <!--</RelativeLayout>-->
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:orientation="horizontal">-->
-        <!--<TextView-->
-            <!--android:layout_width="80dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:text="昵称"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="18dp"-->
-            <!--android:gravity="center"/>-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/name"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_marginLeft="10dp">-->
-            <!--<EditText-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="12dp"-->
-                <!--android:textColor="@color/black"-->
-                <!--android:gravity="center"-->
-                <!--android:id="@+id/nickname"/>-->
-            <!--&lt;!&ndash;<EditText&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="1dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:background="#CCCCCC"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/nickname">&ndash;&gt;-->
-            <!--&lt;!&ndash;</EditText>&ndash;&gt;-->
-
-
-
-
-        <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--&gt;-->
-        <!--<TextView-->
-            <!--android:layout_width="80dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:text="性别"-->
-            <!--android:gravity="center"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="18dp"/>-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/sex"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_marginLeft="10dp">-->
-            <!--<EditText-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:id="@+id/sex1"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="12dp"-->
-                <!--android:textColor="@color/black"-->
-                <!--android:gravity="center"/>-->
-
-        <!--</LinearLayout>-->
-
-    <!--</LinearLayout>-->
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--&gt;-->
-        <!--<TextView-->
-            <!--android:layout_width="80dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:text="个性签名"-->
-            <!--android:gravity="center"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="18dp"/>-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/myself"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_marginLeft="10dp">-->
-            <!--<EditText-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:id="@+id/autograph"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:textSize="12dp"-->
-                <!--android:textColor="@color/black"-->
-                <!--android:gravity="center"/>-->
-
-        <!--</LinearLayout>-->
-
-
-    <!--</LinearLayout>-->
-
-
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="100dp">-->
-
-        <!--<Button-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="50dp"-->
-            <!--android:id="@+id/save"-->
-            <!--android:text="保存"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_centerVertical="true" />-->
-    <!--</RelativeLayout>-->
-<!--</LinearLayout>-->

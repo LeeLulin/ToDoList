@@ -307,7 +307,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,1);
 
             return true;
         }
@@ -390,7 +390,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
             case R.id.nav_setting:
 
                 Intent intent2 = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent2);
+                startActivityForResult(intent2,1);
 
                 break;
         }

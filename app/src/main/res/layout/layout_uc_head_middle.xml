@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.lulin.todolist.widget.DisInterceptNestedScrollView
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/middle_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="230dp"
     android:tag="middle"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     app:layout_collapseMode="parallax"
     app:layout_collapseParallaxMultiplier="0.5">
 
@@ -67,9 +69,25 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#f5f5f5" />
+            android:background="@color/half_black" />
 
+        <!--<com.kekstudio.dachshundtablayout.DachshundTabLayout-->
+            <!--android:id="@+id/tab_layout_user"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@android:color/white"-->
+            <!--app:tabTextColor="@color/half_black"-->
+            <!--app:tabSelectedTextColor="@color/black_semi"-->
+            <!--app:ddIndicatorColor="@color/half_black"-->
+            <!--app:ddIndicatorHeight="5dp"/>-->
+
+        <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/view_pager_user"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
 
     </LinearLayout>
 
-</com.example.lulin.todolist.widget.DisInterceptNestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

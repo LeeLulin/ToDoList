@@ -18,24 +18,41 @@ import android.preference.RingtonePreference;
 import android.preference.SwitchPreference;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.activity.LoginActivity;
+import com.example.lulin.todolist.activity.MainActivity;
+import com.example.lulin.todolist.activity.UserDataActivity;
 import com.example.lulin.todolist.utils.SPUtils;
+import com.example.lulin.todolist.utils.ToastUtils;
+import com.example.lulin.todolist.utils.User;
 
 import java.util.List;
 import java.util.Locale;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class SettingsFragment extends PreferenceFragment {
 
     private RingtonePreference mRingtone;
     private PreferenceScreen preferenceScreen;
     private SwitchPreference mFocus;
-    private static final String KEY_RINGTONE = "ring_tone";
-    private static final String KEY_FOCUS = "focus";
     private static final String TAG = "setting";
     private UsageStatsManager usageStatsManager;
     private List<UsageStats> queryUsageStats;
-
+    private Preference mChangePassWord;
+    private Preference mExitLogin;
+    private static final String KEY_RINGTONE = "ring_tone";
+    private static final String KEY_FOCUS = "focus";
+    private static final String KEY_PWD = "change_pwd";
+    private static final String KEY_EXIT = "exit_login";
+    private EditText oldPwd,newPwd;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +66,8 @@ public class SettingsFragment extends PreferenceFragment {
         preferenceScreen = getPreferenceScreen();
         mRingtone = (RingtonePreference) preferenceScreen.findPreference(KEY_RINGTONE);
         mFocus = (SwitchPreference) preferenceScreen.findPreference(KEY_FOCUS);
+        mChangePassWord = (Preference) preferenceScreen.findPreference(KEY_PWD);
+        mExitLogin = (Preference) preferenceScreen.findPreference(KEY_EXIT);
         Uri uri = Uri.parse(SPUtils.get(getActivity(), KEY_RINGTONE, "").toString());
         Log.i(TAG, "铃声" + getRingtonName(uri));
         if (getRingtonName(uri).equals("未知铃声")){
@@ -89,6 +108,82 @@ public class SettingsFragment extends PreferenceFragment {
                     }
                 }
                 return true;
+            }
+        });
+
+        mChangePassWord.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (User.getCurrentUser(User.class)==null){
+                    ToastUtils.showShort(getActivity(),"未登录");
+                } else {
+                    LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                    View textEntryView = layoutInflater.inflate(R.layout.reset_pwd_dialog, null);
+                    oldPwd = (EditText) textEntryView.findViewById(R.id.old_pwd);
+                    newPwd = (EditText)textEntryView.findViewById(R.id.new_pwd);
+                    final MaterialDialog resetDialog = new MaterialDialog(getActivity());
+                    resetDialog.setTitle("修改密码");
+                    resetDialog.setView(textEntryView);
+                    resetDialog.setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String old_pwd = oldPwd.getText().toString();
+                            String new_pwd = newPwd.getText().toString();
+                            BmobUser.updateCurrentUserPassword(old_pwd, new_pwd, new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if(e==null){
+                                        ToastUtils.showShort(getActivity(),"修改成功");
+                                        BmobUser.logOut();   //清除缓存用户对象
+                                        Log.i(TAG, "成功");
+                                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+                                    }else{
+                                        Log.i(TAG, "done: 失败"+e.getMessage());
+                                        ToastUtils.showShort(getActivity(),"修改失败" + e.getMessage());
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    resetDialog.setNegativeButton("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            resetDialog.dismiss();
+                        }
+                    });
+                    resetDialog.show();// 显示对话框
+                }
+
+                return false;
+            }
+        });
+
+        mExitLogin.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final MaterialDialog signOutDialog = new MaterialDialog(getActivity());
+                signOutDialog.setTitle("是否退出登录？")
+                        .setPositiveButton("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                BmobUser.logOut();   //清除缓存用户对象
+                                SPUtils.put(getActivity(),"sync",false);
+                                Log.i(TAG, "注销成功");
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                getActivity().startActivity(intent);
+                                getActivity().finish();
+                            }
+                        })
+                        .setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                signOutDialog.dismiss();
+                            }
+                        })
+                        .show();
+                return false;
             }
         });
 

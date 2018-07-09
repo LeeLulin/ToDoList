@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.lulin.todolist.R;
-import com.example.lulin.todolist.utils.Clock;
 import com.example.lulin.todolist.utils.Tomato;
 
 import java.util.List;
@@ -57,7 +56,7 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
     }
     @Override
     public ClockRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v= LayoutInflater.from(context).inflate(R.layout.clock_item,viewGroup,false);
+        View v= LayoutInflater.from(context).inflate(R.layout.item_clock,viewGroup,false);
         ViewHolder viewHolder=new ViewHolder(v);
         return viewHolder;
     }

@@ -205,39 +205,39 @@ public class ClockFragment extends Fragment {
     }
 
 
-    /**
-     * 判断“查看应用使用情况”是否开启
-     * @return
-     */
-    private boolean isNoSwitch() {
-        long ts = System.currentTimeMillis();
-        if(Build.VERSION.SDK_INT >=21){
-            usageStatsManager = (UsageStatsManager) getActivity().getApplicationContext().getSystemService("usagestats");
-            queryUsageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, ts);
-        }
-        if (queryUsageStats == null || queryUsageStats.isEmpty()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 跳转到“查看应用使用情况”页面
-     */
-    public void RequestPromission() {
-        new AlertDialog.Builder(getContext()).
-                setTitle("设置").
-                //setMessage("开启usagestats权限")
-                        setMessage(String.format(Locale.US,"打开专注模式请允App查看应用的使用情况。"))
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-                        startActivity(intent);
-                        //finish();
-                    }
-                }).show();
-    }
+//    /**
+//     * 判断“查看应用使用情况”是否开启
+//     * @return
+//     */
+//    private boolean isNoSwitch() {
+//        long ts = System.currentTimeMillis();
+//        if(Build.VERSION.SDK_INT >=21){
+//            usageStatsManager = (UsageStatsManager) getActivity().getApplicationContext().getSystemService("usagestats");
+//            queryUsageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, ts);
+//        }
+//        if (queryUsageStats == null || queryUsageStats.isEmpty()) {
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    /**
+//     * 跳转到“查看应用使用情况”页面
+//     */
+//    public void RequestPromission() {
+//        new AlertDialog.Builder(getContext()).
+//                setTitle("设置").
+//                //setMessage("开启usagestats权限")
+//                        setMessage(String.format(Locale.US,"打开专注模式请允App查看应用的使用情况。"))
+//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+//                        startActivity(intent);
+//                        //finish();
+//                    }
+//                }).show();
+//    }
 
     private void setDbData(){
 

@@ -61,12 +61,6 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" >
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="新建"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:textSize="18sp"/>-->
 
             </android.support.v7.widget.Toolbar>
 

@@ -253,7 +253,7 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
                                         SPUtils.put(getApplication(),"sync",true);
                                         Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivityForResult(intent,2);
+                                        startActivity(intent);
                                         //记住密码
                                         editor=login_sp.edit();
                                         if(mRememberCheck.isChecked()){
@@ -277,60 +277,6 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
                         }
                     }
                 }, 2000);
-
-//                Timer timer = new Timer();
-//                TimerTask timerTask = new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        final String username = mEtUserName.getText().toString();
-//                        final String password = mEtPassWord.getText().toString();
-//
-//                        if (NetWorkUtils.isNetworkConnected(getApplication())) {
-//
-//                            if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-//                                Toast.makeText(LoginActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
-//                                return;
-//                            }
-//
-//                            final BmobUser user = new BmobUser();
-//                            user.setUsername(username);
-//                            user.setPassword(password);
-//                            user.login(new SaveListener<BmobUser>() {
-//                                @Override
-//                                public void done(BmobUser bmobUser, BmobException e) {
-//                                    if (e == null) {
-//                                        Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-//                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                                        startActivityForResult(intent,1);
-////                                startActivity(intent);
-//                                        //记住密码
-//                                editor=login_sp.edit();
-//                                if(mRememberCheck.isChecked()){
-//                                    editor.putBoolean("remember_password",true);
-//                                    editor.putString("account",username);
-//                                    editor.putString("password",password);
-//                                }else {
-//                                    editor.clear();
-//                                }
-//                                editor.apply();
-//                                        finish();
-//                                    } else {
-//                                        recovery();
-//                                        Toast.makeText(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
-//                        } else {
-//                            recovery();
-//                            Toast.makeText(LoginActivity.this, "无网络连接！", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                };
-//
-//                //after 3 seconds jump to Login activity
-//                timer.schedule(timerTask,  2000);
-
-
 
             }
 
