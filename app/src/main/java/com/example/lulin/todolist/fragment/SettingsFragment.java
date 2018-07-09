@@ -136,8 +136,8 @@ public class SettingsFragment extends PreferenceFragment {
                                         ToastUtils.showShort(getActivity(),"修改成功");
                                         BmobUser.logOut();   //清除缓存用户对象
                                         Log.i(TAG, "成功");
-                                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                        startActivity(intent);
+                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                                        getActivity().setResult(3,intent);
                                         getActivity().finish();
                                     }else{
                                         Log.i(TAG, "done: 失败"+e.getMessage());
@@ -171,8 +171,8 @@ public class SettingsFragment extends PreferenceFragment {
                                 BmobUser.logOut();   //清除缓存用户对象
                                 SPUtils.put(getActivity(),"sync",false);
                                 Log.i(TAG, "注销成功");
-                                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                getActivity().startActivity(intent);
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                getActivity().setResult(3,intent);
                                 getActivity().finish();
                             }
                         })

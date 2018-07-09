@@ -419,9 +419,14 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == 2){
-                finish();
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent);
+            finish();
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        if (resultCode ==3){
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
 
     }
