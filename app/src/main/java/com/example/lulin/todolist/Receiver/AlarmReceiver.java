@@ -48,7 +48,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, MainActivity.class);//这里是点击Notification 跳转的界面，可以自己选择
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification.Builder notification = new Notification.Builder(context);
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(context);
         notification.setSmallIcon(R.mipmap.today)     //设置通知图标。
                     .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                     .setTicker(title)        //通知时在状态栏显示的通知内容
@@ -57,10 +57,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setContentText(dsc)        //设置通知内容。
                     .setAutoCancel(true)                //点击通知后通知消失
 //                    .setDefaults(Notification.DEFAULT_ALL)        //设置系统默认的通知音乐、振动、LED等。
-
+                    .setPriority(Notification.PRIORITY_MAX)  //设置通知为最高权限
                     .setFullScreenIntent(pi, true)
                     .setContentIntent(pi);
-        if (ringTone == ""){
+        if (ringTone.equals("")){
             notification.setDefaults(Notification.DEFAULT_ALL); //设置系统默认的通知音乐、振动
             Log.i(TAG, "默认铃声");
         } else {

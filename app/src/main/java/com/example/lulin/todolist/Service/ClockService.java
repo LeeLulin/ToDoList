@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.lulin.todolist.R;
@@ -235,7 +236,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
         intent.putExtra(REQUEST_ACTION, ACTION_TICK);
         sendBroadcast(intent);
 
-        Notification.Builder builder =
+        NotificationCompat.Builder builder =
                 getNotification(getNotificationTitle(), formatTime(millisUntilFinished));
 
         getNotificationManager().notify(NOTIFICATION_ID, builder.build());
@@ -247,7 +248,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
         intent.putExtra(REQUEST_ACTION, ACTION_FINISH);
         sendBroadcast(intent);
 
-        Notification.Builder builder;
+        NotificationCompat.Builder builder;
 
         if (mApplication.getScene() == ClockApplication.SCENE_WORK) {
             builder = getNotification(
@@ -381,12 +382,12 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
         getNotificationManager().cancel(NOTIFICATION_ID);
     }
 
-    private Notification.Builder getNotification(String title, String text) {
+    private NotificationCompat.Builder getNotification(String title, String text) {
 //        Intent intent = ClockActivity.newIntent(getApplicationContext());
         Intent intent = new Intent(getBaseContext(),ClockActivity.class);
 
         PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-        Notification.Builder builder = new Notification.Builder(this);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.mipmap.clock);
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
                 R.mipmap.ic_launcher));
