@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 
 import com.example.lulin.todolist.R;
 
-//import com.icodechef.android.tick.R;
 
 /**
  * 4.4 出现 MediaPlayer: Should have subtitle controller already set 错误

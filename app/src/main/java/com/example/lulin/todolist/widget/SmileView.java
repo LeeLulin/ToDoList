@@ -16,10 +16,6 @@ import android.view.View;
 
 import com.example.lulin.todolist.R;
 
-/**
- * Created by stefan on 2017/7/5.
- * Func:该控件来自网上的一个自定义控件，stefan进行了改进
- */
 
 public class SmileView extends View {
 

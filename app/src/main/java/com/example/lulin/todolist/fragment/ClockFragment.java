@@ -1,10 +1,6 @@
 package com.example.lulin.todolist.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,41 +14,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
-import com.example.lulin.todolist.Service.FocusService;
 import com.example.lulin.todolist.SpacesItemDecoration;
 import com.example.lulin.todolist.activity.ClockActivity;
 import com.example.lulin.todolist.adapter.ClockRecyclerViewAdapter;
-import com.example.lulin.todolist.adapter.TodoRecyclerViewAdapter;
-import com.example.lulin.todolist.utils.Clock;
 import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.RecyclerItemClickListener;
-import com.example.lulin.todolist.utils.SPUtils;
-import com.example.lulin.todolist.utils.ToDoUtils;
-import com.example.lulin.todolist.utils.ToastUtils;
-import com.example.lulin.todolist.utils.Todos;
 import com.example.lulin.todolist.utils.Tomato;
 import com.example.lulin.todolist.utils.TomatoUtils;
 import com.example.lulin.todolist.utils.User;
-import com.example.lulin.todolist.widget.ClockView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ClockFragment extends Fragment {
 
-    private Switch focus;
-    private UsageStatsManager usageStatsManager;
-    private List<UsageStats> queryUsageStats;
-    private Button start_clock;
-    private ClockView clockView;
-    private int clicked = 0;
     private MyDatabaseHelper dbHelper;
     private RecyclerView recyclerView;
     private ClockRecyclerViewAdapter clockRecyclerViewAdapter;

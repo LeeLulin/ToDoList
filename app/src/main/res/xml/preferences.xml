@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="设置">
 
-    <PreferenceCategory
-        android:title="用户">
+    <!--<PreferenceCategory-->
+        <!--android:title="用户">-->
 
-        <Preference
-            android:title="昵称"
-            android:summary="个性签名" />
+        <!--<Preference-->
+            <!--android:title="昵称"-->
+            <!--android:summary="个性签名" />-->
 
 
 
-    </PreferenceCategory>
+    <!--</PreferenceCategory>-->
 
     <PreferenceCategory
         android:title="通知">

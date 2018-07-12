@@ -23,7 +23,7 @@ import com.example.lulin.todolist.R;
 
 
 /**
- * Created by wxy on 16/6/27.
+ * 自定义圆形ImageView
  */
 public class CircleImageView extends ImageView {
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;

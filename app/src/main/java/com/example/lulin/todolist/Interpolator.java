@@ -2,10 +2,10 @@ package com.example.lulin.todolist;
 
 import android.view.animation.LinearInterpolator;
 
-public class JellyInterpolator extends LinearInterpolator {
+public class Interpolator extends LinearInterpolator {
 	private float factor;
 
-	public JellyInterpolator() {
+	public Interpolator() {
 		this.factor = 0.15f;
 	}
 

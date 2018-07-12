@@ -16,7 +16,7 @@ import cn.bmob.v3.listener.UpdateListener;
 public class TomatoUtils {
 
     /**
-     * 返回数据库用户所有的任务
+     * 返回数据库用户所有的番茄钟
      *
      * @param context
      * @return

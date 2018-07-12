@@ -7,10 +7,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -34,7 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.lulin.todolist.JellyInterpolator;
+import com.example.lulin.todolist.Interpolator;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.SPUtils;
@@ -198,7 +195,7 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
         ObjectAnimator animator3 = ObjectAnimator.ofPropertyValuesHolder(view,
                 animator, animator2);
         animator3.setDuration(1000);
-        animator3.setInterpolator(new JellyInterpolator());
+        animator3.setInterpolator(new Interpolator());
         animator3.start();
 
     }
