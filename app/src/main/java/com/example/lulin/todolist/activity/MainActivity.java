@@ -1,14 +1,11 @@
 package com.example.lulin.todolist.activity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,9 +13,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -35,7 +30,6 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -62,7 +56,6 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.QueryListener;
-import cn.bmob.v3.listener.UpdateListener;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.drakeet.materialdialog.MaterialDialog;
 import top.wefor.circularanim.CircularAnim;
@@ -320,7 +313,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         if (id == R.id.menu_focus){
             final MaterialDialog focusDialog = new MaterialDialog(MainActivity.this);
             LayoutInflater layoutInflater = LayoutInflater.from(this);
-            View view = layoutInflater.inflate(R.layout.focus_dialog, null);
+            View view = layoutInflater.inflate(R.layout.dialog_focus, null);
             focusDialog.setTitle("专注模式");
             focusDialog.setView(view);
             isFocus = view.findViewById(R.id.sw_focus);

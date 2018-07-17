@@ -11,11 +11,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.lulin.todolist.R;
@@ -24,6 +29,7 @@ import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.TimeFormatUtil;
 import com.example.lulin.todolist.Service.ClockService;
 import com.example.lulin.todolist.utils.ToastUtils;
+import com.example.lulin.todolist.utils.User;
 import com.example.lulin.todolist.widget.RippleWrapper;
 import com.example.lulin.todolist.widget.ClockApplication;
 import com.example.lulin.todolist.widget.ClockProgressBar;
@@ -46,6 +52,7 @@ public class ClockActivity extends BasicActivity {
     private long mLastClickTime = 0;
     private String clockTitle;
     private static final String KEY_FOCUS = "focus";
+    private ImageView bt_music;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -69,7 +76,9 @@ public class ClockActivity extends BasicActivity {
         mTextTimeTile = (TextView)findViewById(R.id.text_time_title);
         mProgressBar = (ClockProgressBar)findViewById(R.id.tick_progress_bar);
         mRippleWrapper = (RippleWrapper)findViewById(R.id.ripple_wrapper);
-
+//        bt_music = (ImageView) findViewById(R.id.bt_music);
+        SPUtils.put(this,"music_id",R.raw.rain);
+        ToastUtils.showShort(this,"双击界面打开或关闭白噪音");
         initActions();
     }
 
@@ -200,6 +209,26 @@ public class ClockActivity extends BasicActivity {
                 mLastClickTime = clickTime;
             }
         });
+
+//        bt_music.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LayoutInflater layoutInflater = LayoutInflater.from(ClockActivity.this);
+//                View musicView = layoutInflater.inflate(R.layout.dialog_music, null);
+//                final MaterialDialog alert = new MaterialDialog(ClockActivity.this);
+//                alert.setContentView(musicView);
+//
+//                alert.setPositiveButton("OK", new View.OnClickListener() {
+//                    @Override public void onClick(View v) {
+//                        alert.dismiss();
+//                    }
+//                });
+//
+//                alert.show();
+//
+//            }
+//
+//        });
     }
 
 //    @Override

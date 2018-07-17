@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <com.jaouan.compoundlayout.RadioLayoutGroup
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <com.jaouan.compoundlayout.RadioLayout
+            android:id="@+id/music_ticking"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingTop="5dp"
+            app:checked="true"
+            app:angle="45"
+            app:colorA="@color/white"
+            app:colorB="@color/colorPrimary">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_ticking"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="滴答声"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+            </RelativeLayout>
+
+        </com.jaouan.compoundlayout.RadioLayout>
+
+        <com.jaouan.compoundlayout.RadioLayout
+            android:id="@+id/music_rain"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingTop="5dp"
+
+            app:angle="45"
+            app:colorA="@color/white"
+            app:colorB="@color/colorPrimary">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_rain"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="雨声"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+            </RelativeLayout>
+
+        </com.jaouan.compoundlayout.RadioLayout>
+
+        <com.jaouan.compoundlayout.RadioLayout
+            android:id="@+id/music_thunder"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingTop="5dp"
+
+            app:angle="45"
+            app:colorA="@color/white"
+            app:colorB="@color/colorPrimary">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_thunder"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="雷声"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+            </RelativeLayout>
+
+        </com.jaouan.compoundlayout.RadioLayout>
+
+        <com.jaouan.compoundlayout.RadioLayout
+            android:id="@+id/music_bird"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingTop="5dp"
+
+            app:angle="45"
+            app:colorA="@color/white"
+            app:colorB="@color/colorPrimary">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_birds"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="鸟叫声"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                />
+
+        </com.jaouan.compoundlayout.RadioLayout>
+
+    </com.jaouan.compoundlayout.RadioLayoutGroup>
+

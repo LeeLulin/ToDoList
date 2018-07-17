@@ -1,9 +1,7 @@
 package com.example.lulin.todolist.activity;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -40,7 +38,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.adapter.FragmentAdapter;
-import com.example.lulin.todolist.adapter.UserFragmentPagerAdapter;
 import com.example.lulin.todolist.fragment.RankFragment;
 import com.example.lulin.todolist.fragment.StatisticFragment;
 import com.example.lulin.todolist.utils.PhotoUtils;
@@ -59,7 +56,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
@@ -112,7 +108,6 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setStatusBar();
         setContentView(R.layout.activity_user_data);
-//        ViewUtils.inject(this);
         initView();
         initViewPager();
 
@@ -431,7 +426,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
     protected void showEditDialog() {
         User user = User.getCurrentUser(User.class);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View textEntryView = layoutInflater.inflate(R.layout.edit_dialog, null);
+        View textEntryView = layoutInflater.inflate(R.layout.dialog_edit, null);
         et_nickname = (EditText) textEntryView.findViewById(R.id.edit_nickname);
         et_autograph = (EditText)textEntryView.findViewById(R.id.edit_autograph);
         et_nickname.setText(user.getNickName());

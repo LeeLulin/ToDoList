@@ -23,9 +23,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.lulin.todolist.R;
-import com.example.lulin.todolist.activity.LoginActivity;
 import com.example.lulin.todolist.activity.MainActivity;
-import com.example.lulin.todolist.activity.UserDataActivity;
 import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.User;
@@ -118,7 +116,7 @@ public class SettingsFragment extends PreferenceFragment {
                     ToastUtils.showShort(getActivity(),"未登录");
                 } else {
                     LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-                    View textEntryView = layoutInflater.inflate(R.layout.reset_pwd_dialog, null);
+                    View textEntryView = layoutInflater.inflate(R.layout.dialog_reset_pwd, null);
                     oldPwd = (EditText) textEntryView.findViewById(R.id.old_pwd);
                     newPwd = (EditText)textEntryView.findViewById(R.id.new_pwd);
                     final MaterialDialog resetDialog = new MaterialDialog(getActivity());

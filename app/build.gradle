@@ -64,4 +64,6 @@ dependencies {
     implementation 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
     //动态权限申请
     implementation 'com.karumi:dexter:5.0.0'
+    //Layout选中效果
+    implementation 'com.github.jaouan:compoundlayout:1.0.1'
 }
