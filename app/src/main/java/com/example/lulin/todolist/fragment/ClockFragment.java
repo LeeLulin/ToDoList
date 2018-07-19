@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.example.lulin.todolist.activity.ClockActivity;
 import com.example.lulin.todolist.adapter.ClockRecyclerViewAdapter;
 import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.RecyclerItemClickListener;
+import com.example.lulin.todolist.utils.ToastUtils;
 import com.example.lulin.todolist.utils.Tomato;
 import com.example.lulin.todolist.utils.TomatoUtils;
 import com.example.lulin.todolist.utils.User;
@@ -144,6 +146,7 @@ public class ClockFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 String clockTitle = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position).getTitle();
+                                Tomato tomato = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position);
                                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                                 db.delete("Clock","clocktitle = ?",
                                         new String[]{clockTitle});
@@ -159,19 +162,20 @@ public class ClockFragment extends Fragment {
 //                                    }
 //                                });
 
-//                                if (User.getCurrentUser(User.class) != null){
-//                                    ToDoUtils.deleteNetTodos(getContext(), todos, new ToDoUtils.DeleteTaskListener() {
-//                                        @Override
-//                                        public void onSuccess() {
-//
-//                                        }
-//
-//                                        @Override
-//                                        public void onError(int errorCord, String msg) {
-//                                            ToastUtils.showShort(getContext(),msg);
-//                                        }
-//                                    });
-//                                }
+                                if (User.getCurrentUser(User.class) != null){
+                                    TomatoUtils.deleteNetTomato(getContext(), tomato, new TomatoUtils.DeleteTomatoListener() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(int errorCord, String msg) {
+                                            Log.i("ClockFragment", "msg ");
+                                            ToastUtils.showShort(getContext(),msg);
+                                        }
+                                    });
+                                }
 
                                 clockRecyclerViewAdapter.removeItem(position);
 

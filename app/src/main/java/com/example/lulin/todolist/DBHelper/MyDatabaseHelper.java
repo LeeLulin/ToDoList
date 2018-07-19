@@ -26,6 +26,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String CLOCK = "create table Clock ("
             + "id integer primary key autoincrement,"
+            + "objectId String,"
             + "clocktitle String)";
 
     public static final String TIME = "create table timer_schedule ("

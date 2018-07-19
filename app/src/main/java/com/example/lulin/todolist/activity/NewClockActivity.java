@@ -174,6 +174,7 @@ public class NewClockActivity extends BasicActivity {
                         if (e==null){
                             ContentValues values = new ContentValues();
                             values.put("clocktitle", clockTitle);
+                            values.put("objectId", tomato.getObjectId());
                             db.insert("Clock",null,values);
                             Intent intent = new Intent(NewClockActivity.this, ClockActivity.class);
                             intent.putExtra("clocktitle",clockTitle);

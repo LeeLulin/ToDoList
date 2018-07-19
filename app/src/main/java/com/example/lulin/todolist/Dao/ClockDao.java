@@ -164,6 +164,7 @@ public class ClockDao {
         while(cursor.moveToNext()) {
             Tomato data = new Tomato();
             data.setTitle(cursor.getString(cursor.getColumnIndex("clocktitle")));
+            data.setObjectId(cursor.getString(cursor.getColumnIndex("objectId")));
             todosList.add(data);
         }
         // make sure to close the cursor
