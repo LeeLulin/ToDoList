@@ -8,16 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
-import com.example.lulin.todolist.utils.Todos;
-import com.example.lulin.todolist.utils.User;
-import com.lidroid.xutils.DbUtils;
+import com.example.lulin.todolist.Utils.Todos;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 
 import static android.support.constraint.Constraints.TAG;
 

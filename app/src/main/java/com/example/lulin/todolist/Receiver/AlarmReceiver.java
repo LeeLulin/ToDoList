@@ -14,8 +14,7 @@ import android.util.Log;
 
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
-import com.example.lulin.todolist.activity.MainActivity;
-import com.example.lulin.todolist.utils.SPUtils;
+import com.example.lulin.todolist.Activity.MainActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
 

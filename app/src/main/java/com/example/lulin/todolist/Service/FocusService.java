@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.example.lulin.todolist.activity.ClockActivity;
-import com.example.lulin.todolist.activity.MainActivity;
+import com.example.lulin.todolist.Activity.ClockActivity;
 
 import java.util.List;
 import java.util.Timer;

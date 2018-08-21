@@ -20,22 +20,20 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.lulin.todolist.R;
-import com.example.lulin.todolist.activity.ClockActivity;
+import com.example.lulin.todolist.Activity.ClockActivity;
 import com.example.lulin.todolist.Dao.ClockDao;
-import com.example.lulin.todolist.utils.Clock;
-import com.example.lulin.todolist.utils.CountDownTimer;
-import com.example.lulin.todolist.utils.NetWorkUtils;
-import com.example.lulin.todolist.utils.SPUtils;
-import com.example.lulin.todolist.utils.Sound;
-import com.example.lulin.todolist.utils.TimeFormatUtil;
-import com.example.lulin.todolist.utils.User;
-import com.example.lulin.todolist.utils.WakeLockHelper;
-import com.example.lulin.todolist.widget.ClockApplication;
+import com.example.lulin.todolist.Utils.Clock;
+import com.example.lulin.todolist.Utils.CountDownTimer;
+import com.example.lulin.todolist.Utils.NetWorkUtils;
+import com.example.lulin.todolist.Utils.Sound;
+import com.example.lulin.todolist.Utils.TimeFormatUtil;
+import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Utils.WakeLockHelper;
+import com.example.lulin.todolist.Widget.ClockApplication;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;

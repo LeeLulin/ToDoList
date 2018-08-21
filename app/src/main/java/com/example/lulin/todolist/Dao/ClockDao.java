@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
-import com.example.lulin.todolist.utils.Clock;
-import com.example.lulin.todolist.utils.Tomato;
-import com.example.lulin.todolist.utils.User;
+import com.example.lulin.todolist.Utils.Clock;
+import com.example.lulin.todolist.Utils.Tomato;
+import com.example.lulin.todolist.Utils.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

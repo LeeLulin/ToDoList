@@ -7,8 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.example.lulin.todolist.widget.CircleImageView;
-import com.example.lulin.todolist.widget.DisInterceptNestedScrollView;
+import com.example.lulin.todolist.Widget.CircleImageView;
+import com.example.lulin.todolist.Widget.DisInterceptNestedScrollView;
 
 
 /**

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@drawable/login_bg"
-    tools:context=".activity.LoginActivity" >
+    tools:context=".Activity.LoginActivity" >
 
     <include
         android:id="@+id/login_title"

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/half_black"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.lulin.todolist.activity.ClockActivity">
+    tools:context="com.example.lulin.todolist.Activity.ClockActivity">
 
     <ImageView
         android:id="@+id/clock_bg"
@@ -29,7 +29,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.618">
 
-            <com.example.lulin.todolist.widget.RippleWrapper
+            <com.example.lulin.todolist.Widget.RippleWrapper
                 android:id="@+id/ripple_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -40,7 +40,7 @@
                 app:rippleDelay="1000"
                 app:rippleDuration="2000">
 
-                <com.example.lulin.todolist.widget.ClockProgressBar
+                <com.example.lulin.todolist.Widget.ClockProgressBar
                     android:id="@+id/tick_progress_bar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -48,7 +48,7 @@
                     android:layout_alignParentTop="true" />
 
 
-            </com.example.lulin.todolist.widget.RippleWrapper>
+            </com.example.lulin.todolist.Widget.RippleWrapper>
 
 
             <TextView

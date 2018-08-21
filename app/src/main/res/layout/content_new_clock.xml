@@ -7,7 +7,7 @@
     tools:showIn="@layout/activity_new_clock"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lulin.todolist.activity.NewClockActivity">
+    tools:context="com.example.lulin.todolist.Activity.NewClockActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -30,7 +30,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        android:name=".widget.ClockApplication"
+        android:name=".Widget.ClockApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -38,7 +38,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".Activity.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -48,15 +48,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".Activity.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.NewTodoActivity"
-            android:parentActivityName=".activity.MainActivity"
+            android:name=".Activity.NewTodoActivity"
+            android:parentActivityName=".Activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.EditTodoActivity" />
+        <activity android:name=".Activity.EditTodoActivity" />
 
         <service android:name=".Service.AlarmService">
             <intent-filter>
@@ -76,10 +76,10 @@
         </receiver>
 
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name=".Activity.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.UserDataActivity"
+            android:name=".Activity.UserDataActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
@@ -103,29 +103,29 @@
         </provider>
 
         <activity
-            android:name=".activity.BasicActivity"
+            android:name=".Activity.BasicActivity"
             android:label="@string/title_activity_basic" />
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".Activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".Activity.LoginActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.AboutActivity"
+            android:name=".Activity.AboutActivity"
             android:theme="@style/AppTheme.About" />
         <activity
-            android:name=".activity.ClockActivity"
+            android:name=".Activity.ClockActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
             android:excludeFromRecents="true"/>
         <activity
-        android:name=".activity.ScheduleActivity"
+        android:name=".Activity.ScheduleActivity"
         android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".activity.NewClockActivity"
+            android:name=".Activity.NewClockActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

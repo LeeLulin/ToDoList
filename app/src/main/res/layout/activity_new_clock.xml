@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.lulin.todolist.activity.NewClockActivity">
+    tools:context="com.example.lulin.todolist.Activity.NewClockActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:clipChildren="false"
     android:clipToPadding="false"
-    tools:context="com.example.lulin.todolist.activity.UserDataActivity">
+    tools:context="com.example.lulin.todolist.Activity.UserDataActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/user_app_bar"
@@ -57,7 +57,7 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                <com.example.lulin.todolist.widget.CircleImageView
+                <com.example.lulin.todolist.Widget.CircleImageView
                     android:id="@+id/toolbar_userhead"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
@@ -86,7 +86,7 @@
         layout="@layout/content_user_data" />
 
 
-    <com.example.lulin.todolist.widget.CircleImageView
+    <com.example.lulin.todolist.Widget.CircleImageView
         android:id="@+id/user_head"
         android:layout_width="96dp"
         android:layout_height="96dp"

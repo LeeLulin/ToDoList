@@ -7,7 +7,7 @@
     tools:showIn="@layout/activity_new_todo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lulin.todolist.activity.NewTodoActivity">
+    tools:context="com.example.lulin.todolist.Activity.NewTodoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
