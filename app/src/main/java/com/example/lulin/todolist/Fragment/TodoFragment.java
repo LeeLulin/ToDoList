@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.example.lulin.todolist.Adapter.TodoRecyclerViewAdapter;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
 import com.example.lulin.todolist.Utils.RecyclerItemClickListener;
 import com.example.lulin.todolist.Utils.SPUtils;
+import com.example.lulin.todolist.Utils.SimpleItemTouchHelperCallback;
 import com.example.lulin.todolist.Utils.ToDoUtils;
 import com.example.lulin.todolist.Utils.ToastUtils;
 import com.example.lulin.todolist.Utils.Todos;
@@ -44,6 +46,7 @@ public class TodoFragment extends Fragment {
     private int id,isAlerted,isRepeat,imgId;
     private long remindTime,remindTimeNoDay;
     private User currentUser;
+    private ItemTouchHelper mItemTouchHelper;
 
 
     @Override
@@ -71,65 +74,68 @@ public class TodoFragment extends Fragment {
         recyclerView.setLayoutManager(layout);
         recyclerView.addItemDecoration(new SpacesItemDecoration(0));
         recyclerView.setAdapter(todoRecyclerViewAdapter);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-//                String title = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTitle();
-//                String dsc = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDesc();
-//                String date = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDate();
-//                String time = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTime();
-//                Intent intent = new Intent(getActivity(), EditTodoActivity.class);
-//                intent.putExtra("title", title);
-//                intent.putExtra("dsc", dsc);
-//                intent.putExtra("date", date);
-//                intent.putExtra("time", time);
-//                startActivityForResult(intent,1);
-            }
-
-            @Override
-            public void onItemLongClick(View view, final int position) {
-                Snackbar.make(view, "是否删除？（滑动取消）", Snackbar.LENGTH_LONG)
-                        .setAction("确定", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Todos todos = todosList.get(todoRecyclerViewAdapter.getItemCount() - 1 - position);
-                                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                                db.delete("Todo","todotitle = ?",
-                                        new String[]{todosList.get(todoRecyclerViewAdapter.getItemCount() - 1 - position).getTitle()});
-//                                new ToDoDao(getContext()).deleteTask(todos);
-//                                todos.delete(new UpdateListener() {
-//                                    @Override
-//                                    public void done(BmobException e) {
-//                                        if (e==null){
-//                                            todoRecyclerViewAdapter.removeItem(position);
-//                                        } else {
-//                                            ToastUtils.showShort(getContext(),e.getMessage());
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(todoRecyclerViewAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
+//        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//
+////                String title = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTitle();
+////                String dsc = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDesc();
+////                String date = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getDate();
+////                String time = todosList.get(todoRecyclerViewAdapter.getItemCount()-1-position).getTime();
+////                Intent intent = new Intent(getActivity(), EditTodoActivity.class);
+////                intent.putExtra("title", title);
+////                intent.putExtra("dsc", dsc);
+////                intent.putExtra("date", date);
+////                intent.putExtra("time", time);
+////                startActivityForResult(intent,1);
+//            }
+//
+//            @Override
+//            public void onItemLongClick(View view, final int position) {
+//                Snackbar.make(view, "是否删除？（滑动取消）", Snackbar.LENGTH_LONG)
+//                        .setAction("确定", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Todos todos = todosList.get(todoRecyclerViewAdapter.getItemCount() - 1 - position);
+//                                SQLiteDatabase db = dbHelper.getWritableDatabase();
+//                                db.delete("Todo","todotitle = ?",
+//                                        new String[]{todosList.get(todoRecyclerViewAdapter.getItemCount() - 1 - position).getTitle()});
+////                                new ToDoDao(getContext()).deleteTask(todos);
+////                                todos.delete(new UpdateListener() {
+////                                    @Override
+////                                    public void done(BmobException e) {
+////                                        if (e==null){
+////                                            todoRecyclerViewAdapter.removeItem(position);
+////                                        } else {
+////                                            ToastUtils.showShort(getContext(),e.getMessage());
+////                                        }
+////                                    }
+////                                });
+//
+//                                if (User.getCurrentUser(User.class) != null){
+//                                    ToDoUtils.deleteNetTodos(getContext(), todos, new ToDoUtils.DeleteTaskListener() {
+//                                        @Override
+//                                        public void onSuccess() {
+//
 //                                        }
-//                                    }
-//                                });
-
-                                if (User.getCurrentUser(User.class) != null){
-                                    ToDoUtils.deleteNetTodos(getContext(), todos, new ToDoUtils.DeleteTaskListener() {
-                                        @Override
-                                        public void onSuccess() {
-
-                                        }
-
-                                        @Override
-                                        public void onError(int errorCord, String msg) {
-                                            ToastUtils.showShort(getContext(),msg);
-                                        }
-                                    });
-                                }
-
-                                todoRecyclerViewAdapter.removeItem(position);
-
-                            }
-                        }).show();
-
-            }
-        }));
+//
+//                                        @Override
+//                                        public void onError(int errorCord, String msg) {
+//                                            ToastUtils.showShort(getContext(),msg);
+//                                        }
+//                                    });
+//                                }
+//
+//                                todoRecyclerViewAdapter.removeItem(position);
+//
+//                            }
+//                        }).show();
+//
+//            }
+//        }));
 
         return rootView;
     }

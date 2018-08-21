@@ -1,6 +1,7 @@
 package com.example.lulin.todolist.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -9,18 +10,31 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lulin.todolist.Activity.LoginActivity;
+import com.example.lulin.todolist.Activity.MainActivity;
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.Todos;
+import com.example.lulin.todolist.Interface.ItemTouchHelperAdapter;
+import com.example.lulin.todolist.Interface.OnStartDragListener;
 
+import java.util.Collections;
 import java.util.List;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * RecyclerView适配器
+ * Simple RecyclerView.Adapter that implements {@link ItemTouchHelperAdapter} to respond to move and
+ * dismiss events from a {@link android.support.v7.widget.helper.ItemTouchHelper}.
  */
-public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerViewAdapter.ViewHolder> {
+public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerViewAdapter.ViewHolder>
+        implements ItemTouchHelperAdapter {
 
     private List<Todos> todos;
     private Context context;
+    private MaterialDialog dialog;
+    private int truePosition,itemPosition;
 
 
     public TodoRecyclerViewAdapter(List<Todos> todos, Context context) {
@@ -87,12 +101,47 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         return todos.size();
     }
 
-
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(todos, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
 
     public void removeItem(int position){
-        todos.remove(todos.size()-1-position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position,todos.size()-position);
+        truePosition = todos.size()-1-position;
+        itemPosition = position;
+        popAlertDialog();
+//        todos.remove(todos.size()-1-position);
+//        notifyItemRemoved(position);
+//        notifyItemRangeChanged(position,todos.size()-position);
+    }
+
+    private void popAlertDialog() {
+
+        if (dialog == null) {
+
+            dialog = new MaterialDialog(context);
+            dialog.setMessage("确定删除？")
+                    .setPositiveButton("是", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            todos.remove(truePosition);
+                            notifyItemRemoved(itemPosition);
+                            notifyItemRangeChanged(itemPosition,truePosition);
+                        }
+                    })
+                    .setNegativeButton("否", new View.OnClickListener() {
+                        public void onClick(View view) {
+                            notifyItemChanged(itemPosition);
+                            dialog.dismiss();
+                        }
+                    });
+
+        }
+
+        dialog.show();
+
     }
 
 
