@@ -88,7 +88,7 @@
         <item name="colorAccent">@android:color/black</item>
 
         <!--optional-->
-        <!--<item name="aboutPageHeaderBackground">reference|color</item>-->
+        <!--<item name="aboutPageHeaderBackground">@drawable/ic_img1</item>-->
         <!--<item name="aboutPageHeaderContentScrim">reference|color</item>-->
         <!--<item name="aboutPageHeaderTextColor">color</item>-->
         <!--<item name="aboutPageNavigationIcon">reference</item>-->

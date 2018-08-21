@@ -31,6 +31,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.model.GuidePage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -156,6 +158,21 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
         initView();
         initViewPager();
+//        initGuide();
+    }
+
+    /**
+     * 用户引导
+     */
+    private void initGuide(){
+        NewbieGuide.with(this)
+                .setLabel("guide1")
+//                .setShowCounts(1)//控制次数
+                .alwaysShow(true)//总是显示，调试时可以打开
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(fab)
+                        .setLayoutRes(R.layout.guide_simple))
+                .show();
     }
 
     private void initView() {

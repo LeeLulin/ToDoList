@@ -66,4 +66,6 @@ dependencies {
     implementation 'com.karumi:dexter:5.0.0'
     //Layout选中效果
     implementation 'com.github.jaouan:compoundlayout:1.0.1'
+    //用户引导
+    implementation 'com.github.huburt-Hu:NewbieGuide:v2.4.0'
 }
