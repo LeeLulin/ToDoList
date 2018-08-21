@@ -165,6 +165,7 @@ public class ClockDao {
             Tomato data = new Tomato();
             data.setTitle(cursor.getString(cursor.getColumnIndex("clocktitle")));
             data.setObjectId(cursor.getString(cursor.getColumnIndex("objectId")));
+            data.setImgId(cursor.getInt(cursor.getColumnIndex("imgId")));
             todosList.add(data);
         }
         // make sure to close the cursor

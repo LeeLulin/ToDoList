@@ -24,7 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/ic_img1"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:alpha="0.9"/>
 
 
         <LinearLayout
@@ -40,14 +41,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Order Successfully Completed"
-                android:textColor="@color/black_semi" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="25-分钟"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textColor="@color/white"/>
 
 
         </LinearLayout>

@@ -27,6 +27,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.Dao.ToDoDao;
 import com.example.lulin.todolist.R;
@@ -65,14 +68,13 @@ public class NewClockActivity extends BasicActivity {
     private Toolbar toolbar;
     private int isRepeat = 0;
     private ImageView new_bg;
-    private static int[] imageArray = new int[]{R.drawable.img_1,
-            R.drawable.img_2,
-            R.drawable.img_3,
-            R.drawable.img_4,
-            R.drawable.img_5,
-            R.drawable.img_6,
-            R.drawable.img_7,
-            R.drawable.img_8,};
+    private static int[] imageArray = new int[]{R.drawable.c_img1,
+            R.drawable.c_img2,
+            R.drawable.c_img3,
+            R.drawable.c_img4,
+            R.drawable.c_img5,
+            R.drawable.c_img6,
+            R.drawable.c_img7,};
     private int imgId;
     private static final String KEY_RINGTONE = "ring_tone";
     private Clock clock;
@@ -93,12 +95,12 @@ public class NewClockActivity extends BasicActivity {
         ca = Calendar.getInstance();
         initFindview();
         initClick();
-//        initHeadImage();
+        initHeadImage();
     }
 
     private void initFindview() {
         fab_ok = (FloatingActionButton) findViewById(R.id.fab_clock);
-        new_bg = (ImageView) findViewById(R.id.clock_card_bg);
+        new_bg = (ImageView) findViewById(R.id.new_clock_bg);
 //        nv_clock_length = (TextView) findViewById(R.id.clock_length);
 //        nv_short_break = (TextView) findViewById(R.id.short_break);
 //        nv_long_break = (TextView) findViewById(R.id.long_break);
@@ -109,8 +111,15 @@ public class NewClockActivity extends BasicActivity {
     private void initHeadImage(){
 
         Random random = new Random();
-        imgId = imageArray[random.nextInt(8)];
-        new_bg.setImageDrawable(getApplicationContext().getResources().getDrawable(imgId));
+        imgId = imageArray[random.nextInt(7)];
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true);
+
+        Glide.with(this)
+                .load(imgId)
+                .apply(options)
+                .into(new_bg);
 
     }
 
@@ -168,6 +177,7 @@ public class NewClockActivity extends BasicActivity {
                 tomato = new Tomato();
                 tomato.setUser(user);
                 tomato.setTitle(clockTitle);
+                tomato.setImgId(imgId);
                 tomato.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {
@@ -175,6 +185,7 @@ public class NewClockActivity extends BasicActivity {
                             ContentValues values = new ContentValues();
                             values.put("clocktitle", clockTitle);
                             values.put("objectId", tomato.getObjectId());
+                            values.put("imgId", imgId);
                             db.insert("Clock",null,values);
                             Intent intent = new Intent(NewClockActivity.this, ClockActivity.class);
                             intent.putExtra("clocktitle",clockTitle);

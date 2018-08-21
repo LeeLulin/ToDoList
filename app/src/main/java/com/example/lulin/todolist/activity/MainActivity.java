@@ -44,6 +44,7 @@ import com.example.lulin.todolist.utils.NetWorkUtils;
 import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.User;
 import com.example.lulin.todolist.widget.CircleImageView;
+import com.example.lulin.todolist.widget.ColorFilterToolBar;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.LineMoveIndicator;
 
@@ -91,6 +92,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         setStatusBar();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        ColorFilterToolBar toolbar = (ColorFilterToolBar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

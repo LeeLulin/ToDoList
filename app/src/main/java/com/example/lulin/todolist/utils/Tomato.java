@@ -6,6 +6,7 @@ public class Tomato extends BmobObject {
     private String title;
     private User user;
     private Clock clock;
+    private int imgId;
 
     public void setTitle(String title){
         this.title = title;
@@ -16,6 +17,9 @@ public class Tomato extends BmobObject {
     public void setUser(User user){
         this.user = user;
     }
+    public void setImgId(int imgId){
+        this.imgId = imgId;
+    }
 
     public String getTitle(){
         return title;
@@ -25,5 +29,8 @@ public class Tomato extends BmobObject {
     }
     public User getUser(){
         return user;
+    }
+    public int getImgId(){
+        return imgId;
     }
 }

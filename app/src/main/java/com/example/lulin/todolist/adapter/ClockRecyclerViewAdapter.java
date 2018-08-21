@@ -35,7 +35,7 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
         TextView todo_date;
         TextView todo_time;
         TextView isAlerted;
-        ImageView card_background;
+        ImageView clock_card_bg;
         TextView isRepeat;
 
 
@@ -48,7 +48,7 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
 //            isRepeat = (TextView) itemView.findViewById(R.id.isRepeat);
 //            todo_time = (TextView) itemView.findViewById(R.id.todo_time);
 //            isAlerted = (TextView) itemView.findViewById(R.id.isAlerted);
-//            card_background = (ImageView) itemView.findViewById(R.id.card_bg);
+            clock_card_bg = (ImageView) itemView.findViewById(R.id.clock_card_bg);
 
         }
 
@@ -68,7 +68,7 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
 
 //        ViewHolder.todo_desc.setText(todos.get(todos.size()-1-i).getDesc());
 //        ViewHolder.todo_date.setText(todos.get(todos.size()-1-i).getDate() + " "+ todos.get(todos.size()-1-i).getTime());
-//        ViewHolder.card_background.setImageDrawable(context.getResources().getDrawable(todos.get(todos.size()-1-i).getImgId()));
+        ViewHolder.clock_card_bg.setImageDrawable(context.getResources().getDrawable(tomato.get(tomato.size()-1-i).getImgId()));
 //
 //        if (todos.get(todos.size()-1-i).getIsRepeat() == 1){
 //            ViewHolder.isRepeat.setText("重复");

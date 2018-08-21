@@ -34,7 +34,7 @@
                 app:layout_collapseParallaxMultiplier="0.7">
 
                 <ImageView
-                    android:id="@+id/new_bg"
+                    android:id="@+id/new_clock_bg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_img1"

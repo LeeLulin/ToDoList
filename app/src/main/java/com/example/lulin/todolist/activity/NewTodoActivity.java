@@ -23,6 +23,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.Dao.ToDoDao;
 import com.example.lulin.todolist.R;
@@ -113,7 +116,13 @@ public class NewTodoActivity extends BasicActivity {
 
         Random random = new Random();
         imgId = imageArray[random.nextInt(8)];
-        new_bg.setImageDrawable(getApplicationContext().getResources().getDrawable(imgId));
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true);
+        Glide.with(getApplicationContext())
+                .load(imgId)
+                .apply(options)
+                .into(new_bg);
 
     }
     /**

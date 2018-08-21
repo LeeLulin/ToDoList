@@ -5,34 +5,37 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.FocusService;
 import com.example.lulin.todolist.utils.SPUtils;
 import com.example.lulin.todolist.utils.TimeFormatUtil;
 import com.example.lulin.todolist.Service.ClockService;
 import com.example.lulin.todolist.utils.ToastUtils;
-import com.example.lulin.todolist.utils.User;
 import com.example.lulin.todolist.widget.RippleWrapper;
 import com.example.lulin.todolist.widget.ClockApplication;
 import com.example.lulin.todolist.widget.ClockProgressBar;
+
+import java.io.InputStream;
+import java.util.Random;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -52,7 +55,15 @@ public class ClockActivity extends BasicActivity {
     private long mLastClickTime = 0;
     private String clockTitle;
     private static final String KEY_FOCUS = "focus";
-    private ImageView bt_music;
+    private ImageView bt_music,clock_bg;
+    private static int[] imageArray = new int[]{R.drawable.ic_img2,
+                                                R.drawable.ic_img3,
+                                                R.drawable.ic_img4,
+                                                R.drawable.ic_img5,
+                                                R.drawable.ic_img6,
+                                                R.drawable.ic_img7,
+                                                R.drawable.ic_img8};
+    private int bg_id;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -77,9 +88,27 @@ public class ClockActivity extends BasicActivity {
         mProgressBar = (ClockProgressBar)findViewById(R.id.tick_progress_bar);
         mRippleWrapper = (RippleWrapper)findViewById(R.id.ripple_wrapper);
 //        bt_music = (ImageView) findViewById(R.id.bt_music);
+        clock_bg = (ImageView) findViewById(R.id.clock_bg);
         SPUtils.put(this,"music_id",R.raw.rain);
         ToastUtils.showShort(this,"双击界面打开或关闭白噪音");
         initActions();
+        initBackgroundImage();
+    }
+
+    private void initBackgroundImage(){
+
+        Random random = new Random();
+        bg_id = imageArray[random.nextInt(7)];
+        //内存优化
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true);
+
+        Glide.with(getApplicationContext())
+                .load(bg_id)
+                .apply(options)
+                .into(clock_bg);
+
     }
 
     private void initActions() {
@@ -140,6 +169,7 @@ public class ClockActivity extends BasicActivity {
                                 Intent intent2 = new Intent(ClockActivity.this, MainActivity.class);
                                 startActivity(intent2);
                                 stopService(new Intent(ClockActivity.this, FocusService.class));
+                                Glide.get(ClockActivity.this).clearMemory();
                                 exitApp();
                             }
                         })
@@ -258,6 +288,7 @@ public class ClockActivity extends BasicActivity {
                             Intent intent2 = new Intent(ClockActivity.this, MainActivity.class);
                             startActivity(intent2);
                             stopService(new Intent(ClockActivity.this, FocusService.class));
+                            Glide.get(ClockActivity.this).clearMemory();
                             exitApp();
                         }
                     })
@@ -482,6 +513,25 @@ public class ClockActivity extends BasicActivity {
         Boolean isFocus = (Boolean) SPUtils.get(context, KEY_FOCUS, false);
 
         return isFocus;
+
+    }
+
+    /**
+     *  以最省内存的方式读取本地资源的图片
+     *  @param context
+     *  @param resId
+     *  @return
+     */
+
+    public static Bitmap readBitMap(Context  context, int resId){
+
+        BitmapFactory.Options opt = new  BitmapFactory.Options();
+        opt.inPreferredConfig =  Bitmap.Config.RGB_565;
+        opt.inPurgeable = true;
+        opt.inInputShareable = true;
+        //  获取资源图片
+        InputStream is =  context.getResources().openRawResource(resId);
+        return  BitmapFactory.decodeStream(is, null, opt);
 
     }
 }

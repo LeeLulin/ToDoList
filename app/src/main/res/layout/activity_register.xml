@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/ic_img2"
+    android:background="@drawable/login_bg"
     tools:context=".activity.RegisterActivity" >
 
     <include

@@ -5,16 +5,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:fitsSystemWindows="true"
+    android:background="@color/half_black"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.lulin.todolist.activity.ClockActivity">
+
+    <ImageView
+        android:id="@+id/clock_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.6"
+        android:src="@drawable/login_bg"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -36,7 +44,8 @@
                     android:id="@+id/tick_progress_bar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true" />
 
 
             </com.example.lulin.todolist.widget.RippleWrapper>
@@ -81,7 +90,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginTop="20dp"
                     android:drawableLeft="@drawable/ic_play_arrow_white_24dp"
                     android:drawableStart="@drawable/ic_play_arrow_white_24dp"
                     android:text="@string/btn_start"
@@ -95,7 +104,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginTop="20dp"
                     android:drawableLeft="@drawable/ic_pause_white_24dp"
                     android:drawableStart="@drawable/ic_pause_white_24dp"
                     android:text="@string/btn_pause"
@@ -109,7 +118,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:drawableLeft="@drawable/ic_play_arrow_white_24dp"
@@ -125,7 +134,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginTop="20dp"
                     android:drawableLeft="@drawable/ic_stop_white_24dp"
                     android:drawableStart="@drawable/ic_stop_white_24dp"
                     android:text="@string/btn_stop"
@@ -139,7 +148,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginTop="20dp"
                     android:drawableLeft="@drawable/ic_stop_white_24dp"
                     android:drawableStart="@drawable/ic_stop_white_24dp"
                     android:text="@string/btn_skip"
@@ -250,11 +259,11 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:gravity="center_vertical"
-        android:alpha="0.8"
+        android:alpha="0.9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="UseCompoundDrawables">
