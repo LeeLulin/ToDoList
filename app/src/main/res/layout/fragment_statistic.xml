@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/white_pressed"
     android:fitsSystemWindows="true"
     tools:context="com.example.lulin.todolist.Activity.ScheduleActivity">
 
@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_view_margin"
-            app:cardElevation="@dimen/card_elevation">
+            app:cardElevation="@dimen/card_elevation"
+            app:cardBackgroundColor="@color/white">
 
             <LinearLayout
                 android:baselineAligned="false"
@@ -115,7 +116,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_view_margin"
-            app:cardElevation="@dimen/card_elevation">
+            app:cardElevation="@dimen/card_elevation"
+            app:cardBackgroundColor="@color/white">
 
             <LinearLayout
                 android:orientation="vertical"

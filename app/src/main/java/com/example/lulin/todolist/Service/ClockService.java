@@ -22,12 +22,12 @@ import android.util.Log;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Activity.ClockActivity;
 import com.example.lulin.todolist.Dao.ClockDao;
-import com.example.lulin.todolist.Utils.Clock;
+import com.example.lulin.todolist.Bean.Clock;
 import com.example.lulin.todolist.Utils.CountDownTimer;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
 import com.example.lulin.todolist.Utils.Sound;
 import com.example.lulin.todolist.Utils.TimeFormatUtil;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.User;
 import com.example.lulin.todolist.Utils.WakeLockHelper;
 import com.example.lulin.todolist.Widget.ClockApplication;
 

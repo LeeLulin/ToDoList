@@ -25,10 +25,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
-import com.example.lulin.todolist.Utils.Clock;
+import com.example.lulin.todolist.Bean.Clock;
 import com.example.lulin.todolist.Utils.SeekBarPreference;
-import com.example.lulin.todolist.Utils.Tomato;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.Tomato;
+import com.example.lulin.todolist.Bean.User;
 import com.example.lulin.todolist.Widget.ClockApplication;
 
 import java.util.Calendar;
@@ -58,7 +58,7 @@ public class NewClockActivity extends BasicActivity {
     private Toolbar toolbar;
     private int isRepeat = 0;
     private ImageView new_bg;
-    private static int[] imageArray = new int[]{R.drawable.c_img1,
+    private int[] imageArray = new int[]{R.drawable.c_img1,
             R.drawable.c_img2,
             R.drawable.c_img3,
             R.drawable.c_img4,

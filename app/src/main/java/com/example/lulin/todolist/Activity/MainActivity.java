@@ -44,7 +44,7 @@ import com.example.lulin.todolist.Fragment.ClockFragment;
 import com.example.lulin.todolist.Fragment.TodoFragment;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
 import com.example.lulin.todolist.Utils.SPUtils;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.User;
 import com.example.lulin.todolist.Widget.CircleImageView;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.LineMoveIndicator;
@@ -134,6 +134,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         autograph = headerView.findViewById(R.id.user_autograph);
         user_image = headerView.findViewById(R.id.user_image);
         user_image.setOnClickListener(this);
+        nick_name.setOnClickListener(this);
 
         dbHelper = new MyDatabaseHelper(this, "Data.db", null, 2);
         dbHelper.getWritableDatabase();
@@ -292,6 +293,28 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                             }
                         });
 
+                break;
+
+            case R.id.nick_name:
+
+                CircularAnim.fullActivity(MainActivity.this, view)
+                        .go(new CircularAnim.OnAnimationEndListener() {
+                            @Override
+                            public void onAnimationEnd() {
+                                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                                drawer.closeDrawer(GravityCompat.START);
+                                if (NetWorkUtils.isNetworkConnected(getApplication())){
+                                    local_user = User.getCurrentUser(User.class);
+                                }
+                                if (local_user != null){
+                                    Intent intent = new Intent(MainActivity.this, UserDataActivity.class);
+                                    startActivityForResult(intent, 1);
+                                } else {
+                                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                    startActivityForResult(intent,1);
+                                }
+                            }
+                        });
 
                 break;
         }

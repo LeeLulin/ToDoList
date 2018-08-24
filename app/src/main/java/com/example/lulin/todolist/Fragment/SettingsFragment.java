@@ -26,7 +26,7 @@ import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Activity.MainActivity;
 import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.ToastUtils;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.User;
 
 import java.util.List;
 import java.util.Locale;

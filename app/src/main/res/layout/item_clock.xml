@@ -17,7 +17,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:foreground="?attr/selectableItemBackground"
-        app:cardElevation="1dp">
+        app:cardElevation="2dp">
 
         <ImageView
             android:id="@+id/clock_card_bg"

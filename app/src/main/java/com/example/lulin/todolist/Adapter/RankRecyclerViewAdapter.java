@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.lulin.todolist.R;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.User;
 
 import java.util.List;
 /**

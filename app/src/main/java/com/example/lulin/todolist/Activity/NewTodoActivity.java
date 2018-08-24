@@ -33,8 +33,8 @@ import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
 import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.ToastUtils;
-import com.example.lulin.todolist.Utils.Todos;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.Todos;
+import com.example.lulin.todolist.Bean.User;
 import com.github.jorgecastilloprz.FABProgressCircle;
 
 import java.util.Calendar;
@@ -69,7 +69,7 @@ public class NewTodoActivity extends BasicActivity {
     private Toolbar toolbar;
     private int isRepeat = 0;
     private ImageView new_bg;
-    private static int[] imageArray = new int[]{R.drawable.img_1,
+    private int[] imageArray = new int[]{R.drawable.img_1,
             R.drawable.img_2,
             R.drawable.img_3,
             R.drawable.img_4,

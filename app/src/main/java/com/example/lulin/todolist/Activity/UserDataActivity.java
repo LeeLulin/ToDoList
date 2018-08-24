@@ -43,7 +43,7 @@ import com.example.lulin.todolist.Fragment.StatisticFragment;
 import com.example.lulin.todolist.Utils.PhotoUtils;
 import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.ToastUtils;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.User;
 import com.example.lulin.todolist.Widget.CircleImageView;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
@@ -483,6 +483,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                 tv_nickname.setText(user.getNickName());
                 tv_autograph.setText(user.getAutograph());
                 BmobFile userImg = user.getImg();
+                SPUtils.put(UserDataActivity.this,"URL",userImg.getUrl());
                 userImg.download(new DownloadFileListener() {
                     @Override
                     public void done(String path, BmobException e) {

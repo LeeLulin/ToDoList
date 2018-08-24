@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
-import com.example.lulin.todolist.Utils.Todos;
+import com.example.lulin.todolist.Bean.Todos;
 
 import java.util.ArrayList;
 import java.util.List;

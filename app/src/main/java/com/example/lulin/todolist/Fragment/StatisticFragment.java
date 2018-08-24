@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.example.lulin.todolist.Dao.ClockDao;
 import com.example.lulin.todolist.R;
-import com.example.lulin.todolist.Utils.Clock;
+import com.example.lulin.todolist.Bean.Clock;
 import com.example.lulin.todolist.Utils.ToastUtils;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.User;
 
 import java.util.Date;
 import java.util.List;

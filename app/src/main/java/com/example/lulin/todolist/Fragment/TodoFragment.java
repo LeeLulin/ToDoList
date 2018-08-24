@@ -1,10 +1,8 @@
 package com.example.lulin.todolist.Fragment;
 
 import android.app.Activity;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +17,11 @@ import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.SpacesItemDecoration;
 import com.example.lulin.todolist.Adapter.TodoRecyclerViewAdapter;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
-import com.example.lulin.todolist.Utils.RecyclerItemClickListener;
 import com.example.lulin.todolist.Utils.SPUtils;
-import com.example.lulin.todolist.Utils.SimpleItemTouchHelperCallback;
+import com.example.lulin.todolist.Utils.TodoItemTouchHelperCallback;
 import com.example.lulin.todolist.Utils.ToDoUtils;
-import com.example.lulin.todolist.Utils.ToastUtils;
-import com.example.lulin.todolist.Utils.Todos;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.Todos;
+import com.example.lulin.todolist.Bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +70,7 @@ public class TodoFragment extends Fragment {
         recyclerView.setLayoutManager(layout);
         recyclerView.addItemDecoration(new SpacesItemDecoration(0));
         recyclerView.setAdapter(todoRecyclerViewAdapter);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(todoRecyclerViewAdapter);
+        ItemTouchHelper.Callback callback = new TodoItemTouchHelperCallback(todoRecyclerViewAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
 //        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
@@ -151,7 +147,6 @@ public class TodoFragment extends Fragment {
         }
         getMyTask();
 
-
     }
 
     @Override
@@ -164,13 +159,6 @@ public class TodoFragment extends Fragment {
         super.onDetach();
     }
 
-    /**
-     * 设置RecyclerView
-     */
-    private void initRefreshLayout() {
-
-
-    }
 
     private void query(){
         User user = User.getCurrentUser(User.class);

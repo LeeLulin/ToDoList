@@ -12,7 +12,7 @@ import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.Utils.FileUtils;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
 import com.example.lulin.todolist.Utils.SPUtils;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.User;
 
 import cn.bmob.v3.Bmob;
 import site.gemus.openingstartanimation.NormalDrawStrategy;

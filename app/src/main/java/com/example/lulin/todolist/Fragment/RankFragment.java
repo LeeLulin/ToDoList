@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Adapter.RankRecyclerViewAdapter;
-import com.example.lulin.todolist.Utils.User;
+import com.example.lulin.todolist.Bean.User;
 
 import java.util.ArrayList;
 import java.util.List;

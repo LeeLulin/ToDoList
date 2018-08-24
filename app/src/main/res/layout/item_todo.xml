@@ -26,13 +26,14 @@
         android:layout_marginLeft="10dp"
         android:layout_gravity="center_vertical"
         android:foreground = "?attr/selectableItemBackground"
-        app:cardElevation="1dp">
+        app:cardElevation="2dp">
 
         <ImageView
             android:id="@+id/card_bg"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:background="@drawable/ic_img1"
+            android:alpha="0.8"
             android:scaleType="centerCrop"/>
 
 

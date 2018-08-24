@@ -3,6 +3,8 @@ package com.example.lulin.todolist.Utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.lulin.todolist.Bean.Todos;
+import com.example.lulin.todolist.Bean.User;
 import com.example.lulin.todolist.Dao.ToDoDao;
 
 import java.util.ArrayList;
