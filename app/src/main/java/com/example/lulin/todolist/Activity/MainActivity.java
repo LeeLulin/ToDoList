@@ -529,19 +529,25 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
      */
     private void glideLoad(){
 
-        RequestOptions options = new RequestOptions()
+        RequestOptions options1 = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .signature(new ObjectKey(SPUtils.get(MainActivity.this,"head_signature","")));
+                .signature(new ObjectKey(SPUtils.get(MainActivity.this,"head_signature","")))
+                .placeholder(R.drawable.default_photo);
+
+        RequestOptions options2 =new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .signature(new ObjectKey(SPUtils.get(MainActivity.this,"head_signature","")))
+                .placeholder(R.drawable.ic_img1);
 
         Glide.with(getApplicationContext())
                 .load(SPUtils.get(MainActivity.this, "path" ,""))
-                .apply(options)
+                .apply(options1)
                 .into(user_image);
 
         Glide.with(getApplicationContext())
                 .load(SPUtils.get(MainActivity.this, "path" ,""))
                 .apply(bitmapTransform(new BlurTransformation(25, 3)))
-                .apply(options)
+                .apply(options2)
                 .into(nav_bg);
     }
 

@@ -26,9 +26,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Bean.Clock;
+import com.example.lulin.todolist.Utils.NetWorkUtils;
+import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.SeekBarPreference;
 import com.example.lulin.todolist.Bean.Tomato;
 import com.example.lulin.todolist.Bean.User;
+import com.example.lulin.todolist.Utils.ToastUtils;
 import com.example.lulin.todolist.Widget.ClockApplication;
 
 import java.util.Calendar;
@@ -168,24 +171,43 @@ public class NewClockActivity extends BasicActivity {
                 tomato.setUser(user);
                 tomato.setTitle(clockTitle);
                 tomato.setImgId(imgId);
-                tomato.save(new SaveListener<String>() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        if (e==null){
-                            ContentValues values = new ContentValues();
-                            values.put("clocktitle", clockTitle);
-                            values.put("objectId", tomato.getObjectId());
-                            values.put("imgId", imgId);
-                            db.insert("Clock",null,values);
-                            Intent intent = new Intent(NewClockActivity.this, ClockActivity.class);
-                            intent.putExtra("clocktitle",clockTitle);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Log.i(TAG, "保存到bmob云失败: " + e.getMessage());
-                        }
+                boolean isSync = (Boolean) SPUtils.get(getApplication(),"sync",true);
+                if(isSync){
+                    if(NetWorkUtils.isNetworkConnected(getApplication()) && User.getCurrentUser()!= null){
+                        tomato.save(new SaveListener<String>() {
+                            @Override
+                            public void done(String s, BmobException e) {
+                                if (e==null){
+                                    ContentValues values = new ContentValues();
+                                    values.put("clocktitle", clockTitle);
+                                    values.put("objectId", tomato.getObjectId());
+                                    values.put("imgId", imgId);
+                                    db.insert("Clock",null,values);
+                                    Intent intent = new Intent(NewClockActivity.this, ClockActivity.class);
+                                    intent.putExtra("clocktitle",clockTitle);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    Log.i(TAG, "保存到bmob云失败: " + e.getMessage());
+                                }
+                            }
+                        });
+                    } else {
+                        ToastUtils.showShort(getApplication(),"请先登录");
                     }
-                });
+
+                } else {
+                    ContentValues values = new ContentValues();
+                    values.put("clocktitle", clockTitle);
+                    values.put("objectId", tomato.getObjectId());
+                    values.put("imgId", imgId);
+                    db.insert("Clock",null,values);
+                    Intent intent = new Intent(NewClockActivity.this, ClockActivity.class);
+                    intent.putExtra("clocktitle",clockTitle);
+                    startActivity(intent);
+                    finish();
+                }
+
 
             }
         });

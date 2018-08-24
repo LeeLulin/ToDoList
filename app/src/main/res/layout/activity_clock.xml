@@ -27,13 +27,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.618">
+            android:layout_weight="0.618"
+            android:layout_gravity="center">
 
             <com.example.lulin.todolist.Widget.RippleWrapper
                 android:id="@+id/ripple_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:gravity="center"
                 app:rippleAmount="2"
                 app:rippleColor="@color/white"
@@ -55,7 +57,9 @@
                 android:id="@+id/text_time_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignTop="@+id/text_count_down"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="155dp"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 
@@ -63,7 +67,9 @@
                 android:id="@+id/text_count_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="155dp"
                 android:textColor="@color/white"
                 android:textSize="36sp" />
 
@@ -90,7 +96,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:drawableLeft="@drawable/ic_play_arrow_white_24dp"
                     android:drawableStart="@drawable/ic_play_arrow_white_24dp"
                     android:text="@string/btn_start"
@@ -104,7 +110,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:drawableLeft="@drawable/ic_pause_white_24dp"
                     android:drawableStart="@drawable/ic_pause_white_24dp"
                     android:text="@string/btn_pause"
@@ -118,7 +124,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:drawableLeft="@drawable/ic_play_arrow_white_24dp"
@@ -134,7 +140,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:drawableLeft="@drawable/ic_stop_white_24dp"
                     android:drawableStart="@drawable/ic_stop_white_24dp"
                     android:text="@string/btn_stop"
@@ -148,7 +154,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:drawableLeft="@drawable/ic_stop_white_24dp"
                     android:drawableStart="@drawable/ic_stop_white_24dp"
                     android:text="@string/btn_skip"
