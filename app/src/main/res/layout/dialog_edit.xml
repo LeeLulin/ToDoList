@@ -7,14 +7,15 @@
     android:paddingEnd="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
+    android:background="@color/white_pressed"
     android:orientation="vertical" >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="编辑资料"
-        android:textSize="20sp"
-        android:textColor="@color/black"/>
+        android:textSize="30sp"
+        android:textColor="@color/black" />
 
     <TextView
         android:layout_width="wrap_content"

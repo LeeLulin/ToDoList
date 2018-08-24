@@ -449,6 +449,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
     @Override
     protected void onResume() {
+
         super.onResume();
     }
 

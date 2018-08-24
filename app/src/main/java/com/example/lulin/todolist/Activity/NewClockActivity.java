@@ -61,7 +61,7 @@ public class NewClockActivity extends BasicActivity {
     private Toolbar toolbar;
     private int isRepeat = 0;
     private ImageView new_bg;
-    private int[] imageArray = new int[]{R.drawable.c_img1,
+    private static int[] imageArray = new int[]{R.drawable.c_img1,
             R.drawable.c_img2,
             R.drawable.c_img3,
             R.drawable.c_img4,
@@ -105,6 +105,7 @@ public class NewClockActivity extends BasicActivity {
 
         Random random = new Random();
         imgId = imageArray[random.nextInt(7)];
+
         RequestOptions options = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true);

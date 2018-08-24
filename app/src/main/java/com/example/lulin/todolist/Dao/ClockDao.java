@@ -150,6 +150,8 @@ public class ClockDao {
         open();
         ContentValues values = new ContentValues();
         values.put("clocktitle", tomato.getTitle());
+        values.put("objectId", tomato.getObjectId());
+        values.put("imgId", tomato.getImgId());
         long id = db.insert("Clock", null, values);
         close();
         return id;

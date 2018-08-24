@@ -30,7 +30,7 @@ import me.drakeet.materialdialog.MaterialDialog;
  * RecyclerView适配器
  */
 public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecyclerViewAdapter.ViewHolder>
-implements ItemTouchHelperAdapter{
+        implements ItemTouchHelperAdapter{
 
     private List<Tomato> tomatoList;
     private Context context;
@@ -84,7 +84,12 @@ implements ItemTouchHelperAdapter{
 
         ViewHolder.clock_title.setText(tomatoList.get(tomatoList.size()-1-i).getTitle());
 
-        ViewHolder.clock_card_bg.setImageDrawable(context.getResources().getDrawable(tomatoList.get(tomatoList.size()-1-i).getImgId()));
+//        try{
+            ViewHolder.clock_card_bg.setImageDrawable(context.getResources().getDrawable(tomatoList.get(tomatoList.size()-1-i).getImgId()));
+            Log.i("load", String.valueOf(tomatoList.get(tomatoList.size()-1-i).getImgId()));
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
 
 
 
