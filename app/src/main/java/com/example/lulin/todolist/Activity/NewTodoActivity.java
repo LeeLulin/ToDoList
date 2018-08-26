@@ -70,7 +70,7 @@ public class NewTodoActivity extends BasicActivity {
     private Toolbar toolbar;
     private int isRepeat = 0;
     private ImageView new_bg;
-    private int[] imageArray = new int[]{R.drawable.img_1,
+    private static int[] imageArray = new int[]{R.drawable.img_1,
             R.drawable.img_2,
             R.drawable.img_3,
             R.drawable.img_4,

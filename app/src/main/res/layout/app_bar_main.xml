@@ -39,7 +39,7 @@
             android:id="@+id/tab_layout_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ddIndicatorHeight="2dp"/>
+            app:ddIndicatorHeight="5dp"/>
 
     </android.support.design.widget.AppBarLayout>
 

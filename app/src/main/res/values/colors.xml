@@ -78,6 +78,7 @@
     <color name="toastSuccess">#57BDAA</color>
     <color name="toastError">#FD5B78</color>
     <color name="toastInfo">#7bbfea</color>
+    <color name="toastNormal">#828281</color>
 
 
 </resources>

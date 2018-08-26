@@ -34,6 +34,7 @@ import com.example.lulin.todolist.Utils.ToastUtils;
 import com.example.lulin.todolist.Widget.RippleWrapper;
 import com.example.lulin.todolist.Widget.ClockApplication;
 import com.example.lulin.todolist.Widget.ClockProgressBar;
+import com.irozon.sneaker.Sneaker;
 
 import java.io.InputStream;
 import java.util.Random;
@@ -128,6 +129,9 @@ public class ClockActivity extends BasicActivity {
                 if (getIsFocus(ClockActivity.this)){
                     startService(new Intent(ClockActivity.this, FocusService.class));
                     ToastUtils.showShort(ClockActivity.this,"已开启专注模式");
+//                    Sneaker.with(ClockActivity.this)
+//                            .setMessage("已开启专注模式")
+//                            .sneakSuccess();
                 }
             }
         });

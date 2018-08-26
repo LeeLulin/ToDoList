@@ -47,6 +47,7 @@ import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Bean.User;
 import com.example.lulin.todolist.Widget.CircleImageView;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
+import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
 import com.kekstudio.dachshundtablayout.indicators.LineMoveIndicator;
 
 import java.util.ArrayList;
@@ -200,7 +201,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         mViewPager.setOffscreenPageLimit(2);
 
         FragmentAdapter mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
-        mTabLayout.setAnimatedIndicator(new LineMoveIndicator(mTabLayout));
+        mTabLayout.setAnimatedIndicator(new DachshundIndicator(mTabLayout));
         mViewPager.setAdapter(mFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabsFromPagerAdapter(mFragmentAdapter);
