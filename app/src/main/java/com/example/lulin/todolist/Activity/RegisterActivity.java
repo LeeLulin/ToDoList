@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Bean.User;
+import com.example.lulin.todolist.Utils.NetWorkUtils;
 
 import java.io.File;
 
@@ -51,67 +52,75 @@ public class RegisterActivity extends BasicActivity implements View.OnClickListe
 
                 final String username = mEtUserName.getText().toString();
                 final String password = mEtPassWord.getText().toString();
+                //判断网络情况
+                if(NetWorkUtils.isNetworkConnected(getApplication())){
 
-                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(RegisterActivity.this, "用户名密码邮箱不能为空", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+                        Toast.makeText(RegisterActivity.this, "用户名密码邮箱不能为空", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                if (mEtUserName.length() < 4) {
-                    Toast.makeText(this, "用户名不能低于4位", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    if (mEtUserName.length() < 4) {
+                        Toast.makeText(this, "用户名不能低于4位", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                if (mEtPassWord.length() < 6) {
-                    Toast.makeText(this, "密码不能低于6位", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    if (mEtPassWord.length() < 6) {
+                        Toast.makeText(this, "密码不能低于6位", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                /**
-                 * Bmob注册
-                 */
-                final User user = new User();
-                final String path = this.getApplicationContext().getFilesDir().getAbsolutePath() + "/default_head.png";
-                Log.i("register", path);
-                final BmobFile bmobFile = new BmobFile(new File(path));
-                bmobFile.uploadblock(new UploadFileListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        if (e==null){
+                    /**
+                     * Bmob注册
+                     */
+                    final User user = new User();
+                    final String path = this.getApplicationContext().getFilesDir().getAbsolutePath() + "/default_head.png";
+                    Log.i("register", path);
+                    final BmobFile bmobFile = new BmobFile(new File(path));
+                    bmobFile.uploadblock(new UploadFileListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e==null){
 
-                            Log.i("register", "上传成功！" + bmobFile.getUrl());
-                            user.setUsername(username);
-                            user.setPassword(password);
-                            user.setNickName(username);
-                            user.setAutograph("个性签名");
-                            user.setImg(bmobFile);
-                            user.setTotal(0);
-                            user.signUp(new SaveListener<User>() {
-                                @Override
-                                public void done(User s, BmobException e) {
-                                    if(e==null){
-                                        Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }else{
-                                        Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
-                                        Log.i("register", e.getMessage());
+                                Log.i("register", "上传成功！" + bmobFile.getUrl());
+                                user.setUsername(username);
+                                user.setPassword(password);
+                                user.setNickName(username);
+                                user.setAutograph("个性签名");
+                                user.setImg(bmobFile);
+                                user.setTotal(0);
+                                user.signUp(new SaveListener<User>() {
+                                    @Override
+                                    public void done(User s, BmobException e) {
+                                        if(e==null){
+                                            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }else{
+                                            Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                                            Log.i("register", e.getMessage());
+                                        }
                                     }
-                                }
-                            });
+                                });
 
-                        }else {
-                            Log.i("register", "失败！ " + e.getMessage() + path);
+                            }else {
+                                Log.i("register", "失败！ " + e.getMessage() + path);
+                            }
+
                         }
 
-                    }
+                        @Override
+                        public void onProgress(Integer value) {
+                            // 返回的上传进度（百分比）
+                        }
+                    });
 
-                    @Override
-                    public void onProgress(Integer value) {
-                        // 返回的上传进度（百分比）
-                    }
-                });
+                } else {
+                    Toast.makeText(RegisterActivity.this, "无网络连接！", Toast.LENGTH_SHORT).show();
+                }
+
+
 
                 break;
 
