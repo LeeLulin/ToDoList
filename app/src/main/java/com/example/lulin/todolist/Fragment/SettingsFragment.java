@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Activity.MainActivity;
@@ -34,6 +35,7 @@ import java.util.Locale;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
+import es.dmoral.toasty.Toasty;
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class SettingsFragment extends PreferenceFragment {
@@ -131,7 +133,7 @@ public class SettingsFragment extends PreferenceFragment {
                                 @Override
                                 public void done(BmobException e) {
                                     if(e==null){
-                                        ToastUtils.showShort(getActivity(),"修改成功");
+                                        Toasty.success(getActivity(), "修改成功", Toast.LENGTH_SHORT, true).show();
                                         BmobUser.logOut();   //清除缓存用户对象
                                         Log.i(TAG, "成功");
                                         Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -139,7 +141,7 @@ public class SettingsFragment extends PreferenceFragment {
                                         getActivity().finish();
                                     }else{
                                         Log.i(TAG, "done: 失败"+e.getMessage());
-                                        ToastUtils.showShort(getActivity(),"修改失败" + e.getMessage());
+                                        Toasty.error(getActivity(), "修改失败", Toast.LENGTH_SHORT, true).show();
                                     }
                                 }
                             });

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lulin.todolist.Bean.Todos;
 import com.example.lulin.todolist.Bean.User;
@@ -24,6 +25,7 @@ import com.example.lulin.todolist.Utils.TomatoUtils;
 import java.util.Collections;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import me.drakeet.materialdialog.MaterialDialog;
 
 /**
@@ -155,7 +157,7 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
                                     @Override
                                     public void onError(int errorCord, String msg) {
                                         Log.i("ClockFragment", "msg ");
-                                        ToastUtils.showShort(context,msg);
+                                        Toasty.warning(context, msg, Toast.LENGTH_SHORT, true).show();
                                     }
                                 });
                             }

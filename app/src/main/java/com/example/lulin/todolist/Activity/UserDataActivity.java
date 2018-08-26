@@ -62,6 +62,7 @@ import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
+import es.dmoral.toasty.Toasty;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -177,8 +178,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                ToastUtils.showShort(this, "您已经拒绝过一次");
-                Toast.makeText(this, "您已经拒绝过一次", Toast.LENGTH_SHORT).show();
+                Toasty.info(this, "您已经拒绝过一次", Toast.LENGTH_SHORT, true).show();
             }
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, CAMERA_PERMISSIONS_REQUEST_CODE);
         } else {//有权限直接调用系统相机拍照
@@ -190,7 +190,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                 }
                 PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
             } else {
-                ToastUtils.showShort(this, "设备没有SD卡！");
+                Toasty.info(this, "设备没有SD卡", Toast.LENGTH_SHORT, true).show();
             }
         }
     }
@@ -209,11 +209,10 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                             imageUri = FileProvider.getUriForFile(UserDataActivity.this, "com.example.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
                         PhotoUtils.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
                     } else {
-                        ToastUtils.showShort(this, "设备没有SD卡！");
+                        Toasty.info(this, "设备没有SD卡", Toast.LENGTH_SHORT, true).show();
                     }
                 } else {
-
-                    ToastUtils.showShort(this, "请允许打开相机！！");
+                    Toasty.info(this, "请允许打开相机", Toast.LENGTH_SHORT, true).show();
                 }
                 break;
 
@@ -225,7 +224,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                     PhotoUtils.openPic(this, CODE_GALLERY_REQUEST);
                 } else {
 
-                    ToastUtils.showShort(this, "请允许打操作SDCard！！");
+                    Toasty.info(this, "请允许操作SD卡", Toast.LENGTH_SHORT, true).show();
                 }
                 break;
             default:
@@ -256,7 +255,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                         }
                         PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, OUTPUT_X, OUTPUT_Y, CODE_RESULT_REQUEST);
                     } else {
-                        ToastUtils.showShort(this, "设备没有SD卡！");
+                        Toasty.info(this, "设备没有SD卡", Toast.LENGTH_SHORT, true).show();
                     }
                     break;
                 case CODE_RESULT_REQUEST:

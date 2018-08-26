@@ -6,9 +6,11 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Receiver.NetworkReceiver;
 
 import cn.bmob.v3.Bmob;
+import es.dmoral.toasty.Toasty;
 
 /**
  * Activity基类:实时获取网络状态
@@ -30,6 +32,12 @@ public class BasicActivity extends AppCompatActivity {
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkReceiver, filter);
         isRegistered = true;
+
+        Toasty.Config.getInstance()
+                .setSuccessColor(getResources().getColor(R.color.toastSuccess))
+                .setErrorColor(getResources().getColor(R.color.toastError))
+                .setInfoColor(getResources().getColor(R.color.toastInfo))
+                .apply();
     }
 
     @Override

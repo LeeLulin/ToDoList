@@ -24,6 +24,7 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
+import es.dmoral.toasty.Toasty;
 
 public class RegisterActivity extends BasicActivity implements View.OnClickListener {
     private EditText mEtUserName;
@@ -56,17 +57,17 @@ public class RegisterActivity extends BasicActivity implements View.OnClickListe
                 if(NetWorkUtils.isNetworkConnected(getApplication())){
 
                     if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-                        Toast.makeText(RegisterActivity.this, "用户名密码邮箱不能为空", Toast.LENGTH_SHORT).show();
+                        Toasty.info(RegisterActivity.this, "请输入用户名或密码", Toast.LENGTH_SHORT, true).show();
                         return;
                     }
 
                     if (mEtUserName.length() < 4) {
-                        Toast.makeText(this, "用户名不能低于4位", Toast.LENGTH_SHORT).show();
+                        Toasty.info(RegisterActivity.this, "用户名不能低于4位", Toast.LENGTH_SHORT, true).show();
                         return;
                     }
 
                     if (mEtPassWord.length() < 6) {
-                        Toast.makeText(this, "密码不能低于6位", Toast.LENGTH_SHORT).show();
+                        Toasty.info(RegisterActivity.this, "密码不能低于6位", Toast.LENGTH_SHORT, true).show();
                         return;
                     }
 
@@ -93,12 +94,12 @@ public class RegisterActivity extends BasicActivity implements View.OnClickListe
                                     @Override
                                     public void done(User s, BmobException e) {
                                         if(e==null){
-                                            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                            Toasty.success(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT, true).show();
                                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }else{
-                                            Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
+                                            Toasty.error(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT, true).show();
                                             Log.i("register", e.getMessage());
                                         }
                                     }
@@ -117,7 +118,7 @@ public class RegisterActivity extends BasicActivity implements View.OnClickListe
                     });
 
                 } else {
-                    Toast.makeText(RegisterActivity.this, "无网络连接！", Toast.LENGTH_SHORT).show();
+                    Toasty.error(RegisterActivity.this, "无网络连接", Toast.LENGTH_SHORT, true).show();
                 }
 
 

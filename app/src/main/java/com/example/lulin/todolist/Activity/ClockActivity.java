@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -37,6 +38,7 @@ import com.example.lulin.todolist.Widget.ClockProgressBar;
 import java.io.InputStream;
 import java.util.Random;
 
+import es.dmoral.toasty.Toasty;
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class ClockActivity extends BasicActivity {
@@ -90,7 +92,7 @@ public class ClockActivity extends BasicActivity {
 //        bt_music = (ImageView) findViewById(R.id.bt_music);
         clock_bg = (ImageView) findViewById(R.id.clock_bg);
         SPUtils.put(this,"music_id",R.raw.rain);
-        ToastUtils.showShort(this,"双击界面打开或关闭白噪音");
+        Toasty.normal(this, "双击界面打开或关闭白噪音", Toast.LENGTH_SHORT).show();
         initActions();
         initBackgroundImage();
     }

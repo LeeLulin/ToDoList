@@ -45,6 +45,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -149,9 +150,9 @@ public class NewTodoActivity extends BasicActivity {
             @Override
             public void onClick(View view) {
                 if (todoDate==null){
-                    Toast.makeText(NewTodoActivity.this, "没有设置日期", Toast.LENGTH_SHORT).show();
+                    Toasty.info(NewTodoActivity.this, "没有设置日期", Toast.LENGTH_SHORT, true).show();
                 } else if (todoTime==null) {
-                    Toast.makeText(NewTodoActivity.this, "没有设置时间", Toast.LENGTH_SHORT).show();
+                    Toasty.info(NewTodoActivity.this, "没有设置提醒时间", Toast.LENGTH_SHORT, true).show();
 
                 } else {
                     fabProgressCircle.show();
@@ -222,7 +223,7 @@ public class NewTodoActivity extends BasicActivity {
                             });
 
                         } else {
-                            ToastUtils.showShort(getApplication(),"请先登录");
+                            Toasty.info(NewTodoActivity.this, "请先登录", Toast.LENGTH_SHORT, true).show();
                         }
                     } else {
                         new ToDoDao(getApplicationContext()).create(todos);

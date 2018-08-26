@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lulin.todolist.Dao.ClockDao;
 import com.example.lulin.todolist.R;
@@ -20,6 +21,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -107,7 +109,7 @@ public class StatisticFragment extends Fragment {
                                     }
 
                                 } else {
-                                    ToastUtils.showShort(getActivity(),"查询网络数据失败"+ e.getMessage());
+                                    Toasty.error(getActivity(), "查询网络数据失败"+ e.getMessage(), Toast.LENGTH_SHORT, true).show();
                                 }
                             }
                         });
@@ -137,7 +139,7 @@ public class StatisticFragment extends Fragment {
                                     }
 
                                 } else {
-                                    ToastUtils.showShort(getActivity(),"查询网络数据失败"+ e.getMessage());
+                                    Toasty.error(getActivity(), "查询网络数据失败"+ e.getMessage(), Toast.LENGTH_SHORT, true).show();
                                 }
                             }
                         });

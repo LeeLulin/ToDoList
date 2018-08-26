@@ -22,7 +22,6 @@ import com.example.lulin.todolist.Adapter.ClockRecyclerViewAdapter;
 import com.example.lulin.todolist.Utils.ClockItemTouchHelperCallback;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
 import com.example.lulin.todolist.Utils.RecyclerItemClickListener;
-import com.example.lulin.todolist.Utils.ToastUtils;
 import com.example.lulin.todolist.Bean.Tomato;
 import com.example.lulin.todolist.Utils.TomatoUtils;
 import com.example.lulin.todolist.Bean.User;
@@ -32,11 +31,9 @@ import java.util.List;
 
 public class ClockFragment extends Fragment {
 
-    private MyDatabaseHelper dbHelper;
     private RecyclerView recyclerView;
     private ClockRecyclerViewAdapter clockRecyclerViewAdapter;
     private List<Tomato> clockList = new ArrayList<>();
-    private SQLiteDatabase db;
     private LinearLayoutManager layout;
     private User currentUser;
     private List<Tomato> tomato;
@@ -45,8 +42,7 @@ public class ClockFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = new MyDatabaseHelper(getActivity(), "Data.db", null, 2);
-        db = dbHelper.getWritableDatabase();
+
         if(NetWorkUtils.isNetworkConnected(getContext())) {
             currentUser = User.getCurrentUser(User.class);
         }

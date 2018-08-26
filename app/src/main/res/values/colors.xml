@@ -74,5 +74,10 @@
     <color name="colorStrokeArc">#ffffff</color>
     <!-- 分割线 -->
     <color name="colorDivider">#E9E9E9</color>
+    <!-- Toast color-->
+    <color name="toastSuccess">#57BDAA</color>
+    <color name="toastError">#FD5B78</color>
+    <color name="toastInfo">#7bbfea</color>
+
 
 </resources>

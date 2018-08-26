@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.lulin.todolist.R;
@@ -21,6 +22,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import es.dmoral.toasty.Toasty;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -86,7 +88,7 @@ public class ScheduleActivity extends AppCompatActivity {
                                     }
 
                                 } else {
-                                    ToastUtils.showShort(ScheduleActivity.this,"查询网络数据失败"+ e.getMessage());
+                                    Toasty.info(ScheduleActivity.this, "查询网络数据失败"+ e.getMessage(), Toast.LENGTH_SHORT, true).show();
                                 }
                             }
                         });
@@ -116,7 +118,7 @@ public class ScheduleActivity extends AppCompatActivity {
                                     }
 
                                 } else {
-                                    ToastUtils.showShort(ScheduleActivity.this,"查询网络数据失败"+ e.getMessage());
+                                    Toasty.info(ScheduleActivity.this, "查询网络数据失败"+ e.getMessage(), Toast.LENGTH_SHORT, true).show();
                                 }
                             }
                         });

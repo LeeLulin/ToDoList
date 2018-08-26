@@ -39,6 +39,7 @@ import com.example.lulin.todolist.Utils.SPUtils;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import es.dmoral.toasty.Toasty;
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class LoginActivity extends BasicActivity implements OnClickListener {
@@ -235,7 +236,8 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
                         if (NetWorkUtils.isNetworkConnected(getApplication())) {
 
                             if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-                                Toast.makeText(LoginActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(LoginActivity.this, "用户名密码不能为空", Toast.LENGTH_SHORT).show();
+                                Toasty.info(LoginActivity.this, "请输入账号或密码", Toast.LENGTH_SHORT, true).show();
                                 recovery();
                                 return;
                             }
@@ -248,7 +250,8 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
                                 public void done(BmobUser bmobUser, BmobException e) {
                                     if (e == null) {
                                         SPUtils.put(getApplication(),"sync",true);
-                                        Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
+                                        Toasty.success(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT, true).show();
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         //记住密码
@@ -264,13 +267,15 @@ public class LoginActivity extends BasicActivity implements OnClickListener {
                                         finish();
                                     } else {
                                         recovery();
-                                        Toast.makeText(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT).show();
+                                        Toasty.error(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT, true).show();
                                     }
                                 }
                             });
                         } else {
                             recovery();
-                            Toast.makeText(LoginActivity.this, "无网络连接！", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, "无网络连接！", Toast.LENGTH_SHORT).show();
+                            Toasty.error(LoginActivity.this, "无网络连接", Toast.LENGTH_SHORT, true).show();
                         }
                     }
                 }, 2000);

@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -40,6 +41,7 @@ import java.util.Random;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -194,7 +196,7 @@ public class NewClockActivity extends BasicActivity {
                             }
                         });
                     } else {
-                        ToastUtils.showShort(getApplication(),"请先登录");
+                        Toasty.info(NewClockActivity.this, "请先登录", Toast.LENGTH_SHORT, true).show();
                     }
 
                 } else {
