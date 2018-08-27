@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.lulin.todolist">
-
+    <!-- 自启动权限-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -69,11 +69,7 @@
             android:enabled="true"
             android:exported="true"
             android:process=":remote" />
-        <receiver android:name=".Receiver.BootUpReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+
 
         <activity
             android:name=".Activity.RegisterActivity"
@@ -127,6 +123,24 @@
         <activity
             android:name=".Activity.NewClockActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!-- 监听系统广播自启动app-->
+        <receiver android:name=".Receiver.BootUpReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="RestartSerivcesForSystemEventReceiver" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+                <action android:name="android.intent.action.MEDIA_EJECT" />
+                <data android:scheme="file" >
+                </data>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
