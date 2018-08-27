@@ -23,7 +23,7 @@ public class BootUpReceiver extends BroadcastReceiver {
             context.startService(service);
             Log.i("BootUp", "自启动成功");
         }
-        
+
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             /* 应用开机自启动 */
             Intent intent_n = new Intent(context, MainActivity.class);
