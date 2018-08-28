@@ -32,6 +32,7 @@ public class BootUpReceiver extends BroadcastReceiver {
             intent_n.addCategory("android.intent.category.LAUNCHER");
             intent_n.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent_n);
+            Log.i("BootUp", "自启动成功");
         }
 
 

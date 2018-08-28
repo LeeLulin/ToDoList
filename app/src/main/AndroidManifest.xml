@@ -58,9 +58,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.EditTodoActivity" />
 
-        <service android:name=".Service.AlarmService">
+        <service android:name=".Service.AlarmService"
+                android:process=":live">
             <intent-filter>
-                <action android:name="com.example.lulin.todolist.Service.AlarmService" />
+                <action
+                    android:name="com.example.lulin.todolist.Service.AlarmService"
+                    />
             </intent-filter>
         </service>
 
@@ -128,16 +131,7 @@
         <receiver android:name=".Receiver.BootUpReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="RestartSerivcesForSystemEventReceiver" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_MOUNTED" />
-                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
-                <action android:name="android.intent.action.MEDIA_EJECT" />
-                <data android:scheme="file" >
-                </data>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
 

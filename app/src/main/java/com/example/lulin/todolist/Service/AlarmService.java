@@ -9,6 +9,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.carmelo.library.KeepLiveManager;
+import com.carmelo.library.KeepliveService;
 import com.example.lulin.todolist.Receiver.AlarmReceiver;
 import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.ToDoUtils;
@@ -18,7 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class AlarmService extends Service {
+public class AlarmService extends KeepliveService {
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
     private Intent startNotification;
@@ -33,12 +35,13 @@ public class AlarmService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i(TAG, "服务启动！");
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Calendar calendarTime = Calendar.getInstance();
         calendarTime.setTimeInMillis(System.currentTimeMillis());
-        Log.i(TAG, "服务启动！");
+
         List<Todos> todosList = ToDoUtils.getTodayTodos(this);
         if (todosList != null) {
             try {
@@ -75,8 +78,9 @@ public class AlarmService extends Service {
             }
         }
 
-        return START_REDELIVER_INTENT;
-    } //这里为了提高优先级，选择START_REDELIVER_INTENT 没那么容易被内存清理时杀死
+//        return START_REDELIVER_INTENT;
+        return super.onStartCommand(intent,flags,startId);
+    }
 
     @Override
     public void onDestroy() {
