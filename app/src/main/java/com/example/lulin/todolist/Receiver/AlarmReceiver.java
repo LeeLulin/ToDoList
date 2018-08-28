@@ -15,6 +15,7 @@ import android.util.Log;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.Activity.MainActivity;
+import com.example.lulin.todolist.Utils.SPUtils;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -59,13 +60,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setPriority(Notification.PRIORITY_MAX)  //设置通知为最高权限
                     .setFullScreenIntent(pi, true)
                     .setContentIntent(pi);
-        if (ringTone.equals("")){
+        if (((String) SPUtils.get(context, KEY_RINGTONE, "")).equals("")){
             notification.setDefaults(Notification.DEFAULT_ALL); //设置系统默认的通知音乐、振动
             Log.i(TAG, "默认铃声");
         } else {
-            notification.setSound(Uri.parse(ringTone));
+            notification.setSound(Uri.parse((String) SPUtils.get(context, KEY_RINGTONE, "")));
             notification.setDefaults(Notification.DEFAULT_VIBRATE);
-            Log.i(TAG, ringTone);
+            Log.i(TAG, (String) SPUtils.get(context, KEY_RINGTONE, ""));
         }
         if (Build.VERSION.SDK_INT >= 21) {
             notification.setVisibility(Notification.VISIBILITY_PUBLIC);
