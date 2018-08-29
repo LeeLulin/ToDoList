@@ -57,7 +57,6 @@
                 android:id="@+id/text_time_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="155dp"
                 android:textColor="@color/white"
@@ -72,6 +71,18 @@
                 android:layout_marginTop="155dp"
                 android:textColor="@color/white"
                 android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/focus_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="210dp"
+                android:alpha="0.7"
+                android:text="已开启专注模式"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 

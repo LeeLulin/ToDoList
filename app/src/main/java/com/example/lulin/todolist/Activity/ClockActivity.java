@@ -53,6 +53,7 @@ public class ClockActivity extends BasicActivity {
     private Button mBtnSkip;
     private TextView mTextCountDown;
     private TextView mTextTimeTile;
+    private TextView focus_tint;
     private ClockProgressBar mProgressBar;
     private RippleWrapper mRippleWrapper;
     private long mLastClickTime = 0;
@@ -97,6 +98,7 @@ public class ClockActivity extends BasicActivity {
         mTextTimeTile = (TextView)findViewById(R.id.text_time_title);
         mProgressBar = (ClockProgressBar)findViewById(R.id.tick_progress_bar);
         mRippleWrapper = (RippleWrapper)findViewById(R.id.ripple_wrapper);
+        focus_tint = (TextView)findViewById(R.id.focus_hint);
 //        bt_music = (ImageView) findViewById(R.id.bt_music);
         clock_bg = (ImageView) findViewById(R.id.clock_bg);
         SPUtils.put(this,"music_id",R.raw.rain);
@@ -139,10 +141,7 @@ public class ClockActivity extends BasicActivity {
                 updateRipple();
                 if (getIsFocus(ClockActivity.this)){
                     startService(new Intent(ClockActivity.this, FocusService.class));
-                    ToastUtils.showShort(ClockActivity.this,"已开启专注模式");
-//                    Sneaker.with(ClockActivity.this)
-//                            .setMessage("已开启专注模式")
-//                            .sneakSuccess();
+                    focus_tint.setVisibility(View.VISIBLE);
                 }
             }
         });
