@@ -25,6 +25,7 @@ import com.example.lulin.todolist.Dao.ClockDao;
 import com.example.lulin.todolist.Bean.Clock;
 import com.example.lulin.todolist.Utils.CountDownTimer;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
+import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.Sound;
 import com.example.lulin.todolist.Utils.TimeFormatUtil;
 import com.example.lulin.todolist.Bean.User;
@@ -272,7 +273,8 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                     public void done(String s, BmobException e) {
                         if (e==null){
                             Log.i("ClockService", "保存番茄钟到bmob成功");
-                            user.increment("total", workLength);
+                            user.increment("total", (int) SPUtils
+                                    .get(getApplication(),"pref_key_work_length", ClockApplication.DEFAULT_WORK_LENGTH));
                             user.update(new UpdateListener() {
                                 @Override
                                 public void done(BmobException e) {
