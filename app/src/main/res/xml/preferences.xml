@@ -45,6 +45,10 @@
             android:summary="打开专注模式将阻止其他App打开"
             android:defaultValue="false" />
 
+        <Preference
+            android:summary="@string/focus_explain"/>
+
+
     </PreferenceCategory>
 
     <Preference

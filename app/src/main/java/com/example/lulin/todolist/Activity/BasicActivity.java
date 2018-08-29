@@ -38,6 +38,7 @@ public class BasicActivity extends AppCompatActivity {
                 .setErrorColor(getResources().getColor(R.color.toastError))
                 .setInfoColor(getResources().getColor(R.color.toastInfo))
                 .apply();
+
     }
 
     @Override

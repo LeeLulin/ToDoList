@@ -32,6 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.model.GuidePage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -111,10 +113,10 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         setContentView(R.layout.activity_user_data);
         initView();
         initViewPager();
-
         saveInformation();
         setUserDataFromBmob();
         glideLoad();
+        initGuide();
 
     }
 
@@ -538,6 +540,21 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                 .apply(bitmapTransform(new BlurTransformation(25, 3)))
                 .apply(options_2)
                 .into(top_bg);
+    }
+
+    /**
+     * 用户引导
+     */
+    private void initGuide(){
+        NewbieGuide.with(this)
+                .setLabel("guide1")
+                .setShowCounts(1)//控制次数
+                .alwaysShow(false)//总是显示，调试时可以打开
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(user_head)
+                        .setLayoutRes(R.layout.guide_user_info))
+                .show();
+
     }
 
 }

@@ -58,6 +58,7 @@
     </string>
 
 
+    <string name="focus_explain">说明：开启专注模式需要开启“获取应用情况”权限，开启并开始番茄计时后，除本App之外的所有App将会被拦截</string>
 
 
     <!-- button -->

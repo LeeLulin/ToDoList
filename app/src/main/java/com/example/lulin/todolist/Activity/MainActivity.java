@@ -48,7 +48,6 @@ import com.example.lulin.todolist.Bean.User;
 import com.example.lulin.todolist.Widget.CircleImageView;
 import com.kekstudio.dachshundtablayout.DachshundTabLayout;
 import com.kekstudio.dachshundtablayout.indicators.DachshundIndicator;
-import com.kekstudio.dachshundtablayout.indicators.LineMoveIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,7 +158,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
         initView();
         initViewPager();
-//        initGuide();
+        initGuide();
     }
 
     /**
@@ -168,12 +167,13 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     private void initGuide(){
         NewbieGuide.with(this)
                 .setLabel("guide1")
-//                .setShowCounts(1)//控制次数
-                .alwaysShow(true)//总是显示，调试时可以打开
+                .setShowCounts(1)//控制次数
+                .alwaysShow(false)//总是显示，调试时可以打开
                 .addGuidePage(GuidePage.newInstance()
                         .addHighLight(fab)
-                        .setLayoutRes(R.layout.guide_simple))
+                        .setLayoutRes(R.layout.guide_main))
                 .show();
+
     }
 
     private void initView() {
@@ -464,6 +464,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
             finish();
             Intent intent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intent);
+
         }
         if (resultCode ==3){
             Intent intent = new Intent(MainActivity.this,LoginActivity.class);
