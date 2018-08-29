@@ -150,6 +150,10 @@ public class ClockDao {
         open();
         ContentValues values = new ContentValues();
         values.put("clocktitle", tomato.getTitle());
+        values.put("workLength", tomato.getWorkLength());
+        values.put("shortBreak", tomato.getShortBreak());
+        values.put("longBreak", tomato.getLongBreak());
+        values.put("frequency", tomato.getFrequency());
         values.put("objectId", tomato.getObjectId());
         values.put("imgId", tomato.getImgId());
         long id = db.insert("Clock", null, values);
@@ -161,21 +165,25 @@ public class ClockDao {
 
     public List<Tomato> getDbAllTomato() {
         open();
-        List<Tomato> todosList = new ArrayList<Tomato>();
+        List<Tomato> tomatoList = new ArrayList<Tomato>();
         Cursor cursor=db.rawQuery("SELECT * FROM Clock", null);
         while(cursor.moveToNext()) {
             Tomato data = new Tomato();
             data.setTitle(cursor.getString(cursor.getColumnIndex("clocktitle")));
+            data.setWorkLength(cursor.getInt(cursor.getColumnIndex("workLength")));
+            data.setShortBreak(cursor.getInt(cursor.getColumnIndex("shortBreak")));
+            data.setLongBreak(cursor.getInt(cursor.getColumnIndex("longBreak")));
+            data.setFrequency(cursor.getInt(cursor.getColumnIndex("frequency")));
             data.setObjectId(cursor.getString(cursor.getColumnIndex("objectId")));
             data.setImgId(cursor.getInt(cursor.getColumnIndex("imgId")));
-            todosList.add(data);
+            tomatoList.add(data);
         }
         // make sure to close the cursor
 
         cursor.close();
         close();
-        Log.i("ClockDao", "查询到本地的番茄任务个数：" + todosList.size());
-        return todosList;
+        Log.i("ClockDao", "查询到本地的番茄任务个数：" + tomatoList.size());
+        return tomatoList;
     }
 
     public HashMap getAmount() {

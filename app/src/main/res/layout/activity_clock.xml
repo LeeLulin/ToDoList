@@ -57,7 +57,7 @@
                 android:id="@+id/text_time_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/text_count_down"
+
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="155dp"
                 android:textColor="@color/white"

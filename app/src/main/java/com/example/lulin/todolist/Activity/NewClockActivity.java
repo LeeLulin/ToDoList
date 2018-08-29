@@ -2,6 +2,7 @@ package com.example.lulin.todolist.Activity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -71,10 +72,12 @@ public class NewClockActivity extends BasicActivity {
             R.drawable.c_img6,
             R.drawable.c_img7,};
     private int imgId;
+    private int workLength, shortBreak,longBreak,frequency;
     private static final String KEY_RINGTONE = "ring_tone";
     private Clock clock;
     SQLiteDatabase db;
     private Tomato tomato;
+    private long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,8 +131,8 @@ public class NewClockActivity extends BasicActivity {
                 .setMax(res.getInteger(R.integer.pref_work_length_max))
                 .setMin(res.getInteger(R.integer.pref_work_length_min))
                 .setUnit(R.string.pref_title_time_value)
-                .setProgress(PreferenceManager.getDefaultSharedPreferences(this)
-                        .getInt("pref_key_work_length", ClockApplication.DEFAULT_WORK_LENGTH))
+                .setProgress((int)SPUtils
+                        .get(NewClockActivity.this,"pref_key_work_length", ClockApplication.DEFAULT_WORK_LENGTH))
                 .build();
         // 短时休息
         (new SeekBarPreference(this))
@@ -138,8 +141,8 @@ public class NewClockActivity extends BasicActivity {
                 .setMax(res.getInteger(R.integer.pref_short_break_max))
                 .setMin(res.getInteger(R.integer.pref_short_break_min))
                 .setUnit(R.string.pref_title_time_value)
-                .setProgress(PreferenceManager.getDefaultSharedPreferences(this)
-                        .getInt("pref_key_short_break", ClockApplication.DEFAULT_SHORT_BREAK))
+                .setProgress((int)SPUtils
+                        .get(NewClockActivity.this,"pref_key_short_break", ClockApplication.DEFAULT_SHORT_BREAK))
                 .build();
         // 长时休息
         (new SeekBarPreference(this))
@@ -148,8 +151,8 @@ public class NewClockActivity extends BasicActivity {
                 .setMax(res.getInteger(R.integer.pref_long_break_max))
                 .setMin(res.getInteger(R.integer.pref_long_break_min))
                 .setUnit(R.string.pref_title_time_value)
-                .setProgress(PreferenceManager.getDefaultSharedPreferences(this)
-                        .getInt("pref_key_long_break", ClockApplication.DEFAULT_LONG_BREAK))
+                .setProgress((int)SPUtils
+                        .get(NewClockActivity.this,"pref_key_long_break", ClockApplication.DEFAULT_LONG_BREAK))
                 .build();
         // 长时休息间隔
         (new SeekBarPreference(this))
@@ -158,9 +161,8 @@ public class NewClockActivity extends BasicActivity {
                 .setMax(res.getInteger(R.integer.pref_long_break_frequency_max))
                 .setMin(res.getInteger(R.integer.pref_long_break_frequency_min))
                 .setUnit(R.string.pref_title_frequency_value)
-                .setProgress(PreferenceManager.getDefaultSharedPreferences(this)
-                        .getInt("pref_key_long_break_frequency",
-                                ClockApplication.DEFAULT_LONG_BREAK_FREQUENCY))
+                .setProgress((int)SPUtils
+                        .get(NewClockActivity.this,"pref_key_long_break_frequency", ClockApplication.DEFAULT_LONG_BREAK_FREQUENCY))
                 .build();
 
         fab_ok.setOnClickListener(new View.OnClickListener() {
@@ -168,11 +170,22 @@ public class NewClockActivity extends BasicActivity {
             public void onClick(View view) {
                 nv_clock_title = (EditText) findViewById(R.id.new_clock_title);
                 clockTitle = nv_clock_title.getText().toString();
-//                    todoDsc = nv_todo_dsc.getText().toString();
+                workLength = (int)SPUtils
+                        .get(NewClockActivity.this,"pref_key_work_length", ClockApplication.DEFAULT_WORK_LENGTH);
+                shortBreak = (int)SPUtils
+                        .get(NewClockActivity.this,"pref_key_short_break", ClockApplication.DEFAULT_SHORT_BREAK);
+                longBreak = (int)SPUtils
+                        .get(NewClockActivity.this,"pref_key_long_break", ClockApplication.DEFAULT_LONG_BREAK);
+                frequency = (int)SPUtils
+                        .get(NewClockActivity.this,"pref_key_long_break_frequency", ClockApplication.DEFAULT_LONG_BREAK_FREQUENCY);
                 User user = User.getCurrentUser(User.class);
                 tomato = new Tomato();
                 tomato.setUser(user);
                 tomato.setTitle(clockTitle);
+                tomato.setWorkLength(workLength);
+                tomato.setShortBreak(shortBreak);
+                tomato.setLongBreak(longBreak);
+                tomato.setFrequency(frequency);
                 tomato.setImgId(imgId);
                 boolean isSync = (Boolean) SPUtils.get(getApplication(),"sync",true);
                 if(isSync){
@@ -183,11 +196,19 @@ public class NewClockActivity extends BasicActivity {
                                 if (e==null){
                                     ContentValues values = new ContentValues();
                                     values.put("clocktitle", clockTitle);
+                                    values.put("workLength", workLength);
+                                    values.put("shortBreak", shortBreak);
+                                    values.put("longBreak", longBreak);
+                                    values.put("frequency", frequency);
                                     values.put("objectId", tomato.getObjectId());
                                     values.put("imgId", imgId);
-                                    db.insert("Clock",null,values);
+                                    id = db.insert("Clock",null,values);
                                     Intent intent = new Intent(NewClockActivity.this, ClockActivity.class);
+                                    intent.putExtra("id",id);
                                     intent.putExtra("clocktitle",clockTitle);
+                                    intent.putExtra("workLength", workLength);
+                                    intent.putExtra("shortBreak", shortBreak);
+                                    intent.putExtra("longBreak", longBreak);
                                     startActivity(intent);
                                     finish();
                                 } else {
@@ -202,11 +223,19 @@ public class NewClockActivity extends BasicActivity {
                 } else {
                     ContentValues values = new ContentValues();
                     values.put("clocktitle", clockTitle);
+                    values.put("workLength", workLength);
+                    values.put("shortBreak", shortBreak);
+                    values.put("longBreak", longBreak);
+                    values.put("frequency", frequency);
                     values.put("objectId", tomato.getObjectId());
                     values.put("imgId", imgId);
-                    db.insert("Clock",null,values);
+                    id = db.insert("Clock",null,values);
                     Intent intent = new Intent(NewClockActivity.this, ClockActivity.class);
+                    intent.putExtra("id",id);
                     intent.putExtra("clocktitle",clockTitle);
+                    intent.putExtra("workLength", workLength);
+                    intent.putExtra("shortBreak", shortBreak);
+                    intent.putExtra("longBreak", longBreak);
                     startActivity(intent);
                     finish();
                 }
@@ -223,6 +252,10 @@ public class NewClockActivity extends BasicActivity {
         });
 
 
+    }
+
+    private SharedPreferences getSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     /**

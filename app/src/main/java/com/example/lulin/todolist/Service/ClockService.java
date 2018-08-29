@@ -70,6 +70,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
     private String clockTitle;
     private Clock clock;
     private User user;
+    private int workLength, shortBreak,longBreak;
 
     private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
         @Override
@@ -111,6 +112,9 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         clockTitle = intent.getStringExtra("clockTitle");
+        workLength = intent.getIntExtra("workLength", ClockApplication.DEFAULT_WORK_LENGTH);
+        shortBreak = intent.getIntExtra("shortBreak", ClockApplication.DEFAULT_SHORT_BREAK);
+        longBreak = intent.getIntExtra("longBreak", ClockApplication.DEFAULT_LONG_BREAK);
         if (intent != null) {
             String action = intent.getAction();
 
@@ -268,8 +272,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                     public void done(String s, BmobException e) {
                         if (e==null){
                             Log.i("ClockService", "保存番茄钟到bmob成功");
-                            user.increment("total", getSharedPreferences()
-                                    .getInt("pref_key_work_length", ClockApplication.DEFAULT_WORK_LENGTH));
+                            user.increment("total", workLength);
                             user.update(new UpdateListener() {
                                 @Override
                                 public void done(BmobException e) {

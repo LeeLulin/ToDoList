@@ -1,9 +1,13 @@
 package com.example.lulin.todolist.Fragment;
 
 import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,14 +27,17 @@ import com.example.lulin.todolist.Utils.ClockItemTouchHelperCallback;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
 import com.example.lulin.todolist.Utils.RecyclerItemClickListener;
 import com.example.lulin.todolist.Bean.Tomato;
+import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.TomatoUtils;
 import com.example.lulin.todolist.Bean.User;
+import com.example.lulin.todolist.Widget.ClockApplication;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClockFragment extends Fragment {
 
+    private Context context;
     private RecyclerView recyclerView;
     private ClockRecyclerViewAdapter clockRecyclerViewAdapter;
     private List<Tomato> clockList = new ArrayList<>();
@@ -39,10 +46,13 @@ public class ClockFragment extends Fragment {
     private List<Tomato> tomato;
     private ItemTouchHelper mItemTouchHelper;
     private ItemTouchHelper.Callback callback;
+    private int workLength, shortBreak,longBreak,frequency;
+    private String clockTitle;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context = getActivity();
         if(NetWorkUtils.isNetworkConnected(getContext())) {
             currentUser = User.getCurrentUser(User.class);
         }
@@ -64,9 +74,22 @@ public class ClockFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
 
-                String clockTitle = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position).getTitle();
+                clockTitle = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position).getTitle();
+                workLength = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position).getWorkLength();
+                shortBreak = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position).getShortBreak();
+                longBreak = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position).getLongBreak();
+                frequency = clockList.get(clockRecyclerViewAdapter.getItemCount()-1-position).getFrequency();
+
+                SPUtils.put(context,"pref_key_work_length", workLength);
+                SPUtils.put(context,"pref_key_short_break", shortBreak);
+                SPUtils.put(context,"pref_key_long_break", longBreak);
+                SPUtils.put(context,"pref_key_long_break_frequency", frequency);
+
                 Intent intent = new Intent(getActivity(), ClockActivity.class);
                 intent.putExtra("clocktitle",clockTitle);
+                intent.putExtra("workLength", workLength);
+                intent.putExtra("shortBreak", shortBreak);
+                intent.putExtra("longBreak", longBreak);
                 startActivity(intent);
             }
 
@@ -106,6 +129,9 @@ public class ClockFragment extends Fragment {
     }
 
 
+    private SharedPreferences getSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(getActivity());
+    }
 
     private void setDbData(){
 

@@ -3,6 +3,7 @@ package com.example.lulin.todolist.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -99,17 +100,18 @@ public class SeekBarPreference implements SeekBar.OnSeekBarChangeListener {
     }
 
     private void persistInt(int value) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putInt(mKey, value);
-
-        try {
-            editor.apply();
-        } catch (AbstractMethodError unused) {
-            // The app injected its own pre-Gingerbread
-            // SharedPreferences.Editor implementation without
-            // an apply method.
-            editor.commit();
-        }
+//        SharedPreferences.Editor editor = mSharedPreferences.edit();
+//        editor.putInt(mKey, value);
+        SPUtils.put(mContext, mKey, value);
+        Log.i("SeekBar", mKey);
+//        try {
+//            editor.apply();
+//        } catch (AbstractMethodError unused) {
+//            // The app injected its own pre-Gingerbread
+//            // SharedPreferences.Editor implementation without
+//            // an apply method.
+//            editor.commit();
+//        }
     }
 
     @Override
@@ -120,6 +122,8 @@ public class SeekBarPreference implements SeekBar.OnSeekBarChangeListener {
         }
 
         setText(progress);
+
+        Log.i("SeekBar", String.valueOf(progress));
     }
 
     @Override

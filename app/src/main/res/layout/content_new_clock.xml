@@ -65,7 +65,8 @@
                         android:focusable="false"
                         android:clickable="false"
                         android:background="@null"/>
-                    <TextView android:id="@+id/pref_key_work_length_value"
+                    <TextView
+                        android:id="@+id/pref_key_work_length_value"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="end|center_vertical"
@@ -105,7 +106,8 @@
                         android:focusable="false"
                         android:clickable="false"
                         android:background="@null"/>
-                    <TextView android:id="@+id/pref_key_short_break_value"
+                    <TextView
+                        android:id="@+id/pref_key_short_break_value"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="end|center_vertical"
@@ -145,7 +147,8 @@
                         android:focusable="false"
                         android:clickable="false"
                         android:background="@null"/>
-                    <TextView android:id="@+id/pref_key_long_break_value"
+                    <TextView
+                        android:id="@+id/pref_key_long_break_value"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="end|center_vertical"
@@ -186,7 +189,8 @@
                         android:focusable="false"
                         android:clickable="false"
                         android:background="@null"/>
-                    <TextView android:id="@+id/pref_key_long_break_frequency_value"
+                    <TextView
+                        android:id="@+id/pref_key_long_break_frequency_value"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="end|center_vertical"

@@ -28,6 +28,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             + "id integer primary key autoincrement,"
             + "objectId String,"
             + "clocktitle String,"
+            + "workLength int,"
+            + "shortBreak int,"
+            + "longBreak int,"
+            + "frequency int,"
             + "imgId int )";
 
     public static final String TIME = "create table timer_schedule ("

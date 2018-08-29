@@ -116,6 +116,7 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
                 if (User.getCurrentUser(User.class)==null){
                     ToastUtils.showShort(getActivity(),"未登录");
+                    Toasty.error(getActivity(), "账号或密码不正确", Toast.LENGTH_SHORT, true).show();
                 } else {
                     LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
                     View textEntryView = layoutInflater.inflate(R.layout.dialog_reset_pwd, null);

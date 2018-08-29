@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 
+import com.example.lulin.todolist.Activity.NewClockActivity;
+import com.example.lulin.todolist.Utils.SPUtils;
+
 import java.util.concurrent.TimeUnit;
 
 public class ClockApplication extends Application {
@@ -104,8 +107,8 @@ public class ClockApplication extends Application {
     }
 
     public int getScene() {
-        int frequency = getSharedPreferences()
-                .getInt("pref_key_long_break_frequency", DEFAULT_LONG_BREAK_FREQUENCY);
+        int frequency = (int)SPUtils
+                .get(this,"pref_key_long_break_frequency", DEFAULT_LONG_BREAK_FREQUENCY);
         frequency = frequency * 2; // 工作/短休息/工作/短休息/工作/短休息/工作/长休息
 
         if (mTimes % 2  == 1) { // 偶数：工作, 奇数：休息
@@ -125,16 +128,16 @@ public class ClockApplication extends Application {
 
         switch (getScene()) {
             case SCENE_WORK:
-                minutes = getSharedPreferences()
-                        .getInt("pref_key_work_length", DEFAULT_WORK_LENGTH);
+                minutes = (int) SPUtils
+                        .get(this,"pref_key_work_length", DEFAULT_WORK_LENGTH);
                 break;
             case SCENE_SHORT_BREAK:
-                minutes = getSharedPreferences()
-                        .getInt("pref_key_short_break", DEFAULT_SHORT_BREAK);
+                minutes = (int)SPUtils
+                        .get(this,"pref_key_short_break", DEFAULT_SHORT_BREAK);
                 break;
             case SCENE_LONG_BREAK:
-                minutes = getSharedPreferences()
-                        .getInt("pref_key_long_break", DEFAULT_LONG_BREAK);
+                minutes = (int)SPUtils
+                        .get(this,"pref_key_long_break", DEFAULT_LONG_BREAK);
                 break;
         }
 

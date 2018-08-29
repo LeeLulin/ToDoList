@@ -44,10 +44,12 @@
                 android:textColor="@color/white" />
 
             <TextView
+                android:id="@+id/work_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="25-分钟"
+                android:gravity="right"
+                android:text="minutes"
                 android:textSize="12sp"
                 android:textColor="@color/white"/>
 

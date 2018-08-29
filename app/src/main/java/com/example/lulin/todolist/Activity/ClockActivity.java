@@ -67,6 +67,8 @@ public class ClockActivity extends BasicActivity {
                                                 R.drawable.ic_img7,
                                                 R.drawable.ic_img8};
     private int bg_id;
+    private int workLength, shortBreak,longBreak;
+    private long id;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -79,6 +81,11 @@ public class ClockActivity extends BasicActivity {
         setContentView(R.layout.activity_clock);
         Intent intent = getIntent();
         clockTitle = intent.getStringExtra("clocktitle");
+        workLength = intent.getIntExtra("workLength",ClockApplication.DEFAULT_WORK_LENGTH);
+        shortBreak = intent.getIntExtra("shortBreak",ClockApplication.DEFAULT_SHORT_BREAK);
+        longBreak = intent.getIntExtra("longBreak",ClockApplication.DEFAULT_LONG_BREAK);
+        id = intent.getLongExtra("id",1);
+
         mApplication = (ClockApplication)getApplication();
 
         mBtnStart = (Button)findViewById(R.id.btn_start);
@@ -120,7 +127,11 @@ public class ClockActivity extends BasicActivity {
             public void onClick(View view) {
                 Intent i = ClockService.newIntent(getApplicationContext());
                 i.setAction(ClockService.ACTION_START);
+                i.putExtra("id",id);
                 i.putExtra("clockTitle",clockTitle);
+                i.putExtra("workLength",workLength);
+                i.putExtra("shortBreak",shortBreak);
+                i.putExtra("longBreak",longBreak);
                 startService(i);
                 mApplication.start();
                 updateButtons();
@@ -426,12 +437,12 @@ public class ClockActivity extends BasicActivity {
     public void updateScene() {
         int scene = mApplication.getScene();
 
-        int workLength = getSharedPreferences()
-                .getInt("pref_key_work_length", ClockApplication.DEFAULT_WORK_LENGTH);
-        int shortBreak = getSharedPreferences()
-                .getInt("pref_key_short_break", ClockApplication.DEFAULT_SHORT_BREAK);
-        int longBreak = getSharedPreferences()
-                .getInt("pref_key_long_break", ClockApplication.DEFAULT_LONG_BREAK);
+//        int workLength = getSharedPreferences()
+//                .getInt("pref_key_work_length", ClockApplication.DEFAULT_WORK_LENGTH);
+//        int shortBreak = getSharedPreferences()
+//                .getInt("pref_key_short_break", ClockApplication.DEFAULT_SHORT_BREAK);
+//        int longBreak = getSharedPreferences()
+//                .getInt("pref_key_long_break", ClockApplication.DEFAULT_LONG_BREAK);
 
         ((TextView)findViewById(R.id.stage_work_value))
                 .setText(getResources().getString(R.string.stage_time_unit, workLength));

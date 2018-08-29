@@ -22,6 +22,8 @@ import com.example.lulin.todolist.Utils.ToDoUtils;
 import com.example.lulin.todolist.Utils.ToastUtils;
 import com.example.lulin.todolist.Utils.TomatoUtils;
 
+import org.w3c.dom.Text;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -51,23 +53,16 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
     static class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView clock_title;
-        TextView todo_desc;
-        TextView todo_date;
-        TextView todo_time;
-        TextView isAlerted;
+        TextView work_time;
         ImageView clock_card_bg;
-        TextView isRepeat;
+
 
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             clock_title = (TextView) itemView.findViewById(R.id.clock_title);
-//            todo_desc = (TextView) itemView.findViewById(R.id.todo_desc);
-//            todo_date = (TextView) itemView.findViewById(R.id.todo_date);
-//            isRepeat = (TextView) itemView.findViewById(R.id.isRepeat);
-//            todo_time = (TextView) itemView.findViewById(R.id.todo_time);
-//            isAlerted = (TextView) itemView.findViewById(R.id.isAlerted);
+            work_time = (TextView) itemView.findViewById(R.id.work_time);
             clock_card_bg = (ImageView) itemView.findViewById(R.id.clock_card_bg);
 
         }
@@ -85,13 +80,9 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
     public void onBindViewHolder(ClockRecyclerViewAdapter.ViewHolder ViewHolder, int i) {
 
         ViewHolder.clock_title.setText(tomatoList.get(tomatoList.size()-1-i).getTitle());
+        ViewHolder.work_time.setText(tomatoList.get(tomatoList.size()-1-i).getWorkLength() + " 分钟");
+        ViewHolder.clock_card_bg.setImageDrawable(context.getResources().getDrawable(tomatoList.get(tomatoList.size()-1-i).getImgId()));
 
-//        try{
-            ViewHolder.clock_card_bg.setImageDrawable(context.getResources().getDrawable(tomatoList.get(tomatoList.size()-1-i).getImgId()));
-            Log.i("load", String.valueOf(tomatoList.get(tomatoList.size()-1-i).getImgId()));
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
 
 
 
