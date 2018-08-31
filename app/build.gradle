@@ -6,8 +6,6 @@ android {
         applicationId "com.example.lulin.todolist"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.1.2-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

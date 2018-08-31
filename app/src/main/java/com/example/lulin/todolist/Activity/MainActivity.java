@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.hubert.guide.NewbieGuide;
 import com.app.hubert.guide.model.GuidePage;
@@ -56,8 +57,13 @@ import java.util.Locale;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.BmobUpdateListener;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.update.BmobUpdateAgent;
+import cn.bmob.v3.update.UpdateResponse;
+import cn.bmob.v3.update.UpdateStatus;
+import es.dmoral.toasty.Toasty;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.drakeet.materialdialog.MaterialDialog;
 import top.wefor.circularanim.CircularAnim;
@@ -75,7 +81,6 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
     private TextView nick_name,autograph;
     public User local_user;
     private ImageView nav_bg;
-    private static final String APP_ID = "1c54d5b204e98654778c77547afc7a66";
     private String imgPath;
     private MenuItem mMenuItemIDLE;
     private DrawerLayout drawer;
@@ -95,6 +100,13 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        ColorFilterToolBar toolbar = (ColorFilterToolBar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Bmob云创建AppVersion表
+//        BmobUpdateAgent.initAppVersion();
+
+        //是否仅在WIFI下检测更新
+        BmobUpdateAgent.setUpdateOnlyWifi(true);
+
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -159,6 +171,9 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         initView();
         initViewPager();
         initGuide();
+        //检测更新
+        BmobUpdateAgent.update(this);
+
     }
 
     /**

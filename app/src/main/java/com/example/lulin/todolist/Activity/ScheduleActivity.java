@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -31,15 +32,17 @@ public class ScheduleActivity extends AppCompatActivity {
     private int tdDuration = 0;
     private int allTimes = 0;
     private int allDuration = 0;
-
-    public static Intent newIntent(Context context) {
-        return new Intent(context, ScheduleActivity.class);
-    }
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+        toolbar = (Toolbar) findViewById(R.id.schedule_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         final TextView todayDurations = (TextView)findViewById(R.id.schedule_today_durations);
         final TextView todayTimes = (TextView)findViewById(R.id.schedule_today_times);
         final TextView amountDurations = (TextView)findViewById(R.id.schedule_amount_durations);

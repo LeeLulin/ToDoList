@@ -54,18 +54,15 @@ import es.dmoral.toasty.Toasty;
  */
 public class NewTodoActivity extends BasicActivity {
 
-    private MyDatabaseHelper dbHelper;
     private String todoTitle,todoDsc;
     private String todoDate = null, todoTime = null;
-    private Button ok,cancel;
     private FloatingActionButton fab_ok;
     private TextView nv_todo_title,nv_todo_dsc,nv_todo_date,nv_todo_time;
     private Switch nv_repeat;
     private int mYear,mMonth,mDay;//当前日期
     private int mHour,mMin;//当前时间
-    private long remindTime, remindTimeNoDay;
+    private long remindTime;
     private Calendar ca;
-    private Date data;
     private static final String TAG = "time";
     private Toolbar toolbar;
     private int isRepeat = 0;
@@ -79,7 +76,6 @@ public class NewTodoActivity extends BasicActivity {
             R.drawable.img_7,
             R.drawable.img_8,};
     private int imgId;
-    private static final String KEY_RINGTONE = "ring_tone";
     private Todos todos;
     private FABProgressCircle fabProgressCircle;
 
@@ -101,9 +97,7 @@ public class NewTodoActivity extends BasicActivity {
     }
 
     private void initFindview() {
-//        ok = (Button) findViewById(R.id.bt_new_ok);
         fab_ok = (FloatingActionButton) findViewById(R.id.fab_ok);
-//        cancel = (Button) findViewById(R.id.bt_new_cancel);
         nv_todo_title = (TextView) findViewById(R.id.new_todo_title);
         nv_todo_dsc = (TextView) findViewById(R.id.new_todo_dsc);
         nv_todo_date = (TextView) findViewById(R.id.new_todo_date);
@@ -158,9 +152,6 @@ public class NewTodoActivity extends BasicActivity {
                     fabProgressCircle.show();
                     todoTitle = nv_todo_title.getText().toString();
                     todoDsc = nv_todo_dsc.getText().toString();
-                    dbHelper = new MyDatabaseHelper(NewTodoActivity.this, "Data.db", null, 2);
-                    SQLiteDatabase db = dbHelper.getWritableDatabase();
-                    ContentValues values = new ContentValues();
                     Calendar calendarTime = Calendar.getInstance();
                     calendarTime.setTimeInMillis(System.currentTimeMillis());
                     calendarTime.set(Calendar.YEAR, mYear);
@@ -172,17 +163,6 @@ public class NewTodoActivity extends BasicActivity {
                     remindTime = calendarTime.getTimeInMillis();
                     Log.i(TAG, "时间是"+String.valueOf(remindTime));
                     //插入数据
-//                    values.put("todotitle", todoTitle);
-//                    values.put("tododsc", todoDsc);
-//                    values.put("tododate", todoDate);
-//                    values.put("todotime", todoTime);
-//                    values.put("remindTime", remindTime);
-//                    values.put("isAlerted", 0);
-//                    values.put("isRepeat", isRepeat);
-//                    values.put("imgId", imgId);
-//
-//                    db.insert("Todo", null, values);
-
                     User user = BmobUser.getCurrentUser(User.class);
                     todos = new Todos();
                     todos.setUser(user);

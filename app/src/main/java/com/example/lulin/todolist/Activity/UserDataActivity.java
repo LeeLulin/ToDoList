@@ -117,7 +117,6 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
         setUserDataFromBmob();
         glideLoad();
         initGuide();
-
     }
 
     private void initView(){
@@ -556,6 +555,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
                 .show();
 
     }
+
 
 }
 

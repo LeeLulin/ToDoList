@@ -52,17 +52,11 @@ import es.dmoral.toasty.Toasty;
 public class NewClockActivity extends BasicActivity {
 
     private MyDatabaseHelper dbHelper;
-    private String clockTitle,todoDsc;
-    private String todoDate = null, todoTime = null;
-    private Button ok,cancel;
+    private String clockTitle;
     private FloatingActionButton fab_ok;
     private EditText nv_clock_title;
-    private TextView nv_clock_length,nv_short_break,nv_long_break,nv_break_frequency;
-    private Calendar ca;
-    private Date data;
     private static final String TAG = "NewClockActivity";
     private Toolbar toolbar;
-    private int isRepeat = 0;
     private ImageView new_bg;
     private static int[] imageArray = new int[]{R.drawable.c_img1,
             R.drawable.c_img2,
@@ -73,8 +67,6 @@ public class NewClockActivity extends BasicActivity {
             R.drawable.c_img7,};
     private int imgId;
     private int workLength, shortBreak,longBreak,frequency;
-    private static final String KEY_RINGTONE = "ring_tone";
-    private Clock clock;
     SQLiteDatabase db;
     private Tomato tomato;
     private long id;
@@ -90,7 +82,6 @@ public class NewClockActivity extends BasicActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbHelper = new MyDatabaseHelper(NewClockActivity.this, "Data.db", null, 2);
         db = dbHelper.getWritableDatabase();
-        ca = Calendar.getInstance();
         initFindview();
         initClick();
         initHeadImage();
@@ -99,10 +90,6 @@ public class NewClockActivity extends BasicActivity {
     private void initFindview() {
         fab_ok = (FloatingActionButton) findViewById(R.id.fab_clock);
         new_bg = (ImageView) findViewById(R.id.new_clock_bg);
-//        nv_clock_length = (TextView) findViewById(R.id.clock_length);
-//        nv_short_break = (TextView) findViewById(R.id.short_break);
-//        nv_long_break = (TextView) findViewById(R.id.long_break);
-//        nv_break_frequency = (TextView) findViewById(R.id.break_frequency);
 
     }
 
@@ -251,11 +238,6 @@ public class NewClockActivity extends BasicActivity {
             }
         });
 
-
-    }
-
-    private SharedPreferences getSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     /**

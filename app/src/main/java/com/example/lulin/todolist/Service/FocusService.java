@@ -29,11 +29,6 @@ import java.util.TimerTask;
 public class FocusService extends Service {
 
     boolean flag = true;// 用于停止线程
-    private ActivityManager activityManager;
-    private Handler mHandler = null;
-    private HandlerThread handlerThread = null;
-    private final static int LOOPHANDLER = 0;
-    private static long cycleTime = 100;
     private ArrayList<String> packageList = new ArrayList<>();
 
     private Timer timer;

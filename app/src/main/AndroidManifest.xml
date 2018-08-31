@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.lulin.todolist">
+    package="com.example.lulin.todolist"
+    android:versionCode="1"
+    android:versionName="1.1.2">
     <!-- 自启动权限-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -126,6 +128,12 @@
         <activity
             android:name=".Activity.NewClockActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!-- Bmob云自动更新-->
+        <activity
+            android:name="cn.bmob.v3.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
 
         <!-- 监听系统广播自启动app-->
         <receiver android:name=".Receiver.BootUpReceiver" >

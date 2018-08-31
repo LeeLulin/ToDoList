@@ -5,4 +5,9 @@
             name="camera_photos"
             path="" />
     </paths>
+
+    <paths>
+        <external-path name="Download" path="Download"/>
+    </paths>
+
 </resources>
