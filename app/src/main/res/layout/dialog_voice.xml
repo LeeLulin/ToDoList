@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/voice_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+
+    <com.pl.voiceAnimation.VoiceAnimator
+        android:id="@+id/voiceAnimator"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/voice_result"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:layout_marginTop="5dp"
+        app:animationMode="animation"
+        app:dotColors="@array/dotsColors"
+        app:dotsCount="4"
+        app:dotsMargin="6dp"
+        app:dotsMaxHeight="@array/dotsMaxHeight"
+        app:dotsMinHeight="8dp"
+        app:dotsWidth="6dp" />
+
+    <com.lai.library.ButtonStyle
+        android:id="@+id/voice_done"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/voiceAnimator"
+        android:layout_centerHorizontal="true"
+        android:text="说完了"
+        app:type="info" />
+
+</RelativeLayout>

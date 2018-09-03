@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.lulin.todolist"
-    android:versionCode="4"
-    android:versionName="1.1.4">
+    android:versionCode="5"
+    android:versionName="1.1.5">
     <!-- 自启动权限-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -23,9 +23,15 @@
     <!-- 允许读取手机状态 用于创建BmobInstallation -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <!-- 录音权限-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
     <!-- 任务栈权限 -->
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -39,6 +45,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 百度语音注册-->
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="11759435" />
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="LeokEH4WuATOvckM8aHnEEGL" />
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="eZ3B4eYD8xBhZ09ZOGfyzqQKPqnuetG2" />
+        <!-- 百度语音服务注册-->
+        <service android:name="com.baidu.speech.VoiceRecognitionService"
+            android:exported="false"/>
+
         <activity
             android:name=".Activity.SplashActivity"
             android:label="@string/app_name"

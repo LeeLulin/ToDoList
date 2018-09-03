@@ -1,11 +1,13 @@
 package com.example.lulin.todolist.Activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +15,9 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -166,8 +170,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
             glideLoad();
         }
 
-
-
+        initPermission();
         initView();
         initViewPager();
         initGuide();
@@ -598,18 +601,43 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
      * 跳转到“查看应用使用情况”页面
      */
     public void RequestPromission() {
-        new AlertDialog.Builder(this).
-                setTitle("设置").
-                //setMessage("开启usagestats权限")
-                        setMessage(String.format(Locale.US,"打开专注模式请允App查看应用的使用情况。"))
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+        final MaterialDialog dialog = new MaterialDialog(this);
+        dialog.setTitle("提示")
+                .setMessage(String.format(Locale.US,"打开专注模式请允App查看应用的使用情况。"))
+                .setPositiveButton("开启", new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View view) {
                         Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
                         startActivity(intent);
-                        //finish();
+                        dialog.dismiss();
                     }
-                }).show();
+                });
+        dialog.show();
+    }
+
+    /**
+     * 动态权限申请
+     */
+    private void initPermission() {
+        String permission[] = {Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.RECEIVE_BOOT_COMPLETED,
+        };
+        ArrayList<String> applyList = new ArrayList<>();
+
+        for (String per : permission) {
+            if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, per)) {
+                applyList.add(per);
+            }
+        }
+
+        String tmpList[] = new String[applyList.size()];
+        if (!applyList.isEmpty()) {
+            ActivityCompat.requestPermissions(this, applyList.toArray(tmpList), 123);
+        }
     }
 
 }
