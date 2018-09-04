@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
+import com.example.lulin.todolist.Dao.ClockDao;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.SpacesItemDecoration;
 import com.example.lulin.todolist.Activity.ClockActivity;
@@ -43,7 +45,7 @@ public class ClockFragment extends Fragment {
     private List<Tomato> clockList = new ArrayList<>();
     private LinearLayoutManager layout;
     private User currentUser;
-    private List<Tomato> tomato;
+    private List<Tomato> localTomato;
     private ItemTouchHelper mItemTouchHelper;
     private ItemTouchHelper.Callback callback;
     private int workLength, shortBreak,longBreak,frequency;
@@ -108,6 +110,14 @@ public class ClockFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setDbData();
+        setNetData();
+
+    }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -122,22 +132,17 @@ public class ClockFragment extends Fragment {
     @Override
     public void onResume(){
         setDbData();
-//        setUI();
         clockRecyclerViewAdapter.notifyDataSetChanged();
         super.onResume();
 
     }
 
 
-    private SharedPreferences getSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(getActivity());
-    }
-
     private void setDbData(){
 
-        tomato = TomatoUtils.getAllTomato(getContext());
-        if (tomato.size() > 0) {
-            setListData(tomato);
+        localTomato = TomatoUtils.getAllTomato(getContext());
+        if (localTomato.size() > 0) {
+            setListData(localTomato);
         }
 
 
@@ -148,22 +153,23 @@ public class ClockFragment extends Fragment {
         if (NetWorkUtils.isNetworkConnected(getContext())){
             if (currentUser != null){
                 // 获取网络，可能是换手机了，或者是没有添加过，或者是当前时间以后没有
-                if (tomato.size() <= 0) {
-                    TomatoUtils.getNetAllTomato(getContext(), currentUser, new TomatoUtils.GetTomatoCallBack() {
-                        @Override
-                        public void onSuccess(List<Tomato> tomato) {
+                TomatoUtils.getNetAllTomato(getContext(), currentUser, new TomatoUtils.GetTomatoCallBack() {
+                    @Override
+                    public void onSuccess(List<Tomato> tomato) {
+                        if (localTomato.size() < tomato.size()){
+                            new ClockDao(getContext()).clearAll();
                             if (tomato != null){
                                 setListData(tomato);
+                                new ClockDao(getContext()).saveAll(tomato);
                             }
                         }
+                    }
 
-                        @Override
-                        public void onError(int errorCode, String msg) {
+                    @Override
+                    public void onError(int errorCode, String msg) {
 
-                        }
-
-                    });
-                }
+                    }
+                });
             }
         }
     }

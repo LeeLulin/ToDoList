@@ -113,7 +113,7 @@ public class NewTodoActivity extends BasicActivity implements EventListener {
             7,3,14,13,6,4,12,10,15,12,
             1,1,15,20,0,3,10,1,8,17};
     private VoiceAnimator voiceAnimator;
-    private ImageButton mic_title,mic_dsc;
+    private Button mic_title,mic_dsc;
     private boolean enableOffline = true;
     private EventManager manager;
     private int flag = 0;
@@ -141,7 +141,7 @@ public class NewTodoActivity extends BasicActivity implements EventListener {
         Random random = new Random();
         imgId = imageArray[random.nextInt(8)];
         RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true);
         Glide.with(getApplicationContext())
                 .load(imgId)
@@ -177,8 +177,8 @@ public class NewTodoActivity extends BasicActivity implements EventListener {
         nv_repeat = (Switch) findViewById(R.id.repeat);
         new_bg = (ImageView) findViewById(R.id.new_bg);
         fabProgressCircle = (FABProgressCircle) findViewById(R.id.fabProgressCircle);
-        mic_title = (ImageButton) findViewById(R.id.mic_title);
-        mic_dsc = (ImageButton) findViewById(R.id.mic_dsc);
+        mic_title = (Button) findViewById(R.id.mic_title);
+        mic_dsc = (Button) findViewById(R.id.mic_dsc);
 
         fab_ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,8 +232,8 @@ public class NewTodoActivity extends BasicActivity implements EventListener {
                                         new ToDoDao(getApplicationContext()).create(todos);
                                         Log.i("bmob","保存到Bmob成功 "+ todos.getObjectId());
                                         Log.i("bmob","保存到本地数据库成功 "+ todos.getObjectId());
-                                        Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
-                                        setResult(2, intent);
+//                                        Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
+//                                        setResult(2, intent);
                                         startService(new Intent(NewTodoActivity.this, AlarmService.class));
                                         finish();
                                     }else{
@@ -247,8 +247,8 @@ public class NewTodoActivity extends BasicActivity implements EventListener {
                         }
                     } else {
                         new ToDoDao(getApplicationContext()).create(todos);
-                        Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
-                        setResult(2, intent);
+//                        Intent intent = new Intent(NewTodoActivity.this, MainActivity.class);
+//                        setResult(2, intent);
                         startService(new Intent(NewTodoActivity.this, AlarmService.class));
                         finish();
                     }

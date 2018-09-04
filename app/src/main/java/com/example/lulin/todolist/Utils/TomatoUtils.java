@@ -50,10 +50,10 @@ public class TomatoUtils {
                 if (e==null){
                     Log.i("TomatoUtils", "查询到网络任务个数: " + list.size());
                     // 1.更新本地数据库
-                    if (list.size() > 0) {
-                        ClockDao clockDao = new ClockDao(context);
-                        clockDao.saveAll(list);
-                    }
+//                    if (list.size() > 0) {
+//                        ClockDao clockDao = new ClockDao(context);
+//                        clockDao.saveAll(list);
+//                    }
                     getTomatoCallBack.onSuccess(list);
 
                 } else {

@@ -175,17 +175,13 @@ public class ToDoDao {
     }
 
     /**
-     * 删除
-     *
-     * @param todos
-     * @return 是否删除成功
+     * 清空表数据
      */
-    public boolean deleteTask(Todos todos) {
+    public void clearAll() {
         open();
-        long id = todos.getId();
-        int affectedRows = db.delete("Todo", "id" + " = ?", new String[] { id + "" });
+        db.execSQL("delete from Todo");
+        db.execSQL("update sqlite_sequence set seq = 0 where name = 'Todo' ");
         close();
-        return affectedRows > 0;
     }
 
 

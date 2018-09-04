@@ -113,8 +113,8 @@ public class ToDoUtils {
                     Log.i("ToDoUtils", "查询到网络任务个数: " + list.size());
                     // 1.更新本地数据库
                     if (list.size() > 0) {
-                        ToDoDao toDoDao = new ToDoDao(context);
-                        toDoDao.saveAll(list);
+//                        ToDoDao toDoDao = new ToDoDao(context);
+//                        toDoDao.saveAll(list);
                         // 2.筛选大于当后时间的
                         List<Todos> listTodo = new ArrayList<Todos>();
                         long curTime = System.currentTimeMillis();

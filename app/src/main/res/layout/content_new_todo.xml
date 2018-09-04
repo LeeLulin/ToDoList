@@ -31,7 +31,7 @@
                 android:hint="标题"
                 android:inputType="text" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/mic_title"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -64,7 +64,7 @@
                 android:maxLines="15"
                 android:minLines="1" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/mic_dsc"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

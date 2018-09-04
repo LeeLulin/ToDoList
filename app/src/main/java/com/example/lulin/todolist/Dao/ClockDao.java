@@ -247,6 +247,16 @@ public class ClockDao {
         return results;
     }
 
+    /**
+     * 清空表数据
+     */
+    public void clearAll() {
+        open();
+        db.execSQL("delete from Clock");
+        db.execSQL("update sqlite_sequence set seq = 0 where name = 'Clock' ");
+        close();
+    }
+
     public static String formatDateTime(Date date) {
         return formatDateTime.format(date);
     }

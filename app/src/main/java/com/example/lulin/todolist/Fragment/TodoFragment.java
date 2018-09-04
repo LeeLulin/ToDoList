@@ -12,12 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
+import com.example.lulin.todolist.Dao.ToDoDao;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.SpacesItemDecoration;
 import com.example.lulin.todolist.Adapter.TodoRecyclerViewAdapter;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
-import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.TodoItemTouchHelperCallback;
 import com.example.lulin.todolist.Utils.ToDoUtils;
 import com.example.lulin.todolist.Bean.Todos;
@@ -39,6 +38,7 @@ public class TodoFragment extends Fragment {
     private TodoRecyclerViewAdapter todoRecyclerViewAdapter;
     private User currentUser;
     private ItemTouchHelper mItemTouchHelper;
+    private List<Todos> localTodo;
 
 
     @Override
@@ -73,13 +73,26 @@ public class TodoFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        initRefreshLayout();
-        if (NetWorkUtils.isNetworkConnected(getContext())){
-            if (User.getCurrentUser() != null){
-                query();
-            }
-        }
-        getMyTask();
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        setDbData();
+//                        setNetData();
+//                    }
+//                });
+//            }
+//        }).start();
+        setDbData();
+        setNetData();
 
     }
 
@@ -93,56 +106,49 @@ public class TodoFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onResume(){
+        setDbData();
+        todoRecyclerViewAdapter.notifyDataSetChanged();
+        super.onResume();
 
-    private void query(){
-        User user = User.getCurrentUser(User.class);
-        BmobQuery<Todos>  bmobQuery = new BmobQuery<Todos>();
-        bmobQuery.addWhereEqualTo("user", user);
-        bmobQuery.findObjects(new FindListener<Todos>() {
-            @Override
-            public void done(List<Todos> object, BmobException e) {
-                if (e==null){
-                    for (Todos todos : object){
-                        Log.i("main", "查询到："+String.valueOf(object.size())+"组数据:"+todos.getTitle()+" "+todos.getDesc()+" "+todos.getBmobDate().getDate());
-                    }
-                } else {
-                    Log.i("main", e.getMessage());
-                }
-            }
-        });
     }
 
+
+
+
+    private void setDbData(){
+        localTodo = ToDoUtils.getAllTodos(getContext());
+        if (localTodo.size() > 0) {
+            setListData(localTodo);
+        }
+    }
     /**
      * 获取我的任务list
      */
-    private void getMyTask() {
-
-        boolean isSync = (Boolean) SPUtils.get(getActivity(),"sync",true);
-        // 1.首先获取本地数据库
-        List<Todos> todos = ToDoUtils.getAllTodos(getContext());
-        if (todos.size() > 0) {
-            setListData(todos);
-        }
-
+    private void setNetData() {
 
         if (NetWorkUtils.isNetworkConnected(getContext())){
             if (currentUser != null){
                 // 获取网络，可能是换手机了，或者是没有添加过，或者是当前时间以后没有
-                if (todos.size() <= 0) {
-                    ToDoUtils.getNetAllTodos(getContext(), currentUser, new ToDoUtils.GetTodosCallBack() {
-                        @Override
-                        public void onSuccess(List<Todos> todos) {
-                            if (todos != null){
-                                setListData(todos);
+                ToDoUtils.getNetAllTodos(getContext(), currentUser, new ToDoUtils.GetTodosCallBack() {
+                    @Override
+                    public void onSuccess(List<Todos> listTodos) {
+                        if (localTodo.size() < listTodos.size()){
+                            new ToDoDao(getContext()).clearAll();
+                            if ( listTodos!= null){
+                                setListData(listTodos);
+                                new ToDoDao(getContext()).saveAll(listTodos);
                             }
                         }
+                    }
 
-                        @Override
-                        public void onError(int errorCode, String msg) {
+                    @Override
+                    public void onError(int errorCode, String msg) {
 
-                        }
-                    });
-                }
+                    }
+                });
+
             }
         }
 
@@ -152,6 +158,7 @@ public class TodoFragment extends Fragment {
      * 设置list数据
      */
     private void setListData(List<Todos> newList) {
+        todosList.clear();
         todosList.addAll(newList);
         todoRecyclerViewAdapter.notifyDataSetChanged();
     }

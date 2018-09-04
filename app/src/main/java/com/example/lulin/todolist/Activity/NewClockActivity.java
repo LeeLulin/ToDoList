@@ -92,7 +92,7 @@ public class NewClockActivity extends BasicActivity implements EventListener {
     private long id;
     private MaterialDialog voice;
     private TextView voice_result;
-    private ImageButton mic_clock;
+    private Button mic_clock;
     private boolean enableOffline = true;
     private EventManager manager;
     private ButtonStyle done;
@@ -130,7 +130,7 @@ public class NewClockActivity extends BasicActivity implements EventListener {
         nv_clock_title = (EditText) findViewById(R.id.new_clock_title);
         fab_ok = (FloatingActionButton) findViewById(R.id.fab_clock);
         new_bg = (ImageView) findViewById(R.id.new_clock_bg);
-        mic_clock = (ImageButton) findViewById(R.id.mic_clock);
+        mic_clock = (Button) findViewById(R.id.mic_clock);
 
     }
 
@@ -140,7 +140,7 @@ public class NewClockActivity extends BasicActivity implements EventListener {
         imgId = imageArray[random.nextInt(7)];
 
         RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true);
 
         Glide.with(this)
