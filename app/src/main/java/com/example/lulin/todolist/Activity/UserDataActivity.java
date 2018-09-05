@@ -546,7 +546,7 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
      */
     private void initGuide(){
         NewbieGuide.with(this)
-                .setLabel("guide1")
+                .setLabel("guide2")
                 .setShowCounts(1)//控制次数
                 .alwaysShow(false)//总是显示，调试时可以打开
                 .addGuidePage(GuidePage.newInstance()
