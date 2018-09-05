@@ -13,11 +13,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,11 +32,10 @@ import com.example.lulin.todolist.Service.FocusService;
 import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.TimeFormatUtil;
 import com.example.lulin.todolist.Service.ClockService;
-import com.example.lulin.todolist.Utils.ToastUtils;
 import com.example.lulin.todolist.Widget.RippleWrapper;
 import com.example.lulin.todolist.Widget.ClockApplication;
 import com.example.lulin.todolist.Widget.ClockProgressBar;
-import com.irozon.sneaker.Sneaker;
+import com.jaouan.compoundlayout.RadioLayout;
 
 import java.io.InputStream;
 import java.util.Random;
@@ -59,7 +60,8 @@ public class ClockActivity extends BasicActivity {
     private long mLastClickTime = 0;
     private String clockTitle;
     private static final String KEY_FOCUS = "focus";
-    private ImageView bt_music,clock_bg;
+    private ImageView clock_bg;
+    private ImageButton bt_music;
     private static int[] imageArray = new int[]{R.drawable.ic_img2,
                                                 R.drawable.ic_img3,
                                                 R.drawable.ic_img4,
@@ -70,6 +72,7 @@ public class ClockActivity extends BasicActivity {
     private int bg_id;
     private int workLength, shortBreak,longBreak;
     private long id;
+    private RadioLayout river,rain,wave,bird,fire;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -99,9 +102,16 @@ public class ClockActivity extends BasicActivity {
         mProgressBar = (ClockProgressBar)findViewById(R.id.tick_progress_bar);
         mRippleWrapper = (RippleWrapper)findViewById(R.id.ripple_wrapper);
         focus_tint = (TextView)findViewById(R.id.focus_hint);
-//        bt_music = (ImageView) findViewById(R.id.bt_music);
+        bt_music = (ImageButton) findViewById(R.id.bt_music);
         clock_bg = (ImageView) findViewById(R.id.clock_bg);
-        SPUtils.put(this,"music_id",R.raw.rain);
+        if(isSoundOn()){
+            bt_music.setEnabled(true);
+            bt_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_music));
+        } else {
+            bt_music.setEnabled(false);
+            bt_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_music_off));
+        }
+        SPUtils.put(this,"music_id",R.raw.river);
         Toasty.normal(this, "双击界面打开或关闭白噪音", Toast.LENGTH_SHORT).show();
         initActions();
         initBackgroundImage();
@@ -217,20 +227,19 @@ public class ClockActivity extends BasicActivity {
             public void onClick(View view) {
                 long clickTime = System.currentTimeMillis();
                 if (clickTime - mLastClickTime < 500) {
-                    boolean isSoundOn = getSharedPreferences()
-                            .getBoolean("pref_key_tick_sound", true);
 
                     // 修改 SharedPreferences
                     SharedPreferences.Editor editor = PreferenceManager
                             .getDefaultSharedPreferences(getApplicationContext()).edit();
 
-                    if (isSoundOn) {
+                    if (isSoundOn()) {
                         editor.putBoolean("pref_key_tick_sound", false);
 
                         Intent i = ClockService.newIntent(getApplicationContext());
                         i.setAction(ClockService.ACTION_TICK_SOUND_OFF);
                         startService(i);
-
+                        bt_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_music_off));
+                        bt_music.setEnabled(false);
                         Snackbar.make(view, getResources().getString(R.string.toast_tick_sound_off),
                                 Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                     } else {
@@ -239,7 +248,8 @@ public class ClockActivity extends BasicActivity {
                         Intent i = ClockService.newIntent(getApplicationContext());
                         i.setAction(ClockService.ACTION_TICK_SOUND_ON);
                         startService(i);
-
+                        bt_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_music));
+                        bt_music.setEnabled(true);
                         Snackbar.make(view, getResources().getString(R.string.toast_tick_sound_on),
                                 Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                     }
@@ -256,25 +266,75 @@ public class ClockActivity extends BasicActivity {
             }
         });
 
-//        bt_music.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LayoutInflater layoutInflater = LayoutInflater.from(ClockActivity.this);
-//                View musicView = layoutInflater.inflate(R.layout.dialog_music, null);
-//                final MaterialDialog alert = new MaterialDialog(ClockActivity.this);
-//                alert.setContentView(musicView);
-//
-//                alert.setPositiveButton("OK", new View.OnClickListener() {
-//                    @Override public void onClick(View v) {
-//                        alert.dismiss();
-//                    }
-//                });
-//
-//                alert.show();
-//
-//            }
-//
-//        });
+        bt_music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater layoutInflater = LayoutInflater.from(ClockActivity.this);
+                View musicView = layoutInflater.inflate(R.layout.dialog_music, null);
+                river = musicView.findViewById(R.id.sound_river);
+                rain = musicView.findViewById(R.id.sound_rain);
+                wave = musicView.findViewById(R.id.sound_wave);
+                bird = musicView.findViewById(R.id.sound_bird);
+                fire = musicView.findViewById(R.id.sound_fire);
+                river.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SPUtils.put(ClockActivity.this,"music_id",R.raw.river);
+                        Intent i = ClockService.newIntent(getApplicationContext());
+                        i.setAction(ClockService.ACTION_CHANGE_MUSIC);
+                        startService(i);
+                    }
+                });
+                rain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SPUtils.put(ClockActivity.this,"music_id",R.raw.rain);
+                        Intent i = ClockService.newIntent(getApplicationContext());
+                        i.setAction(ClockService.ACTION_CHANGE_MUSIC);
+                        startService(i);
+                    }
+                });
+                wave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SPUtils.put(ClockActivity.this,"music_id",R.raw.ocean);
+                        Intent i = ClockService.newIntent(getApplicationContext());
+                        i.setAction(ClockService.ACTION_CHANGE_MUSIC);
+                        startService(i);
+                    }
+                });
+                bird.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SPUtils.put(ClockActivity.this,"music_id",R.raw.bird);
+                        Intent i = ClockService.newIntent(getApplicationContext());
+                        i.setAction(ClockService.ACTION_CHANGE_MUSIC);
+                        startService(i);
+                    }
+                });
+                fire.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SPUtils.put(ClockActivity.this,"music_id",R.raw.fire);
+                        Intent i = ClockService.newIntent(getApplicationContext());
+                        i.setAction(ClockService.ACTION_CHANGE_MUSIC);
+                        startService(i);
+                    }
+                });
+                final MaterialDialog alert = new MaterialDialog(ClockActivity.this);
+                alert.setPositiveButton("关闭", new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        alert.dismiss();
+                    }
+                });
+                alert.setContentView(musicView);
+                alert.setCanceledOnTouchOutside(true);
+                alert.show();
+
+            }
+
+        });
     }
 
 //    @Override
@@ -524,7 +584,8 @@ public class ClockActivity extends BasicActivity {
         }
     }
 
-    public boolean getIsFocus(Context context){
+    //判断是否开启专注模式
+    private boolean getIsFocus(Context context){
 
         Boolean isFocus = (Boolean) SPUtils.get(context, KEY_FOCUS, false);
 
@@ -532,22 +593,8 @@ public class ClockActivity extends BasicActivity {
 
     }
 
-    /**
-     *  以最省内存的方式读取本地资源的图片
-     *  @param context
-     *  @param resId
-     *  @return
-     */
-
-    public static Bitmap readBitMap(Context  context, int resId){
-
-        BitmapFactory.Options opt = new  BitmapFactory.Options();
-        opt.inPreferredConfig =  Bitmap.Config.RGB_565;
-        opt.inPurgeable = true;
-        opt.inInputShareable = true;
-        //  获取资源图片
-        InputStream is =  context.getResources().openRawResource(resId);
-        return  BitmapFactory.decodeStream(is, null, opt);
-
+    //判断是否开启白噪音
+    private boolean isSoundOn(){
+        return getSharedPreferences().getBoolean("pref_key_tick_sound", true);
     }
 }

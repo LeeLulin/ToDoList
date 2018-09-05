@@ -16,7 +16,6 @@ public class Sound {
     private Context mContext;
     private MediaPlayer mMediaPlayer;
     private MediaPlayer mNextPlayer;
-    private int music_id;
 
     private OnCompletionListener mOnCompletionListener = new OnCompletionListener() {
         @Override
@@ -24,20 +23,15 @@ public class Sound {
             mediaPlayer.stop();
             mediaPlayer.release();
             mMediaPlayer = mNextPlayer;
-            setNextMediaPlayer();
+            setNextMediaPlayer(getMusicid());
         }
     };
 
     public Sound(Context context) {
         mContext = context;
-        music_id = (int) SPUtils.get(mContext,"music_id",1);
-        build();
+        build(getMusicid());
     }
 
-//    public void setSound(int music){
-//        mMediaPlayer = MediaPlayer.create(mContext, music);
-//        build();
-//    }
 
     /**
      * setLooping(true) 虽然能循环播放，但不能做到无缝播放处理，会出现短暂的暂停
@@ -46,13 +40,13 @@ public class Sound {
      * @link https://stackoverflow.com/questions/13409657/how-to-loop-a-sound-without-gaps-in-android
      * @link https://developer.android.com/reference/android/media/MediaPlayer.html#setNextMediaPlayer(android.media.MediaPlayer)
      */
-    private void build() {
-        mMediaPlayer = MediaPlayer.create(mContext, music_id);
-        setNextMediaPlayer();
+    private void build(int id) {
+        mMediaPlayer = MediaPlayer.create(mContext, id);
+        setNextMediaPlayer(id);
     }
 
-    private void setNextMediaPlayer() {
-        mNextPlayer = MediaPlayer.create(mContext, music_id);
+    private void setNextMediaPlayer(int id) {
+        mNextPlayer = MediaPlayer.create(mContext, id);
         mMediaPlayer.setNextMediaPlayer(mNextPlayer);
         mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
     }
@@ -85,7 +79,7 @@ public class Sound {
     public void stop() {
         if (mMediaPlayer.isPlaying()) {
             release();
-            build();
+            build(getMusicid());
         }
     }
 
@@ -101,8 +95,17 @@ public class Sound {
         }
     }
 
+    public void reset(){
+        mMediaPlayer.reset();
+        build(getMusicid());
+    }
+
     private boolean isSoundOn() {
         return PreferenceManager.getDefaultSharedPreferences(mContext)
                 .getBoolean("pref_key_tick_sound", true);
+    }
+
+    private int getMusicid(){
+        return (int)SPUtils.get(mContext, "music_id",1);
     }
 }

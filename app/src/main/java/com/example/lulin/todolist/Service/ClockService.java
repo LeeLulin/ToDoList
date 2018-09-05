@@ -56,6 +56,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
             "com.example.lulin.todolist.ACTION_TICK_SOUND_OFF";
     public static final String ACTION_POMODORO_MODE_ON =
             "com.example.lulin.todolist.ACTION_POMODORO_MODE_OFF";
+    public static final String ACTION_CHANGE_MUSIC = "com.example.lulin.todolist.ACTION_CHANGE_MUSIC";
 
     public static final String MILLIS_UNTIL_FINISHED = "MILLIS_UNTIL_FINISHED";
     public static final String REQUEST_ACTION = "REQUEST_ACTION";
@@ -121,6 +122,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
 
             switch (action) {
                 case ACTION_AUTO_START:
+
                 case ACTION_START:
                     stopTimer();
 
@@ -205,6 +207,10 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                         }
                     }
 
+                    break;
+                case ACTION_CHANGE_MUSIC:
+                    mSound.reset();
+                    mSound.play();
                     break;
             }
         }
