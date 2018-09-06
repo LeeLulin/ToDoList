@@ -68,7 +68,11 @@ public class ClockActivity extends BasicActivity {
                                                 R.drawable.ic_img5,
                                                 R.drawable.ic_img6,
                                                 R.drawable.ic_img7,
-                                                R.drawable.ic_img8};
+                                                R.drawable.ic_img8,
+                                                R.drawable.ic_img9,
+                                                R.drawable.ic_img10,
+                                                R.drawable.ic_img11,
+                                                R.drawable.ic_img12};
     private int bg_id;
     private int workLength, shortBreak,longBreak;
     private long id;
@@ -120,10 +124,10 @@ public class ClockActivity extends BasicActivity {
     private void initBackgroundImage(){
 
         Random random = new Random();
-        bg_id = imageArray[random.nextInt(7)];
+        bg_id = imageArray[random.nextInt(11)];
         //内存优化
         RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true);
 
         Glide.with(getApplicationContext())

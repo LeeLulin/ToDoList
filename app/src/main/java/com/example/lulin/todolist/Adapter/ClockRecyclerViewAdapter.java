@@ -2,6 +2,8 @@ package com.example.lulin.todolist.Adapter;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -22,6 +24,7 @@ import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.Interface.ItemTouchHelperAdapter;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Bean.Tomato;
+import com.example.lulin.todolist.Utils.BitmapUtils;
 import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.ToDoUtils;
 import com.example.lulin.todolist.Utils.ToastUtils;
@@ -29,6 +32,7 @@ import com.example.lulin.todolist.Utils.TomatoUtils;
 
 import org.w3c.dom.Text;
 
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -92,12 +96,7 @@ public class ClockRecyclerViewAdapter extends RecyclerView.Adapter<ClockRecycler
 
         ViewHolder.clock_title.setText(tomatoList.get(tomatoList.size()-1-i).getTitle());
         ViewHolder.work_time.setText(tomatoList.get(tomatoList.size()-1-i).getWorkLength() + " 分钟");
-        ViewHolder.clock_card_bg.setImageDrawable(context.getResources().getDrawable(tomatoList.get(tomatoList.size()-1-i).getImgId()));
-//        Glide.with(context)
-//                .load(context.getResources().getDrawable(tomatoList.get(tomatoList.size()-1-i).getImgId()))
-//                .apply(options2)
-//                .into(ViewHolder.clock_card_bg);
-
+        ViewHolder.clock_card_bg.setImageBitmap(BitmapUtils.readBitMap(context,tomatoList.get(tomatoList.size()-1-i).getImgId()));
 
     }
 

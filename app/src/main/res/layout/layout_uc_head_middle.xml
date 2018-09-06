@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:text="Lover's Day"
+                android:text="昵称"
                 android:textColor="@color/black_semi"
                 android:textSize="17sp" />
 
@@ -59,7 +59,7 @@
                 android:layout_marginTop="2dp"
                 android:maxLines="2"
                 android:paddingLeft="15dp"
-                android:text="music、dance、drive、fly~O(∩_∩)O~"
+                android:text="个性签名"
                 android:textColor="#aa333333"
                 android:textSize="13sp" />
 

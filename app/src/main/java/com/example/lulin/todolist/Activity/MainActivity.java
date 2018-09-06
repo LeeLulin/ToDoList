@@ -374,7 +374,6 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
             final MaterialDialog focusDialog = new MaterialDialog(MainActivity.this);
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View view = layoutInflater.inflate(R.layout.dialog_focus, null);
-            focusDialog.setTitle("专注模式");
             focusDialog.setView(view);
             isFocus = view.findViewById(R.id.sw_focus);
             isFocus.setChecked(getIsFocus(this));
@@ -393,6 +392,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                     }
                 }
             });
+            focusDialog.setTitle("专注模式");
             focusDialog.setCanceledOnTouchOutside(true);
             focusDialog.show();// 显示对话框
         }

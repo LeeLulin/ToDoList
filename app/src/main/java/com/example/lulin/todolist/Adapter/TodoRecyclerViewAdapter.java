@@ -2,6 +2,8 @@ package com.example.lulin.todolist.Adapter;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.example.lulin.todolist.Activity.MainActivity;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.R;
+import com.example.lulin.todolist.Utils.BitmapUtils;
 import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.ToDoUtils;
 import com.example.lulin.todolist.Utils.ToastUtils;
@@ -25,6 +28,7 @@ import com.example.lulin.todolist.Bean.Todos;
 import com.example.lulin.todolist.Interface.ItemTouchHelperAdapter;
 import com.example.lulin.todolist.Bean.User;
 
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -94,11 +98,8 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         ViewHolder.todo_title.setText(todosList.get(todosList.size()-1-i).getTitle());
         ViewHolder.todo_desc.setText(todosList.get(todosList.size()-1-i).getDesc());
         ViewHolder.todo_date.setText(todosList.get(todosList.size()-1-i).getDate() + " "+ todosList.get(todosList.size()-1-i).getTime());
-        ViewHolder.card_background.setImageDrawable(context.getResources().getDrawable(todosList.get(todosList.size()-1-i).getImgId()));
-//        Glide.with(context)
-//                .load(context.getResources().getDrawable(todosList.get(todosList.size()-1-i).getImgId()))
-//                .apply(options2)
-//                .into(ViewHolder.card_background);
+        ViewHolder.card_background.setImageBitmap(BitmapUtils.readBitMap(context, todosList.get(todosList.size()-1-i).getImgId()));
+
 
         if (todosList.get(todosList.size()-1-i).getIsRepeat() == 1){
             ViewHolder.isRepeat.setText("重复");
@@ -190,6 +191,23 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         dialog.show();
 
     }
+
+//    /**
+//     *  压缩图片，防止内存溢出
+//     *  @param context
+//     *  @param resId
+//     *  @return
+//     */
+//    private static Bitmap readBitMap(Context context, int resId){
+//        BitmapFactory.Options opt = new  BitmapFactory.Options();
+//        opt.inPreferredConfig =  Bitmap.Config.RGB_565;
+//        opt.inPurgeable = true;
+//        opt.inInputShareable = true;
+//        //  获取资源图片
+//        InputStream is =  context.getResources().openRawResource(resId);
+//        return  BitmapFactory.decodeStream(is, null, opt);
+//
+//    }
 
 
 }
