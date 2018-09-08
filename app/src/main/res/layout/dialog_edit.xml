@@ -7,7 +7,7 @@
     android:paddingEnd="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:background="@color/white_pressed"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <TextView

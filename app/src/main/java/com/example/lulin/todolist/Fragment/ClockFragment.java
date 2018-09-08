@@ -37,6 +37,8 @@ import com.example.lulin.todolist.Widget.ClockApplication;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
+
 public class ClockFragment extends Fragment {
 
     private Context context;
@@ -56,7 +58,13 @@ public class ClockFragment extends Fragment {
         super.onCreate(savedInstanceState);
         context = getActivity();
         if(NetWorkUtils.isNetworkConnected(getContext())) {
-            currentUser = User.getCurrentUser(User.class);
+            try{
+                if (User.getCurrentUser() != null){
+                    currentUser = BmobUser.getCurrentUser(User.class);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
     }

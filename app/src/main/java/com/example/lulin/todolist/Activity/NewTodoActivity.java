@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,12 +40,14 @@ import com.baidu.speech.EventManagerFactory;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.lulin.todolist.Bean.App;
 import com.example.lulin.todolist.Bean.BaiDuVoice;
 import com.example.lulin.todolist.DBHelper.MyDatabaseHelper;
 import com.example.lulin.todolist.Dao.ToDoDao;
 import com.example.lulin.todolist.R;
 import com.example.lulin.todolist.Service.AlarmService;
 import com.example.lulin.todolist.Utils.NetWorkUtils;
+import com.example.lulin.todolist.Utils.PermissionPageUtils;
 import com.example.lulin.todolist.Utils.SPUtils;
 import com.example.lulin.todolist.Utils.ToastUtils;
 import com.example.lulin.todolist.Bean.Todos;
@@ -102,6 +107,7 @@ public class NewTodoActivity extends BasicActivity implements EventListener {
     private FABProgressCircle fabProgressCircle;
     private MaterialDialog voice;
     private ButtonStyle done;
+    private PermissionPageUtils permissionPageUtils;
 
     private int[] data={
             0,0,0,0,1,0,0,0,18,19,
@@ -134,6 +140,7 @@ public class NewTodoActivity extends BasicActivity implements EventListener {
         initBaiduRecognizer();
         initView();
         initHeadImage();
+        checkNotificationPermission();
     }
 
     private void initHeadImage(){
@@ -509,5 +516,65 @@ public class NewTodoActivity extends BasicActivity implements EventListener {
             window.setStatusBarColor(Color.TRANSPARENT);
             window.setNavigationBarColor(Color.TRANSPARENT);
         }
+    }
+
+    private void checkNotificationPermission(){
+        NotificationManagerCompat manager = NotificationManagerCompat.from(getApplication());
+        boolean isOpened = manager.areNotificationsEnabled();
+        permissionPageUtils = new PermissionPageUtils(this);
+        //适配方式 1
+        if (!isOpened){
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                final MaterialDialog check = new MaterialDialog(this);
+                check.setTitle("提示");
+                check.setMessage("未开启通知权限，将会影响待办提醒功能，请手动开启");
+                check.setPositiveButton("开启", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                        intent.putExtra("app_package", getPackageName());
+                        intent.putExtra("app_uid", getApplicationInfo().uid);
+                        startActivity(intent);
+                        check.dismiss();
+                    }
+                });
+                check.setCanceledOnTouchOutside(true);
+                check.show();
+
+            } else if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+                final MaterialDialog check = new MaterialDialog(this);
+                check.setTitle("提示");
+                check.setMessage("未开启通知权限，将会影响待办提醒功能，请手动开启");
+                check.setPositiveButton("开启", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                        intent.setData(Uri.parse("package:" + getPackageName()));
+                        startActivity(intent);
+                        check.dismiss();
+                    }
+                });
+                check.setCanceledOnTouchOutside(true);
+                check.show();
+            }
+        }
+//        //适配方式 2
+//        if (!isOpened){
+//            final MaterialDialog check = new MaterialDialog(this);
+//            check.setTitle("提示");
+//            check.setMessage("未开启“通知”权限，将会影响待办提醒功能，请手动开启");
+//            check.setPositiveButton("去开启", new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    permissionPageUtils.jumpPermissionPage();
+//                    check.dismiss();
+//                }
+//            });
+//            check.setCanceledOnTouchOutside(true);
+//            check.show();
+//        }
     }
 }

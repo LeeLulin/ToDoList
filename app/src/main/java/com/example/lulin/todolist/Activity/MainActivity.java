@@ -620,11 +620,12 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
      * 动态权限申请
      */
     private void initPermission() {
-        String permission[] = {Manifest.permission.RECORD_AUDIO,
+        String permission[] = { Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.INTERNET,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.RECEIVE_BOOT_COMPLETED,
+                Manifest.permission.ACCESS_NOTIFICATION_POLICY
         };
         ArrayList<String> applyList = new ArrayList<>();
 
