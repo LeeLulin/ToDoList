@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -408,6 +410,8 @@ public class ClockActivity extends BasicActivity {
     protected void onDestroy() {
         super.onDestroy();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        releaseImageViewResouce(clock_bg);
+
     }
 
     private void reload() {
@@ -600,5 +604,17 @@ public class ClockActivity extends BasicActivity {
     //判断是否开启白噪音
     private boolean isSoundOn(){
         return getSharedPreferences().getBoolean("pref_key_tick_sound", true);
+    }
+
+    public static void releaseImageViewResouce(ImageView imageView) {
+        if (imageView == null) return;
+        Drawable drawable = imageView.getDrawable();
+        if (drawable != null && drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+            if (bitmap != null && !bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
+        }
     }
 }
