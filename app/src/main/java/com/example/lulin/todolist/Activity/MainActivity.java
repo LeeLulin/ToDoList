@@ -158,7 +158,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
 
         if (NetWorkUtils.isNetworkConnected(getApplication())){
 
-            if (User.getCurrentUser() != null){
+            if (User.getCurrentUser(User.class) != null){
                 try{
                     setUserDataFromBmob();
                 }catch (Exception e){

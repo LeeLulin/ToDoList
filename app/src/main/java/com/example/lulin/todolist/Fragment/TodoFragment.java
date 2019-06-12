@@ -46,7 +46,7 @@ public class TodoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(NetWorkUtils.isNetworkConnected(getContext())) {
             try{
-                if (User.getCurrentUser() != null){
+                if (User.getCurrentUser(User.class) != null){
                     currentUser = BmobUser.getCurrentUser(User.class);
                 }
             } catch (Exception e){

@@ -230,7 +230,7 @@ public class NewTodoActivity extends BasicActivity implements EventListener {
 
                     if (isSync){
                         //保存数据到Bmob
-                        if(NetWorkUtils.isNetworkConnected(getApplication()) && User.getCurrentUser()!= null){
+                        if(NetWorkUtils.isNetworkConnected(getApplication()) && User.getCurrentUser(User.class)!= null){
                             todos.save(new SaveListener<String>() {
                                 @Override
                                 public void done(String s, BmobException e) {

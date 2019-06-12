@@ -47,6 +47,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <provider
+            android:name="cn.bmob.v3.util.BmobContentProvider"
+            android:authorities="com.example.lulin.todolist.BmobContentProvider">
+        </provider>
+
         <!-- 百度语音注册-->
         <meta-data
             android:name="com.baidu.speech.APP_ID"

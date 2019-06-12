@@ -273,7 +273,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
                 mDBAdapter.close();
                 clock.setEnd_time(ClockDao.formatDateTime(new Date()));
 
-                if(NetWorkUtils.isNetworkConnected(getApplication()) || User.getCurrentUser()!= null){
+                if(NetWorkUtils.isNetworkConnected(getApplication()) || User.getCurrentUser(User.class)!= null){
                 clock.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {

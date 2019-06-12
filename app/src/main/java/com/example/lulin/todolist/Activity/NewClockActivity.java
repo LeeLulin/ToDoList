@@ -217,7 +217,7 @@ public class NewClockActivity extends BasicActivity implements EventListener {
                 tomato.setImgId(imgId);
                 boolean isSync = (Boolean) SPUtils.get(getApplication(),"sync",true);
                 if(isSync){
-                    if(NetWorkUtils.isNetworkConnected(getApplication()) && User.getCurrentUser()!= null){
+                    if(NetWorkUtils.isNetworkConnected(getApplication()) && User.getCurrentUser(User.class)!= null){
                         tomato.save(new SaveListener<String>() {
                             @Override
                             public void done(String s, BmobException e) {
