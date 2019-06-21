@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.example.lulin.todolist.Utils.ToastUtils;
 import com.example.lulin.todolist.Bean.Todos;
 import com.example.lulin.todolist.Interface.ItemTouchHelperAdapter;
 import com.example.lulin.todolist.Bean.User;
+import com.github.vipulasri.timelineview.TimelineView;
 
 import java.io.InputStream;
 import java.util.Collections;
@@ -62,6 +64,7 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         TextView isAlerted;
         ImageView card_background;
         TextView isRepeat;
+        TimelineView timelineView;
 
 
 
@@ -74,6 +77,7 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
 //            todo_time = (TextView) itemView.findViewById(R.id.todo_time);
 //            isAlerted = (TextView) itemView.findViewById(R.id.isAlerted);
             card_background = (ImageView) itemView.findViewById(R.id.card_bg);
+            timelineView = (TimelineView) itemView.findViewById(R.id.time_marker);
 
         }
 
@@ -107,6 +111,12 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         }else {
             ViewHolder.isRepeat.setText("单次");
             ViewHolder.isRepeat.setTextSize(TypedValue.COMPLEX_UNIT_SP,10);
+        }
+
+        if(todosList.get(todosList.size()-1-i).getRemindTime() <= System.currentTimeMillis() ){
+            ViewHolder.timelineView.setMarker(context.getResources().getDrawable(R.drawable.ic_marker));
+        }else {
+            ViewHolder.timelineView.setMarker(context.getResources().getDrawable(R.drawable.round));
         }
 
 

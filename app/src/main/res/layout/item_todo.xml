@@ -12,7 +12,7 @@
         android:id="@+id/time_marker"
         android:layout_width="30dp"
         android:layout_height="match_parent"
-        app:line="@color/black"
+        app:line="@color/text1"
         app:linePadding="5dp"
         app:lineSize="2dp"
         app:marker="@drawable/round"
