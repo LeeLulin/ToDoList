@@ -45,7 +45,7 @@ public class SplashActivity extends BasicActivity {
         startService(new Intent(this, AlarmService.class));
         OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
                 .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
-//                .setAppIcon(res.getDrawable(R.drawable.ic_launcher)) //设置图标
+                .setAppIcon(res.getDrawable(R.drawable.ic_launcher)) //设置图
 //                .setColorOfAppIcon() //设置绘制图标线条的颜色
 //                .setAppName("Do it") //设置app名称
                 .setColorOfAppName(R.color.icon_color) //设置app名称颜色
