@@ -2,6 +2,7 @@ package com.example.lulin.todolist.Service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -13,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -73,6 +75,8 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
     private Clock clock;
     private User user;
     private int workLength, shortBreak,longBreak;
+    private String CHANNEL_ONE_ID = "com.example.lulin.todolist";
+    private String CHANNEL_ONE_NAME = "Channel One";
 
     private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
         @Override
@@ -246,7 +250,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
         intent.putExtra(REQUEST_ACTION, ACTION_TICK);
         sendBroadcast(intent);
 
-        NotificationCompat.Builder builder =
+        Notification.Builder builder =
                 getNotification(getNotificationTitle(), formatTime(millisUntilFinished));
 
         getNotificationManager().notify(NOTIFICATION_ID, builder.build());
@@ -258,7 +262,7 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
         intent.putExtra(REQUEST_ACTION, ACTION_FINISH);
         sendBroadcast(intent);
 
-        NotificationCompat.Builder builder;
+        Notification.Builder builder;
 
         if (mApplication.getScene() == ClockApplication.SCENE_WORK) {
             builder = getNotification(
@@ -392,20 +396,31 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
         getNotificationManager().cancel(NOTIFICATION_ID);
     }
 
-    private NotificationCompat.Builder getNotification(String title, String text) {
+    private Notification.Builder getNotification(String title, String text) {
 //        Intent intent = ClockActivity.newIntent(getApplicationContext());
         Intent intent = new Intent(getBaseContext(),ClockActivity.class);
-
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.clock);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                R.mipmap.ic_launcher));
-        builder.setContentIntent(pi);
-        builder.setContentTitle(title);
-        builder.setContentText(text);
+
+        Notification.Builder builder = new Notification.Builder(this)
+                .setSmallIcon(R.mipmap.clock)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setContentTitle(title)
+                .setContentText(text)
+                .setContentIntent(pi);
+
+
+        // 兼容  API 26，Android 8.0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            // 第三个参数表示通知的重要程度，默认则只在通知栏闪烁一下
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID, CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            // 注册通道，注册后除非卸载再安装否则不改变
+            notificationManager.createNotificationChannel(notificationChannel);
+            builder.setChannelId(CHANNEL_ONE_ID);
+        }
 
         return builder;
+
     }
 
     private String getNotificationTitle() {
