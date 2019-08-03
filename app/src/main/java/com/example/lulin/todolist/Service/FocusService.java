@@ -104,45 +104,40 @@ public class FocusService extends Service {
         }
     }
 
-        public boolean isPrevent(){
+    public boolean isPrevent(){
 
+        List<PackageInfo> packages = getPackageManager().getInstalledPackages(0);
+        ActivityManager mActivityManager;
+        mActivityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
 
-            List<PackageInfo> packages = getPackageManager().getInstalledPackages(0);
-            ActivityManager mActivityManager;
-            mActivityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+        String packageName ;
+        if (Build.VERSION.SDK_INT > 20) {
+            UsageStatsManager usageStatsManager = (UsageStatsManager) getApplicationContext().getSystemService("usagestats");
 
-            String packageName ;
-            if (Build.VERSION.SDK_INT > 20) {
-                UsageStatsManager usageStatsManager = (UsageStatsManager) getApplicationContext().getSystemService("usagestats");
-
-                long ts = System.currentTimeMillis();
-                List<UsageStats> queryUsageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST,0, ts);
-
-                UsageStats recentStats = null;
-                for (UsageStats usageStats : queryUsageStats) {
-                    if (recentStats == null || recentStats.getLastTimeUsed() < usageStats.getLastTimeUsed()) {
-                        recentStats = usageStats;
-                    }
+            long ts = System.currentTimeMillis();
+            List<UsageStats> queryUsageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST,0, ts);
+            UsageStats recentStats = null;
+            for (UsageStats usageStats : queryUsageStats) {
+                if (recentStats == null || recentStats.getLastTimeUsed() < usageStats.getLastTimeUsed()) {
+                    recentStats = usageStats;
                 }
-                packageName = recentStats != null ? recentStats.getPackageName() : null;
-            } else{
-                // 5.0之前
-                // 获取正在运行的任务栈(一个应用程序占用一个任务栈) 最近使用的任务栈会在最前面
-                // 1表示给集合设置的最大容量 List<RunningTaskInfo> infos = am.getRunningTasks(1);
-                // 获取最近运行的任务栈中的栈顶Activity(即用户当前操作的activity)的包名
-                packageName = mActivityManager.getRunningTasks(1).get(0).topActivity.getPackageName();
-                //Log.i(TAG,packageName);
             }
-
+            packageName = recentStats != null ? recentStats.getPackageName() : null;
+        } else{
+            // 5.0之前
+            // 获取正在运行的任务栈(一个应用程序占用一个任务栈) 最近使用的任务栈会在最前面
+            // 1表示给集合设置的最大容量 List<RunningTaskInfo> infos = am.getRunningTasks(1);
+            // 获取最近运行的任务栈中的栈顶Activity(即用户当前操作的activity)的包名
+            packageName = mActivityManager.getRunningTasks(1).get(0).topActivity.getPackageName();
+            //Log.i(TAG,packageName);
+        }
         /*
         ComponentName topActivity = mActivityManager.getRunningTasks(1).get(0).topActivity;
         String packageName = topActivity.getPackageName();
         */
-            Context context = getApplicationContext();
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-
+        Context context = getApplicationContext();
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         for (int i = 0; i < packageList.size(); i++) {
-
             if(packageName.equals(packageList.get(i)) && !packageName.equals("com.example.lulin.todolist") ){
                 Log.i("FocusService", "阻止"+ packageName);
                 return true;

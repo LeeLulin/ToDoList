@@ -75,8 +75,8 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
     private Clock clock;
     private User user;
     private int workLength, shortBreak,longBreak;
-    private String CHANNEL_ONE_ID = "com.example.lulin.todolist";
-    private String CHANNEL_ONE_NAME = "Channel One";
+    private String CHANNEL_ONE_ID = "clock";
+    private String CHANNEL_ONE_NAME = "Clock Notification";
 
     private BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
         @Override
@@ -413,9 +413,10 @@ public class ClockService extends Service implements CountDownTimer.OnCountDownT
         // 兼容  API 26，Android 8.0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             // 第三个参数表示通知的重要程度，默认则只在通知栏闪烁一下
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID, CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID, CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_LOW);
             // 注册通道，注册后除非卸载再安装否则不改变
             notificationManager.createNotificationChannel(notificationChannel);
+            notificationChannel.setSound(null,null);
             builder.setChannelId(CHANNEL_ONE_ID);
         }
 
