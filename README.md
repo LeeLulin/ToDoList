@@ -8,4 +8,4 @@
 ![番茄时钟](https://github.com/LeeLulin/ToDoList/blob/master/pic/device-2018-09-27-201607.png)
 
 ## Bmob云数据库结构
-![Bmob](https://github.com/LeeLulin/ToDoList/blob/master/pic/Bmob表结构.png)
+![Bmob](https://github.com/LeeLulin/ToDoList/blob/master/pic/Bomb.png)
