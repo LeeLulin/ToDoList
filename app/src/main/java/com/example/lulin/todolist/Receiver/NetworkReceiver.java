@@ -20,6 +20,7 @@ public class NetworkReceiver extends BroadcastReceiver {
         NetworkInfo info = connectivityManager.getActiveNetworkInfo();
         if ( info != null && info.isAvailable()){
             //当前网络状态可用
+            Bmob.resetDomain("https://open3.bmob.cn/8/");
             Bmob.initialize(context, APP_ID);
             Log.i("网络状态", "网络已连接");
         }else {

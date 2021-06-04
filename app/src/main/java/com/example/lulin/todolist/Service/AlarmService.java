@@ -47,12 +47,15 @@ public class AlarmService extends KeepliveService {
             try {
                 for (Todos todos : todosList) {
                     if (todos.getRemindTime() - System.currentTimeMillis() > 0 ) {
-                        startNotification = new Intent(AlarmService.this, AlarmReceiver.class);   //启动广播
+                        //启动广播
+                        startNotification = new Intent(AlarmService.this, AlarmReceiver.class);
                         startNotification.putExtra("title", todos.getTitle());
                         startNotification.putExtra("dsc", todos.getDesc());
                         startNotification.putExtra("ringTone", (String) SPUtils.get(getApplication(), KEY_RINGTONE, ""));
-                        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);   //这里是系统闹钟的对象
-                        pendingIntent = PendingIntent.getBroadcast(this, todos.getId(), startNotification, PendingIntent.FLAG_UPDATE_CURRENT);   //设置事件
+                        //这里是系统闹钟的对象
+                        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        //设置事件
+                        pendingIntent = PendingIntent.getBroadcast(this, todos.getId(), startNotification, PendingIntent.FLAG_UPDATE_CURRENT);
                         if (todos.getIsRepeat() == 0){
                             alarmManager.set(AlarmManager.RTC_WAKEUP, todos.getRemindTime(), pendingIntent);    //提交事件，发送给 广播接收器,提醒一次
                             Log.i(TAG, "发送单次提醒");

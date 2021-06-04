@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -59,10 +60,12 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.BmobUpdateListener;
 import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.FetchUserInfoListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
 import cn.bmob.v3.update.UpdateResponse;
@@ -514,35 +517,58 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
      * 从Bmob加载用户信息
      */
     private void setUserDataFromBmob(){
-        User user = User.getCurrentUser(User.class);
-        BmobQuery<User> bmobQuery = new BmobQuery();
-        bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
+
+        User user = BmobUser.getCurrentUser(User.class);
+        nick_name.setText(user.getNickName());
+        autograph.setText(user.getAutograph());
+        BmobFile bmobFile = user.getImg();
+        bmobFile.download(new DownloadFileListener() {
             @Override
-            public void done(final User user, BmobException e) {
-                nick_name.setText(user.getNickName());
-                autograph.setText(user.getAutograph());
-                BmobFile bmobFile = user.getImg();
-                bmobFile.download(new DownloadFileListener() {
-                    @Override
-                    public void done(String path, BmobException e) {
-                        if(e==null){
-                            Log.i("MainActivity", "保存路径: " + path);
-                            imgPath = path;
-                            SPUtils.put(MainActivity.this, "path", imgPath);
-                            glideLoad();
-                        }else{
-                            Log.i("MainActivity", "下载失败");
-                        }
-                    }
+            public void done(String path, BmobException e) {
+                if(e==null){
+                    Log.i("MainActivity", "保存路径: " + path);
+                    imgPath = path;
+                    SPUtils.put(MainActivity.this, "path", imgPath);
+                    glideLoad();
+                }else{
+                    Log.i("MainActivity", "下载失败");
+                }
+            }
 
-                    @Override
-                    public void onProgress(Integer integer, long l) {
-
-                    }
-                });
+            @Override
+            public void onProgress(Integer integer, long l) {
 
             }
         });
+//        User user = User.getCurrentUser(User.class);
+//        BmobQuery<User> bmobQuery = new BmobQuery();
+//        bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
+//            @Override
+//            public void done(final User user, BmobException e) {
+//                nick_name.setText(user.getNickName());
+//                autograph.setText(user.getAutograph());
+//                BmobFile bmobFile = user.getImg();
+//                bmobFile.download(new DownloadFileListener() {
+//                    @Override
+//                    public void done(String path, BmobException e) {
+//                        if(e==null){
+//                            Log.i("MainActivity", "保存路径: " + path);
+//                            imgPath = path;
+//                            SPUtils.put(MainActivity.this, "path", imgPath);
+//                            glideLoad();
+//                        }else{
+//                            Log.i("MainActivity", "下载失败");
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onProgress(Integer integer, long l) {
+//
+//                    }
+//                });
+//
+//            }
+//        });
     }
 
     /**
@@ -588,12 +614,17 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         long ts = System.currentTimeMillis();
         if(Build.VERSION.SDK_INT >=21){
             //noinspection ResourceType
-            usageStatsManager = (UsageStatsManager)this.getApplicationContext().getSystemService("usagestats");
+            usageStatsManager = (UsageStatsManager)this.getApplicationContext().getSystemService(Context.USAGE_STATS_SERVICE);
             queryUsageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, ts);
         }
-        if (queryUsageStats == null || queryUsageStats.isEmpty()) {
+
+        if ( queryUsageStats == null || queryUsageStats.isEmpty()) {
             return false;
         }
+        if(Build.VERSION.SDK_INT > 23){
+            return Settings.canDrawOverlays(this);
+        }
+
         return true;
     }
 
@@ -611,9 +642,31 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
                         Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
                         startActivity(intent);
                         dialog.dismiss();
+                        RequestCanDrawPromission();
                     }
                 });
         dialog.show();
+    }
+
+    public void RequestCanDrawPromission() {
+        if(Build.VERSION.SDK_INT > 23){
+            if (!Settings.canDrawOverlays(this)) {
+                final MaterialDialog dialog = new MaterialDialog(this);
+                dialog.setTitle("提示")
+                        .setMessage(String.format(Locale.US,"打开专注模式请允App使用悬浮窗权限。"))
+                        .setPositiveButton("开启", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //若未授权则请求权限
+                                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                                intent.setData(Uri.parse("package:" + getPackageName()));
+                                startActivityForResult(intent, 0);
+                                dialog.dismiss();
+                            }
+                        });
+                dialog.show();
+            }
+        }
     }
 
     /**
@@ -639,6 +692,7 @@ public class MainActivity extends BasicActivity implements NavigationView.OnNavi
         if (!applyList.isEmpty()) {
             ActivityCompat.requestPermissions(this, applyList.toArray(tmpList), 123);
         }
+
     }
 
 }

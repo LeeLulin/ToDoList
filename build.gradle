@@ -5,6 +5,10 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.1'
@@ -19,8 +23,14 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter'}
+
         maven { url "https://jitpack.io" }
-        maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
+        maven {url 'https://dl.bintray.com/chaozhouzhang/maven' }
+
     }
 }
 

@@ -355,11 +355,9 @@ public class NewClockActivity extends BasicActivity implements EventListener {
                 break;
             case com.baidu.speech.asr.SpeechConstant.CALLBACK_EVENT_ASR_READY:
                 //引擎就绪，可以说话，ui改变
-
                 break;
             case com.baidu.speech.asr.SpeechConstant.CALLBACK_EVENT_ASR_FINISH:
                 //识别结束。包含异常及错误信息都通过该方法解析json获取
-
                 break;
 
         }

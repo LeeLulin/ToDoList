@@ -26,16 +26,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.618"
+            android:layout_height="400dp"
             android:layout_gravity="center">
 
             <com.example.lulin.todolist.Widget.RippleWrapper
                 android:id="@+id/ripple_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
                 android:gravity="center"
                 app:rippleAmount="2"
                 app:rippleColor="@color/white"
@@ -45,9 +43,7 @@
                 <com.example.lulin.todolist.Widget.ClockProgressBar
                     android:id="@+id/tick_progress_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true" />
+                    android:layout_height="match_parent" />
 
 
             </com.example.lulin.todolist.Widget.RippleWrapper>
@@ -57,8 +53,7 @@
                 android:id="@+id/text_time_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="155dp"
+                android:layout_centerInParent="true"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 
@@ -66,9 +61,9 @@
                 android:id="@+id/text_count_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="155dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="180dp"
+                android:text="00:00"
                 android:textColor="@color/white"
                 android:textSize="36sp" />
 
@@ -77,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="210dp"
+                android:layout_marginTop="220dp"
                 android:alpha="0.7"
                 android:text="已开启专注模式"
                 android:textColor="@color/white"
@@ -98,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:orientation="horizontal"
                 tools:ignore="NestedWeights">
 

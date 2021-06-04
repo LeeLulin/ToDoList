@@ -58,9 +58,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.FetchUserInfoListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
@@ -71,8 +73,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
- * @author zhengzhong on 2016/8/6 16:16
- * Email zheng_zhong@163.com
+ * @author LeeLulin on 2018/8/6 16:16
  */
 public class UserDataActivity extends BasicActivity implements View.OnClickListener {
     private static final String TAG = "login";
@@ -475,38 +476,63 @@ public class UserDataActivity extends BasicActivity implements View.OnClickListe
      */
     private void setUserDataFromBmob(){
         user = User.getCurrentUser(User.class);
-        BmobQuery<User> bmobQuery = new BmobQuery();
-        bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
+        toolbar_username.setText(user.getNickName());
+        tv_nickname.setText(user.getNickName());
+        tv_autograph.setText(user.getAutograph());
+        BmobFile userImg = user.getImg();
+        SPUtils.put(UserDataActivity.this,"URL",userImg.getUrl());
+        userImg.download(new DownloadFileListener() {
             @Override
-            public void done(User user, BmobException e) {
-                toolbar_username.setText(user.getNickName());
-                tv_nickname.setText(user.getNickName());
-                tv_autograph.setText(user.getAutograph());
-                BmobFile userImg = user.getImg();
-                SPUtils.put(UserDataActivity.this,"URL",userImg.getUrl());
-                userImg.download(new DownloadFileListener() {
-                    @Override
-                    public void done(String path, BmobException e) {
-                        if(e==null){
-                            Log.i(TAG, "保存路径: " + path);
-                            imgPath = path;
-                            SPUtils.put(UserDataActivity.this, "path", imgPath);
-                            SPUtils.put(UserDataActivity.this, "head_signature", String.valueOf(System.currentTimeMillis()));
-                            glideLoad();
+            public void done(String path, BmobException e) {
+                if(e==null){
+                    Log.i(TAG, "保存路径: " + path);
+                    imgPath = path;
+                    SPUtils.put(UserDataActivity.this, "path", imgPath);
+                    SPUtils.put(UserDataActivity.this, "head_signature", String.valueOf(System.currentTimeMillis()));
+                    glideLoad();
 
-                        }else{
-                            Log.i(TAG, "下载失败" + e.getMessage());
-                        }
-                    }
+                }else{
+                    Log.i(TAG, "下载失败" + e.getMessage());
+                }
+            }
 
-                    @Override
-                    public void onProgress(Integer integer, long l) {
-
-                    }
-                });
+            @Override
+            public void onProgress(Integer integer, long l) {
 
             }
         });
+//        BmobQuery<User> bmobQuery = new BmobQuery();
+//        bmobQuery.getObject(user.getObjectId(), new QueryListener<User>() {
+//            @Override
+//            public void done(User user, BmobException e) {
+//                toolbar_username.setText(user.getNickName());
+//                tv_nickname.setText(user.getNickName());
+//                tv_autograph.setText(user.getAutograph());
+//                BmobFile userImg = user.getImg();
+//                SPUtils.put(UserDataActivity.this,"URL",userImg.getUrl());
+//                userImg.download(new DownloadFileListener() {
+//                    @Override
+//                    public void done(String path, BmobException e) {
+//                        if(e==null){
+//                            Log.i(TAG, "保存路径: " + path);
+//                            imgPath = path;
+//                            SPUtils.put(UserDataActivity.this, "path", imgPath);
+//                            SPUtils.put(UserDataActivity.this, "head_signature", String.valueOf(System.currentTimeMillis()));
+//                            glideLoad();
+//
+//                        }else{
+//                            Log.i(TAG, "下载失败" + e.getMessage());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onProgress(Integer integer, long l) {
+//
+//                    }
+//                });
+//
+//            }
+//        });
     }
 
     /**

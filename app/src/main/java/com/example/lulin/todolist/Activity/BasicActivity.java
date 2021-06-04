@@ -23,6 +23,7 @@ public class BasicActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bmob.resetDomain("https://open3.bmob.cn/8/");
         Bmob.initialize(getApplication(), APP_ID);
         //注册网络状态监听广播
         networkReceiver = new NetworkReceiver();

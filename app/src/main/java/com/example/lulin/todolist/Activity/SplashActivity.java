@@ -37,6 +37,7 @@ public class SplashActivity extends BasicActivity {
         SPUtils.put(this,"isFocus",false);
 
         if (NetWorkUtils.isNetworkConnected(getApplication())){
+            Bmob.resetDomain("https://open3.bmob.cn/8/");
             Bmob.initialize(getApplication(), APP_ID);
         }
 
