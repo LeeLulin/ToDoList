@@ -1,5 +1,5 @@
 # Doit 
-基于 Android 时间管理App--待办事项提醒，番茄时钟
+基于 Android 时间管理App--待办事项提醒，番茄时钟，后端使用[Bmob云](https://www.bmob.cn/)
 
 ## App截图
 ![登录](https://github.com/LeeLulin/ToDoList/blob/master/pic/device-2018-09-27-200612.png)
